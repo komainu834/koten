@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>古典単語タイムアタック</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <h1>古典単語タイムアタック</h1>
+
+    <section id="startScreen" class="card">
+      <p>60秒で何問正解できるか挑戦！</p>
+      <button id="startBtn">スタート</button>
+    </section>
+
+    <section id="quizScreen" class="card hidden">
+      <div class="status">
+        <div>残り時間：<span id="time">60</span>秒</div>
+        <div>正解数：<span id="score">0</span></div>
+      </div>
+
+      <div class="question">
+        <p>この古典単語の意味は？</p>
+        <h2 id="word">---</h2>
+      </div>
+
+      <div id="choices" class="choices"></div>
+
+      <p id="feedback" class="feedback"></p>
+    </section>
+
+    <section id="resultScreen" class="card hidden">
+      <h2>結果</h2>
+      <p class="result-score"><span id="finalScore">0</span>問正解！</p>
+      <button id="retryBtn">もう一度</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

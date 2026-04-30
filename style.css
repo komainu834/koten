@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  background: #f4f6fb;
+  color: #222;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.question p {
+  font-size: 16px;
+  color: #555;
+}
+
+.question h2 {
+  font-size: 42px;
+  margin: 12px 0 24px;
+}
+
+.choices {
+  display: grid;
+  gap: 12px;
+}
+
+.choice-btn {
+  background: #e5e7eb;
+  color: #111;
+  font-size: 18px;
+}
+
+.choice-btn:hover {
+  background: #d1d5db;
+}
+
+.feedback {
+  min-height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 18px;
+}
+
+.correct {
+  color: #16a34a;
+}
+
+.wrong {
+  color: #dc2626;
+}
+
+.result-score {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.judge-mark {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  font-size: 120px;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 9998;
+  animation: judgePop 0.6s ease-out forwards;
+}
+
+.judge-correct {
+  color: #22c55e;
+  text-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+}
+
+.judge-wrong {
+  color: #ef4444;
+  text-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+}
+
+@keyframes judgePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.combo-low {
+  color: #3b82f6;
+  text-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+}
+
+.combo-mid {
+  color: #f59e0b;
+  text-shadow: 0 0 25px rgba(245, 158, 11, 0.9);
+}
+
+.combo-high {
+  color: #ef4444;
+  text-shadow: 0 0 30px rgba(239, 68, 68, 0.9);
+}
+
+.combo-max {
+  color: #a855f7;
+  text-shadow: 0 0 35px rgba(168, 85, 247, 1);
+}
+
+/* 正解・不正解の色 */
+.choice-correct {
+  background: #22c55e !important;
+  color: white;
+}
+
+.choice-wrong {
+  background: #ef4444 !important;
+  color: white;
+}
