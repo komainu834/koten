@@ -77,6 +77,11 @@ function startGame() {
   combo = 0;
   timeLeft = 30;
 
+  if (words.length === 0) {
+  alert("問題が読み込まれていません。words.csvを確認してください。");
+  return;
+}
+
   showScreen(gameScreen);
   nextQuestion();
 
