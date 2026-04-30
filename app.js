@@ -6,6 +6,7 @@ let timerId = null;
 let isAnswering = false;
 let lastQuestion = null;
 let combo = 0;
+let username = "";
 
 const startScreen = document.getElementById("startScreen");
 const quizScreen = document.getElementById("quizScreen");
@@ -55,6 +56,16 @@ async function loadWords() {
 }
 
 async function startGame() {
+  const input = document.getElementById("username");
+
+if (!input.value) {
+  alert("ユーザー名を入力してください");
+  return;
+}
+
+username = input.value;
+localStorage.setItem("username", username);
+
   if (words.length === 0) {
     await loadWords();
   }
@@ -174,7 +185,11 @@ function endGame() {
   resultScreen.classList.remove("hidden");
 
   finalScoreEl.textContent = score;
+
+saveScore();
 }
+
+
 
 function createEffectElements() {
   comboEl = document.createElement("div");
@@ -232,4 +247,24 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+}
+
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("username");
+  if (saved) {
+    document.getElementById("username").value = saved;
+  }
+});
+
+function saveScore() {
+  const data = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+  data.push({
+    name: username,
+    score: score
+  });
+
+  data.sort((a, b) => b.score - a.score);
+
+  localStorage.setItem("ranking", JSON.stringify(data.slice(0, 10)));
 }
