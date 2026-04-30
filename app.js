@@ -1,3 +1,8 @@
+const supabaseUrl = "evusndlinnzewkommeib";
+const supabaseKey = "sb_publishable_LbcCpdtehJlEBmVlzFWQmg_TFf6AU4L";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 let words = [];
 
 let username = "";
@@ -226,26 +231,34 @@ function finishGame() {
   showScreen(resultScreen);
 }
 
-function saveRanking(name, score) {
-  const ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
+async function saveRanking(name, score) {
+  const { error } = await supabase
+    .from("scores")
+    .insert([
+      {
+        name: name,
+        score: score
+      }
+    ]);
 
-  ranking.push({
-    name: name,
-    score: score
-  });
-
-  ranking.sort(function (a, b) {
-    return b.score - a.score;
-  });
-
-  localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
+  if (error) {
+    console.error("保存エラー", error);
+  } else {
+    console.log("保存成功");
+  }
 }
 
-function showRanking() {
+async function showRanking() {
   closeSideMenu();
   clearInterval(timer);
 
-  const ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
+  const { data, error } = await supabase
+  .from("scores")
+  .select("*")
+  .order("score", { ascending: false })
+  .limit(10);
+
+  const ranking = data || [];
 
   rankingList.innerHTML = "";
 
