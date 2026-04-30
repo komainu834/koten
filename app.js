@@ -1,7 +1,7 @@
-// ===== Supabase =====
-const supabaseUrl = "evusndlinnzewkommeib";
+const supabaseUrl = "https://evusndlinnzewkommeib.supabase.co";
 const supabaseKey = "sb_publishable_LbcCpdtehJlEBmVlzFWQmg_TFf6AU4L";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // ===== 状態 =====
 let words = [];
@@ -10,7 +10,7 @@ let score = 0;
 let combo = 0;
 let timeLeft = 30;
 let timer = null;
-let currentQuestion;
+let currentQuestion = null;
 let answering = false;
 
 // ===== 要素 =====
@@ -30,102 +30,186 @@ const rankingList = document.getElementById("rankingList");
 const judgeMark = document.getElementById("judgeMark");
 const comboText = document.getElementById("comboText");
 
-// ===== メニュー =====
-document.getElementById("menuButton").onclick = () => {
-  document.getElementById("sideMenu").classList.add("open");
-  document.getElementById("overlay").classList.add("show");
+const menuButton = document.getElementById("menuButton");
+const sideMenu = document.getElementById("sideMenu");
+const closeMenuButton = document.getElementById("closeMenu");
+const overlay = document.getElementById("overlay");
+
+// ===== 初期処理 =====
+window.onload = async function () {
+  const savedName = localStorage.getItem("username");
+  if (savedName) {
+    usernameInput.value = savedName;
+  }
+
+  await loadWords();
 };
 
-document.getElementById("closeMenu").onclick = closeMenu;
-document.getElementById("overlay").onclick = closeMenu;
+// ===== メニュー =====
+menuButton.onclick = function () {
+  sideMenu.classList.add("open");
+  overlay.classList.add("show");
+};
+
+closeMenuButton.onclick = closeMenu;
+overlay.onclick = closeMenu;
 
 function closeMenu() {
-  document.getElementById("sideMenu").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show");
+  sideMenu.classList.remove("open");
+  overlay.classList.remove("show");
 }
 
 // ===== CSV読み込み =====
-window.onload = async () => {
-  const res = await fetch("words.csv");
-  const text = await res.text();
-  words = parseCSV(text);
-};
+async function loadWords() {
+  try {
+    const response = await fetch("words.csv");
+
+    if (!response.ok) {
+      throw new Error("words.csvを読み込めませんでした");
+    }
+
+    const text = await response.text();
+    words = parseCSV(text);
+
+    console.log("読み込んだ問題数:", words.length);
+  } catch (error) {
+    console.error(error);
+    alert("words.csvの読み込みに失敗しました");
+  }
+}
 
 function parseCSV(text) {
-  const lines = text.trim().split("\n");
+  const lines = text.trim().split(/\r?\n/);
   const data = [];
 
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(",");
 
+    if (cols.length < 2) continue;
+
+    const question = cols[0].trim();
+    const correct = cols[1].trim();
+    const reading = cols[2] ? cols[2].trim() : "";
+
+    if (!question || !correct) continue;
+
     data.push({
-      question: cols[0],
-      answer: cols[1],
-      reading: cols[2] || ""
+      question: question,
+      answer: correct,
+      reading: reading
     });
   }
 
   return data;
 }
 
+// ===== 画面切り替え =====
+function showScreen(screen) {
+  homeScreen.classList.remove("active");
+  gameScreen.classList.remove("active");
+  resultScreen.classList.remove("active");
+  rankingScreen.classList.remove("active");
+
+  screen.classList.add("active");
+}
+
+function goHome() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(homeScreen);
+}
+
 // ===== ゲーム開始 =====
 function startGame() {
-  username = usernameInput.value;
-  if (!username) return alert("名前入れて");
+  username = usernameInput.value.trim();
+
+  if (username === "") {
+    alert("ユーザー名を入力してください");
+    return;
+  }
+
+  if (words.length === 0) {
+    alert("問題が読み込まれていません。words.csvを確認してください。");
+    return;
+  }
+
+  localStorage.setItem("username", username);
 
   score = 0;
   combo = 0;
   timeLeft = 30;
+  answering = false;
 
-  if (words.length === 0) {
-  alert("問題が読み込まれていません。words.csvを確認してください。");
-  return;
-}
+  scoreEl.textContent = score;
+  timeEl.textContent = timeLeft;
+  judgeMark.textContent = "";
+  comboText.textContent = "";
 
+  closeMenu();
   showScreen(gameScreen);
-  nextQuestion();
+  showQuestion();
 
-  timer = setInterval(() => {
+  clearInterval(timer);
+
+  timer = setInterval(function () {
     timeLeft--;
     timeEl.textContent = timeLeft;
 
-    if (timeLeft <= 0) finishGame();
+    if (timeLeft <= 0) {
+      finishGame();
+    }
   }, 1000);
 }
 
-// ===== 問題 =====
-function nextQuestion() {
+// ===== 問題表示 =====
+function showQuestion() {
   answering = false;
+  judgeMark.textContent = "";
 
   currentQuestion = words[Math.floor(Math.random() * words.length)];
 
-  questionEl.textContent = currentQuestion.reading
-    ? currentQuestion.question + "（" + currentQuestion.reading + "）"
-    : currentQuestion.question;
+  if (currentQuestion.reading) {
+    questionEl.textContent =
+      currentQuestion.question + "（" + currentQuestion.reading + "）";
+  } else {
+    questionEl.textContent = currentQuestion.question;
+  }
 
   const choices = makeChoices(currentQuestion);
-  const shuffled = shuffle(choices);
+  const shuffledChoices = shuffleArray(choices);
 
   choicesEl.innerHTML = "";
 
-  shuffled.forEach(c => {
-    const btn = document.createElement("button");
-    btn.textContent = c;
-    btn.onclick = () => checkAnswer(c);
-    choicesEl.appendChild(btn);
+  shuffledChoices.forEach(function (choice) {
+    const button = document.createElement("button");
+    button.textContent = choice;
+
+    button.onclick = function () {
+      checkAnswer(choice);
+    };
+
+    choicesEl.appendChild(button);
   });
 }
 
-// ===== 選択肢 =====
-function makeChoices(q) {
-  const wrong = words
-    .map(w => w.answer)
-    .filter(a => a !== q.answer);
+// ===== 選択肢作成 =====
+function makeChoices(questionData) {
+  const correctAnswer = questionData.answer;
 
-  return [q.answer, ...shuffle(wrong).slice(0, 3)];
+  const wrongAnswers = words
+    .map(function (word) {
+      return word.answer;
+    })
+    .filter(function (answer) {
+      return answer !== correctAnswer;
+    });
+
+  const selectedWrongAnswers = shuffleArray([...wrongAnswers]).slice(0, 3);
+
+  return [correctAnswer, ...selectedWrongAnswers];
 }
 
-// ===== 判定 =====
+// ===== 回答判定 =====
 function checkAnswer(choice) {
   if (answering) return;
   answering = true;
@@ -133,68 +217,110 @@ function checkAnswer(choice) {
   if (choice === currentQuestion.answer) {
     combo++;
     score += 10 + combo;
+
     judgeMark.textContent = "○";
+    judgeMark.style.color = "#ffcc33";
+
+    if (combo >= 2) {
+      comboText.textContent = "COMBO " + combo + "!!";
+    } else {
+      comboText.textContent = "";
+    }
   } else {
     combo = 0;
-    timeLeft -= 2;
+    timeLeft = Math.max(0, timeLeft - 2);
+
     judgeMark.textContent = "×";
+    judgeMark.style.color = "#ff4444";
+    comboText.textContent = "";
   }
 
   scoreEl.textContent = score;
+  timeEl.textContent = timeLeft;
 
-  setTimeout(() => {
-    if (timeLeft <= 0) finishGame();
-    else nextQuestion();
+  setTimeout(function () {
+    if (timeLeft <= 0) {
+      finishGame();
+    } else {
+      showQuestion();
+    }
   }, 500);
 }
 
-// ===== 終了 =====
+// ===== ゲーム終了 =====
 function finishGame() {
   clearInterval(timer);
+
   finalScoreEl.textContent = score;
 
   saveRanking(username, score);
+
   showScreen(resultScreen);
 }
 
-// ===== 保存 =====
+// ===== ランキング保存 =====
 async function saveRanking(name, score) {
-  await supabase.from("scores").insert([{ name, score }]);
+  const { error } = await supabaseClient
+    .from("scores")
+    .insert([
+      {
+        name: name,
+        score: score
+      }
+    ]);
+
+  if (error) {
+    console.error("保存エラー:", error);
+  } else {
+    console.log("保存成功");
+  }
 }
 
-// ===== 表示 =====
+// ===== ランキング表示 =====
 async function showRanking() {
   closeMenu();
   clearInterval(timer);
 
-  const { data } = await supabase
+  const { data, error } = await supabaseClient
     .from("scores")
     .select("*")
     .order("score", { ascending: false })
     .limit(10);
 
+  if (error) {
+    console.error("ランキング取得エラー:", error);
+    alert("ランキングを取得できませんでした");
+    return;
+  }
+
+  const ranking = data || [];
+
   rankingList.innerHTML = "";
 
-  data.forEach((d, i) => {
+  if (ranking.length === 0) {
     const li = document.createElement("li");
-    li.textContent = `${i + 1}位 ${d.name} ${d.score}`;
+    li.textContent = "まだランキングはありません";
     rankingList.appendChild(li);
-  });
+  } else {
+    ranking.forEach(function (item, index) {
+      const li = document.createElement("li");
+      li.textContent =
+        index + 1 + "位　" + item.name + "　" + item.score + "点";
+      rankingList.appendChild(li);
+    });
+  }
 
   showScreen(rankingScreen);
 }
 
-// ===== 共通 =====
-function showScreen(screen) {
-  [homeScreen, gameScreen, resultScreen, rankingScreen].forEach(s => s.classList.remove("active"));
-  screen.classList.add("active");
-}
+// ===== シャッフル =====
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[randomIndex];
+    array[randomIndex] = temp;
+  }
 
-function goHome() {
-  clearInterval(timer);
-  showScreen(homeScreen);
-}
-
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
+  return array;
 }
