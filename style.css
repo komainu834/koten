@@ -54,3 +54,113 @@ button {
 .overlay.show {
   display: block;
 }
+
+/* ===== ランキング強化 ===== */
+
+#rankingList {
+  width: 90%;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 0;
+}
+
+#rankingList li {
+  list-style: none;
+  margin: 12px 0;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: bold;
+  background: rgba(255,255,255,0.1);
+}
+
+/* 1位 */
+.rank-1 {
+  background: linear-gradient(135deg, gold, orange);
+  color: #222;
+  font-size: 26px;
+}
+
+/* 2位 */
+.rank-2 {
+  background: linear-gradient(135deg, #c0c0c0, #888);
+}
+
+/* 3位 */
+.rank-3 {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+}
+
+/* その他 */
+.rank-other {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== コンボ演出 ===== */
+
+.combo-text {
+  position: fixed;
+  top: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  font-weight: 900;
+  color: red;
+  text-shadow: 0 0 12px white, 0 0 20px red;
+  opacity: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.combo-text.show {
+  animation: comboPop 0.45s ease;
+}
+
+@keyframes comboPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  40% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* ===== ○× 中央演出 ===== */
+
+.judge-mark {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 120px;
+  font-weight: 900;
+  opacity: 0;
+  z-index: 60;
+  pointer-events: none;
+  text-shadow: 0 0 20px white;
+}
+
+.judge-mark.show {
+  animation: judgePop 0.45s ease;
+}
+
+@keyframes judgePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

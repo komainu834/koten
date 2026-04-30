@@ -220,9 +220,11 @@ function checkAnswer(choice) {
 
     judgeMark.textContent = "○";
     judgeMark.style.color = "#ffcc33";
+    showJudge();
 
     if (combo >= 2) {
       comboText.textContent = "COMBO " + combo + "!!";
+      showCombo();
     } else {
       comboText.textContent = "";
     }
@@ -233,6 +235,7 @@ function checkAnswer(choice) {
     judgeMark.textContent = "×";
     judgeMark.style.color = "#ff4444";
     comboText.textContent = "";
+    showJudge();
   }
 
   scoreEl.textContent = score;
@@ -282,10 +285,10 @@ async function showRanking() {
   clearInterval(timer);
 
   const { data, error } = await supabaseClient
-    .from("scores")
-    .select("*")
-    .order("score", { ascending: false })
-    .limit(10);
+  .from("scores")
+  .select("*")
+  .order("score", { ascending: false })
+  .limit(200);
 
   if (error) {
     console.error("ランキング取得エラー:", error);
@@ -293,7 +296,20 @@ async function showRanking() {
     return;
   }
 
-  const ranking = data || [];
+  const allScores = data || [];
+const bestMap = {};
+
+allScores.forEach(function (item) {
+  if (!bestMap[item.name] || item.score > bestMap[item.name].score) {
+    bestMap[item.name] = item;
+  }
+});
+
+const ranking = Object.values(bestMap)
+  .sort(function (a, b) {
+    return b.score - a.score;
+  })
+  .slice(0, 10);
 
   rankingList.innerHTML = "";
 
@@ -303,9 +319,16 @@ async function showRanking() {
     rankingList.appendChild(li);
   } else {
     ranking.forEach(function (item, index) {
-      const li = document.createElement("li");
-      li.textContent =
-        index + 1 + "位　" + item.name + "　" + item.score + "点";
+  const li = document.createElement("li");
+
+  // 順位ごとのクラス
+  if (index === 0) li.className = "rank-1";
+  else if (index === 1) li.className = "rank-2";
+  else if (index === 2) li.className = "rank-3";
+  else li.className = "rank-other";
+
+  li.textContent =
+    (index + 1) + "位　" + item.name + "　" + item.score + "点";
       rankingList.appendChild(li);
     });
   }
@@ -323,4 +346,16 @@ function shuffleArray(array) {
   }
 
   return array;
+}
+
+function showJudge() {
+  judgeMark.classList.remove("show");
+  void judgeMark.offsetWidth;
+  judgeMark.classList.add("show");
+}
+
+function showCombo() {
+  comboText.classList.remove("show");
+  void comboText.offsetWidth;
+  comboText.classList.add("show");
 }
