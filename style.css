@@ -1,13 +1,20 @@
+html,
 body {
   margin: 0;
+  min-height: 100%;
   font-family: sans-serif;
   text-align: center;
-  background: #222;
+  background: linear-gradient(135deg, #243b55, #141e30);
   color: white;
+}
+
+body {
+  min-height: 100vh;
 }
 
 .screen {
   display: none;
+  min-height: 100vh;
   padding: 80px 20px;
 }
 
@@ -276,4 +283,93 @@ button {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.15);
   }
+}
+
+/* ===== ランキング色 ===== */
+
+#rankingList li {
+  list-style: none;
+  margin: 12px auto;
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 22px;
+  font-weight: bold;
+  max-width: 420px;
+}
+
+.rank-1 {
+  background: linear-gradient(135deg, #ffd700, #ff9900);
+  color: #222;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.8);
+}
+
+.rank-2 {
+  background: linear-gradient(135deg, #eeeeee, #999999);
+  color: #222;
+  box-shadow: 0 0 14px rgba(220, 220, 220, 0.8);
+}
+
+.rank-3 {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: white;
+  box-shadow: 0 0 14px rgba(205, 127, 50, 0.8);
+}
+
+.rank-other {
+  background: white;
+  color: #222;
+}
+
+/* ===== 問題画面強化 ===== */
+
+#gameScreen {
+  background: radial-gradient(circle at top, #31436f, #111827);
+}
+
+#gameScreen > div:first-child,
+#gameScreen > div:nth-child(2) {
+  display: inline-block;
+  margin: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 22px;
+  font-weight: bold;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
+}
+
+#question {
+  width: 90%;
+  max-width: 520px;
+  margin: 40px auto 24px;
+  padding: 34px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  box-shadow:
+    0 0 18px rgba(255, 255, 255, 0.18),
+    inset 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+#choices button {
+  display: block;
+  width: 90%;
+  max-width: 520px;
+  margin: 14px auto;
+  padding: 18px 16px;
+  border: none;
+  border-radius: 18px;
+  background: white;
+  color: #222;
+  font-size: 22px;
+  font-weight: 800;
+  box-shadow: 0 6px 0 #cfcfcf;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+#choices button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #cfcfcf;
 }

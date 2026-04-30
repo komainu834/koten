@@ -6,6 +6,7 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 // ===== 状態 =====
 let words = [];
 let username = "";
+let loginId = "";
 let score = 0;
 let combo = 0;
 let timeLeft = 30;
@@ -19,6 +20,7 @@ const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
 
+const loginIdInput = document.getElementById("loginId");
 const usernameInput = document.getElementById("username");
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
@@ -38,7 +40,16 @@ const overlay = document.getElementById("overlay");
 
 // ===== 初期処理 =====
 window.onload = async function () {
+  let savedLoginId = localStorage.getItem("loginId");
   const savedName = localStorage.getItem("username");
+
+  if (!savedLoginId) {
+  savedLoginId = generateLoginId();
+  localStorage.setItem("loginId", savedLoginId);
+}
+
+loginIdInput.value = savedLoginId;
+
   if (savedName) {
     usernameInput.value = savedName;
   }
@@ -122,18 +133,25 @@ function goHome() {
 
 // ===== ゲーム開始 =====
 function startGame() {
+  loginId = loginIdInput.value.trim();
   username = usernameInput.value.trim();
 
-  if (username === "") {
-    alert("ユーザー名を入力してください");
-    return;
-  }
+  if (loginId === "") {
+  alert("ログインIDを入力してください");
+  return;
+}
+
+if (username === "") {
+  alert("ユーザーネームを入力してください");
+  return;
+}
 
   if (words.length === 0) {
     alert("問題が読み込まれていません。words.csvを確認してください。");
     return;
   }
 
+  localStorage.setItem("loginId", loginId);
   localStorage.setItem("username", username);
 
   score = 0;
@@ -174,12 +192,7 @@ function showQuestion() {
 
   currentQuestion = words[Math.floor(Math.random() * words.length)];
 
-  if (currentQuestion.reading) {
-    questionEl.textContent =
-      currentQuestion.question + "（" + currentQuestion.reading + "）";
-  } else {
-    questionEl.textContent = currentQuestion.question;
-  }
+  questionEl.textContent = currentQuestion.question;
 
   const choices = makeChoices(currentQuestion);
   const shuffledChoices = shuffleArray(choices);
@@ -262,17 +275,18 @@ function finishGame() {
 
   finalScoreEl.textContent = score;
 
-  saveRanking(username, score);
+  saveRanking(loginId, username, score);
 
   showScreen(resultScreen);
 }
 
 // ===== ランキング保存 =====
-async function saveRanking(name, score) {
+async function saveRanking(loginId, name, score) {
   const { error } = await supabaseClient
     .from("scores")
     .insert([
       {
+        login_id: loginId,
         name: name,
         score: score
       }
@@ -306,9 +320,9 @@ async function showRanking() {
 const bestMap = {};
 
 allScores.forEach(function (item) {
-  if (!bestMap[item.name] || item.score > bestMap[item.name].score) {
-    bestMap[item.name] = item;
-  }
+  if (!bestMap[item.login_id] || item.score > bestMap[item.login_id].score) {
+  bestMap[item.login_id] = item;
+}
 });
 
 const ranking = Object.values(bestMap)
@@ -370,4 +384,9 @@ function showGo() {
   goText.classList.remove("show");
   void goText.offsetWidth;
   goText.classList.add("show");
+}
+
+function generateLoginId() {
+  const random = Math.random().toString(36).substring(2, 6);
+  return "user-" + random;
 }
