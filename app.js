@@ -1,190 +1,126 @@
+// ===== Supabase =====
 const supabaseUrl = "evusndlinnzewkommeib";
 const supabaseKey = "sb_publishable_LbcCpdtehJlEBmVlzFWQmg_TFf6AU4L";
-
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+// ===== 状態 =====
 let words = [];
-
 let username = "";
 let score = 0;
 let combo = 0;
 let timeLeft = 30;
 let timer = null;
-let currentQuestion = null;
+let currentQuestion;
 let answering = false;
 
+// ===== 要素 =====
 const homeScreen = document.getElementById("homeScreen");
 const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
 
 const usernameInput = document.getElementById("username");
-const timeEl = document.getElementById("time");
-const scoreEl = document.getElementById("score");
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
+const scoreEl = document.getElementById("score");
+const timeEl = document.getElementById("time");
 const finalScoreEl = document.getElementById("finalScore");
 const rankingList = document.getElementById("rankingList");
-const comboText = document.getElementById("comboText");
+
 const judgeMark = document.getElementById("judgeMark");
+const comboText = document.getElementById("comboText");
 
-const menuButton = document.getElementById("menuButton");
-const sideMenu = document.getElementById("sideMenu");
-const closeMenu = document.getElementById("closeMenu");
-const overlay = document.getElementById("overlay");
-
-window.onload = async function () {
-  const savedName = localStorage.getItem("username");
-  if (savedName) {
-    usernameInput.value = savedName;
-  }
-
-  await loadWords();
+// ===== メニュー =====
+document.getElementById("menuButton").onclick = () => {
+  document.getElementById("sideMenu").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
 };
 
-menuButton.addEventListener("click", openMenu);
-closeMenu.addEventListener("click", closeSideMenu);
-overlay.addEventListener("click", closeSideMenu);
+document.getElementById("closeMenu").onclick = closeMenu;
+document.getElementById("overlay").onclick = closeMenu;
 
-function openMenu() {
-  sideMenu.classList.add("open");
-  overlay.classList.add("show");
+function closeMenu() {
+  document.getElementById("sideMenu").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
 }
 
-function closeSideMenu() {
-  sideMenu.classList.remove("open");
-  overlay.classList.remove("show");
-}
-
-function showScreen(screen) {
-  homeScreen.classList.remove("active");
-  gameScreen.classList.remove("active");
-  resultScreen.classList.remove("active");
-  rankingScreen.classList.remove("active");
-
-  screen.classList.add("active");
-}
-
-function goHome() {
-  closeSideMenu();
-  clearInterval(timer);
-  showScreen(homeScreen);
-}
-
-async function loadWords() {
-  try {
-    const response = await fetch("words.csv");
-
-    if (!response.ok) {
-      throw new Error("words.csvを読み込めませんでした");
-    }
-
-    const text = await response.text();
-    words = parseCSV(text);
-
-    console.log("読み込んだ問題数:", words.length);
-  } catch (error) {
-    console.error(error);
-    alert("words.csvの読み込みに失敗しました");
-  }
-}
+// ===== CSV読み込み =====
+window.onload = async () => {
+  const res = await fetch("words.csv");
+  const text = await res.text();
+  words = parseCSV(text);
+};
 
 function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/);
+  const lines = text.trim().split("\n");
   const data = [];
 
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(",");
 
-    if (cols.length < 2) continue;
-
-    const question = cols[0].trim();
-    const correct = cols[1].trim();
-    const reading = cols[2] ? cols[2].trim() : "";
-
-    if (!question || !correct) continue;
-
     data.push({
-      question: question,
-      reading: reading,
-      answer: correct
+      question: cols[0],
+      answer: cols[1],
+      reading: cols[2] || ""
     });
   }
 
   return data;
 }
 
+// ===== ゲーム開始 =====
 function startGame() {
-  const inputName = usernameInput.value.trim();
-
-  if (inputName === "") {
-    alert("ユーザー名を入力してください");
-    return;
-  }
-
-  if (words.length === 0) {
-    alert("問題が読み込まれていません。words.csvを確認してください。");
-    return;
-  }
-
-  username = inputName;
-  localStorage.setItem("username", username);
+  username = usernameInput.value;
+  if (!username) return alert("名前入れて");
 
   score = 0;
   combo = 0;
   timeLeft = 30;
-  answering = false;
 
-  scoreEl.textContent = score;
-  timeEl.textContent = timeLeft;
-  comboText.textContent = "";
-  judgeMark.textContent = "";
-
-  closeSideMenu();
   showScreen(gameScreen);
+  nextQuestion();
 
-  showQuestion();
-
-  clearInterval(timer);
-  timer = setInterval(function () {
+  timer = setInterval(() => {
     timeLeft--;
     timeEl.textContent = timeLeft;
 
-    if (timeLeft <= 0) {
-      finishGame();
-    }
+    if (timeLeft <= 0) finishGame();
   }, 1000);
 }
 
-function showQuestion() {
+// ===== 問題 =====
+function nextQuestion() {
   answering = false;
-  judgeMark.textContent = "";
 
   currentQuestion = words[Math.floor(Math.random() * words.length)];
 
-  if (currentQuestion.reading) {
-    questionEl.textContent = currentQuestion.question + "（" + currentQuestion.reading + "）";
-  } else {
-    questionEl.textContent = currentQuestion.question;
-  }
+  questionEl.textContent = currentQuestion.reading
+    ? currentQuestion.question + "（" + currentQuestion.reading + "）"
+    : currentQuestion.question;
 
   const choices = makeChoices(currentQuestion);
-  const shuffledChoices = shuffleArray(choices);
+  const shuffled = shuffle(choices);
 
   choicesEl.innerHTML = "";
 
-  shuffledChoices.forEach(function (choice) {
-    const button = document.createElement("button");
-    button.textContent = choice;
-
-    button.onclick = function () {
-      checkAnswer(choice);
-    };
-
-    choicesEl.appendChild(button);
+  shuffled.forEach(c => {
+    const btn = document.createElement("button");
+    btn.textContent = c;
+    btn.onclick = () => checkAnswer(c);
+    choicesEl.appendChild(btn);
   });
 }
 
+// ===== 選択肢 =====
+function makeChoices(q) {
+  const wrong = words
+    .map(w => w.answer)
+    .filter(a => a !== q.answer);
+
+  return [q.answer, ...shuffle(wrong).slice(0, 3)];
+}
+
+// ===== 判定 =====
 function checkAnswer(choice) {
   if (answering) return;
   answering = true;
@@ -192,116 +128,68 @@ function checkAnswer(choice) {
   if (choice === currentQuestion.answer) {
     combo++;
     score += 10 + combo;
-
     judgeMark.textContent = "○";
-    judgeMark.style.color = "#ffcc33";
-
-    if (combo >= 2) {
-      comboText.textContent = "COMBO " + combo + "!!";
-    } else {
-      comboText.textContent = "";
-    }
   } else {
     combo = 0;
-    timeLeft = Math.max(0, timeLeft - 2);
-
+    timeLeft -= 2;
     judgeMark.textContent = "×";
-    judgeMark.style.color = "#ff4444";
-    comboText.textContent = "";
   }
 
   scoreEl.textContent = score;
-  timeEl.textContent = timeLeft;
 
-  setTimeout(function () {
-    if (timeLeft <= 0) {
-      finishGame();
-    } else {
-      showQuestion();
-    }
+  setTimeout(() => {
+    if (timeLeft <= 0) finishGame();
+    else nextQuestion();
   }, 500);
 }
 
+// ===== 終了 =====
 function finishGame() {
   clearInterval(timer);
-
   finalScoreEl.textContent = score;
-  saveRanking(username, score);
 
+  saveRanking(username, score);
   showScreen(resultScreen);
 }
 
+// ===== 保存 =====
 async function saveRanking(name, score) {
-  const { error } = await supabase
-    .from("scores")
-    .insert([
-      {
-        name: name,
-        score: score
-      }
-    ]);
-
-  if (error) {
-    console.error("保存エラー", error);
-  } else {
-    console.log("保存成功");
-  }
+  await supabase.from("scores").insert([{ name, score }]);
 }
 
+// ===== 表示 =====
 async function showRanking() {
-  closeSideMenu();
+  closeMenu();
   clearInterval(timer);
 
-  const { data, error } = await supabase
-  .from("scores")
-  .select("*")
-  .order("score", { ascending: false })
-  .limit(10);
-
-  const ranking = data || [];
+  const { data } = await supabase
+    .from("scores")
+    .select("*")
+    .order("score", { ascending: false })
+    .limit(10);
 
   rankingList.innerHTML = "";
 
-  if (ranking.length === 0) {
+  data.forEach((d, i) => {
     const li = document.createElement("li");
-    li.textContent = "まだランキングはありません";
+    li.textContent = `${i + 1}位 ${d.name} ${d.score}`;
     rankingList.appendChild(li);
-  } else {
-    ranking.forEach(function (item, index) {
-      const li = document.createElement("li");
-      li.textContent = `${index + 1}位　${item.name}　${item.score}点`;
-      rankingList.appendChild(li);
-    });
-  }
+  });
 
   showScreen(rankingScreen);
 }
 
-function makeChoices(questionData) {
-  const correctAnswer = questionData.answer;
-
-  const wrongAnswers = words
-    .map(function (word) {
-      return word.answer;
-    })
-    .filter(function (answer) {
-      return answer !== correctAnswer;
-    });
-
-  const shuffledWrongAnswers = shuffleArray([...wrongAnswers]);
-
-  const selectedWrongAnswers = shuffledWrongAnswers.slice(0, 3);
-
-  return [correctAnswer, ...selectedWrongAnswers];
+// ===== 共通 =====
+function showScreen(screen) {
+  [homeScreen, gameScreen, resultScreen, rankingScreen].forEach(s => s.classList.remove("active"));
+  screen.classList.add("active");
 }
 
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[randomIndex];
-    array[randomIndex] = temp;
-  }
+function goHome() {
+  clearInterval(timer);
+  showScreen(homeScreen);
+}
 
-  return array;
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
 }

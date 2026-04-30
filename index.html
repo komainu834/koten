@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- メニュー -->
   <button id="menuButton" class="menu-button">☰</button>
 
   <div id="overlay" class="overlay"></div>
@@ -18,48 +19,45 @@
     <button onclick="showRanking()">ランキング</button>
   </nav>
 
+  <!-- ホーム -->
   <section id="homeScreen" class="screen active">
-    <h1>古典語彙<br>タイムアタック</h1>
-    <p>制限時間内にたくさん答えよう！</p>
-
-    <input id="username" type="text" placeholder="ユーザー名を入力">
-
-    <button class="main-button" onclick="startGame()">スタート</button>
-    <button class="sub-button" onclick="showRanking()">ランキングを見る</button>
+    <h1>古典語彙タイムアタック</h1>
+    <input id="username" placeholder="ユーザー名">
+    <button onclick="startGame()">スタート</button>
   </section>
 
+  <!-- ゲーム -->
   <section id="gameScreen" class="screen">
-    <div class="status">
-      <div>TIME：<span id="time">30</span></div>
-      <div>SCORE：<span id="score">0</span></div>
-    </div>
+    <div>TIME：<span id="time">30</span></div>
+    <div>SCORE：<span id="score">0</span></div>
 
-    <div id="comboText" class="combo-text"></div>
+    <p id="question"></p>
+    <div id="choices"></div>
 
-    <div class="question-box">
-      <p id="question"></p>
-    </div>
-
-    <div id="choices" class="choices"></div>
-    <div id="judgeMark" class="judge-mark"></div>
+    <div id="judgeMark"></div>
+    <div id="comboText"></div>
   </section>
 
+  <!-- 結果 -->
   <section id="resultScreen" class="screen">
-    <h2>結果発表</h2>
-    <p class="result-score">スコア：<span id="finalScore">0</span></p>
+    <h2>結果</h2>
+    <p id="finalScore"></p>
 
-    <button class="main-button" onclick="startGame()">もう一度</button>
-    <button class="sub-button" onclick="goHome()">ホームに戻る</button>
+    <button onclick="startGame()">もう一度</button>
+    <button onclick="goHome()">ホーム</button>
   </section>
 
+  <!-- ランキング -->
   <section id="rankingScreen" class="screen">
     <h2>ランキング</h2>
     <ol id="rankingList"></ol>
-
-    <button class="sub-button" onclick="goHome()">ホームに戻る</button>
+    <button onclick="goHome()">戻る</button>
   </section>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
+  
