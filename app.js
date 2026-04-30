@@ -236,11 +236,19 @@ function checkAnswer(choice) {
   if (answering) return;
   answering = true;
 
+  const buttons = choicesEl.querySelectorAll("button");
+
   if (choice === currentQuestion.answer) {
     combo++;
     score += 10 + combo;
 
     showScorePlus(10 + combo, combo);
+
+    buttons.forEach(btn => {
+    if (btn.textContent === choice) {
+      btn.classList.add("correct");
+    }
+  });
 
     judgeMark.textContent = "○";
     judgeMark.style.color = "#ffcc33";
@@ -255,6 +263,15 @@ function checkAnswer(choice) {
   } else {
     combo = 0;
     timeLeft = Math.max(0, timeLeft - 2);
+
+    buttons.forEach(btn => {
+  if (btn.textContent === choice) {
+    btn.classList.add("wrong");
+  }
+  if (btn.textContent === currentQuestion.answer) {
+    btn.classList.add("correct");
+  }
+});
 
     judgeMark.textContent = "×";
     judgeMark.style.color = "#ff4444";

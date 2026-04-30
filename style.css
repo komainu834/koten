@@ -142,15 +142,14 @@ button {
 
 .judge-mark {
   position: fixed;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 120px;
   font-weight: 900;
   opacity: 0;
-  z-index: 60;
+  z-index: 100;
   pointer-events: none;
-  text-shadow: 0 0 20px white;
 }
 
 .judge-mark.show {
@@ -512,4 +511,16 @@ button {
   display: inline-block;
   min-width: 48px;
   transform: scale(1.05);
+}
+
+/* ===== 正解・不正解表示 ===== */
+
+#choices button.correct {
+  background: #00cc66;
+  color: white;
+}
+
+#choices button.wrong {
+  background: #ff4444;
+  color: white;
 }
