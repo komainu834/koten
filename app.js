@@ -29,6 +29,7 @@ const rankingList = document.getElementById("rankingList");
 
 const judgeMark = document.getElementById("judgeMark");
 const comboText = document.getElementById("comboText");
+const goText = document.getElementById("goText");
 
 const menuButton = document.getElementById("menuButton");
 const sideMenu = document.getElementById("sideMenu");
@@ -145,20 +146,25 @@ function startGame() {
   judgeMark.textContent = "";
   comboText.textContent = "";
 
-  closeMenu();
+    closeMenu();
   showScreen(gameScreen);
-  showQuestion();
 
-  clearInterval(timer);
+  showGo();
 
-  timer = setInterval(function () {
-    timeLeft--;
-    timeEl.textContent = timeLeft;
+  setTimeout(function () {
+    showQuestion();
 
-    if (timeLeft <= 0) {
-      finishGame();
-    }
-  }, 1000);
+    clearInterval(timer);
+
+    timer = setInterval(function () {
+      timeLeft--;
+      timeEl.textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        finishGame();
+      }
+    }, 1000);
+  }, 800);
 }
 
 // ===== 問題表示 =====
@@ -358,4 +364,10 @@ function showCombo() {
   comboText.classList.remove("show");
   void comboText.offsetWidth;
   comboText.classList.add("show");
+}
+
+function showGo() {
+  goText.classList.remove("show");
+  void goText.offsetWidth;
+  goText.classList.add("show");
 }

@@ -164,3 +164,116 @@ button {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+/* ===== ホーム画面強化 ===== */
+
+#homeScreen {
+  background: radial-gradient(circle at top, #3a4a8f, #141e30);
+  animation: bgMove 6s infinite alternate;
+}
+
+@keyframes bgMove {
+  0% { background-position: top; }
+  100% { background-position: bottom; }
+}
+
+/* タイトル */
+#homeScreen h1 {
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 10px white,
+    0 0 20px #00f0ff,
+    0 0 40px #00f0ff;
+  margin-bottom: 20px;
+}
+
+/* サブテキスト */
+#homeScreen p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+/* 入力欄（超重要） */
+#username {
+  width: 85%;
+  max-width: 360px;
+  padding: 18px;
+  font-size: 24px;
+  border-radius: 16px;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.5),
+    0 0 20px rgba(0,200,255,0.6);
+}
+
+/* スタートボタン */
+#homeScreen button {
+  width: 85%;
+  max-width: 360px;
+  padding: 18px;
+  font-size: 26px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 900;
+
+  background: linear-gradient(135deg, #ffcc33, #ff8800);
+  color: #222;
+
+  box-shadow: 0 0 20px rgba(255,200,0,0.8);
+
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+/* 押したとき */
+#homeScreen button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(255,200,0,0.5);
+}
+
+/* ===== GO演出 ===== */
+
+.go-text {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  font-size: 100px;
+  font-weight: 900;
+  color: #ffcc33;
+  text-shadow:
+    0 0 10px white,
+    0 0 30px orange,
+    0 0 60px red;
+  opacity: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+
+.go-text.show {
+  animation: goPop 0.8s ease;
+}
+
+@keyframes goPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
