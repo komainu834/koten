@@ -21,9 +21,9 @@ const choicesEl = document.getElementById("choices");
 const feedbackEl = document.getElementById("feedback");
 const finalScoreEl = document.getElementById("finalScore");
 
-let comboEl = null;
-let bonusEl = null;
-let judgeEl = null;
+let comboEl;
+let bonusEl;
+let judgeEl;
 
 startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
@@ -38,6 +38,7 @@ async function loadWords() {
   words = lines
     .map(line => {
       const [word, answer, wrong1, wrong2, wrong3] = line.split(",");
+      if (!word || !answer || !wrong1 || !wrong2 || !wrong3) return null;
 
       return {
         word: word.trim(),
@@ -50,7 +51,7 @@ async function loadWords() {
         ]
       };
     })
-    .filter(q => q.word && q.answer && q.choices.length === 4);
+    .filter(Boolean);
 }
 
 async function startGame() {
@@ -103,7 +104,6 @@ function showQuestion() {
   wordEl.textContent = currentQuestion.word;
 
   const shuffledChoices = shuffleArray([...currentQuestion.choices]);
-
   choicesEl.innerHTML = "";
 
   shuffledChoices.forEach(choice => {
@@ -120,17 +120,13 @@ function checkAnswer(selectedChoice, clickedButton) {
   isAnswering = true;
 
   const buttons = document.querySelectorAll(".choice-btn");
-
-  buttons.forEach(btn => {
-    btn.disabled = true;
-  });
+  buttons.forEach(btn => btn.disabled = true);
 
   if (selectedChoice === currentQuestion.answer) {
     score++;
     combo++;
 
     scoreEl.textContent = score;
-
     clickedButton.classList.add("choice-correct");
 
     showJudgeMark(true);
@@ -147,7 +143,6 @@ function checkAnswer(selectedChoice, clickedButton) {
 
     feedbackEl.textContent = "正解！";
     feedbackEl.classList.add("correct");
-
   } else {
     combo = 0;
 
@@ -169,7 +164,7 @@ function checkAnswer(selectedChoice, clickedButton) {
     if (timeLeft > 0) {
       showQuestion();
     }
-  }, 800);
+  }, 650);
 }
 
 function endGame() {
@@ -184,80 +179,50 @@ function endGame() {
 function createEffectElements() {
   comboEl = document.createElement("div");
   comboEl.className = "combo-text";
-  comboEl.style.display = "none";
   document.body.appendChild(comboEl);
 
   bonusEl = document.createElement("div");
   bonusEl.className = "time-bonus";
-  bonusEl.style.display = "none";
   document.body.appendChild(bonusEl);
 
   judgeEl = document.createElement("div");
   judgeEl.className = "judge-mark";
-  judgeEl.style.display = "none";
   document.body.appendChild(judgeEl);
 }
 
 function showComboText(combo) {
   comboEl.textContent = `${combo} COMBO!!`;
-
-  comboEl.className = `combo-text ${getComboClass(combo)}`;
-  comboEl.style.display = "block";
-
-  comboEl.classList.remove("animate");
-  void comboEl.offsetWidth;
-  comboEl.classList.add("animate");
+  comboEl.className = `combo-text show ${getComboClass(combo)}`;
 
   setTimeout(() => {
-    comboEl.style.display = "none";
-  }, 700);
+    comboEl.className = "combo-text";
+  }, 500);
 }
 
 function showTimeBonus() {
   bonusEl.textContent = "+5秒！";
-
-  bonusEl.className = "time-bonus";
-  bonusEl.style.display = "block";
-
-  bonusEl.classList.remove("animate");
-  void bonusEl.offsetWidth;
-  bonusEl.classList.add("animate");
+  bonusEl.className = "time-bonus show";
 
   setTimeout(() => {
-    bonusEl.style.display = "none";
-  }, 700);
+    bonusEl.className = "time-bonus";
+  }, 500);
 }
 
 function showJudgeMark(isCorrect) {
   judgeEl.textContent = isCorrect ? "○" : "×";
   judgeEl.className = isCorrect
-    ? "judge-mark judge-correct"
-    : "judge-mark judge-wrong";
-
-  judgeEl.style.display = "block";
-
-  judgeEl.classList.remove("animate");
-  void judgeEl.offsetWidth;
-  judgeEl.classList.add("animate");
+    ? "judge-mark show judge-correct"
+    : "judge-mark show judge-wrong";
 
   setTimeout(() => {
-    judgeEl.style.display = "none";
-  }, 500);
+    judgeEl.className = "judge-mark";
+  }, 400);
 }
 
 function getComboClass(combo) {
-  if (combo >= 30) {
-    return "combo-max";
-  }
-
-  if (combo >= 20) {
-    return "combo-high";
-  }
-
-  if (combo >= 10) {
-    return "combo-mid";
-  }
-
+  if (combo >= 30) return "combo-max";
+  if (combo >= 20) return "combo-high";
+  if (combo >= 10) return "combo-mid";
   return "combo-low";
 }
 
@@ -266,6 +231,5 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-
   return array;
 }
