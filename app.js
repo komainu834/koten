@@ -8,8 +8,9 @@ let words = [];
 let username = "";
 let loginId = "";
 let score = 0;
+let displayedScore = 0;
 let combo = 0;
-let timeLeft = 30;
+let timeLeft = 60;
 let timer = null;
 let currentQuestion = null;
 let answering = false;
@@ -31,6 +32,7 @@ const rankingList = document.getElementById("rankingList");
 
 const judgeMark = document.getElementById("judgeMark");
 const comboText = document.getElementById("comboText");
+const scorePlus = document.getElementById("scorePlus");
 const goText = document.getElementById("goText");
 
 const menuButton = document.getElementById("menuButton");
@@ -155,11 +157,12 @@ if (username === "") {
   localStorage.setItem("username", username);
 
   score = 0;
+  displayedScore = 0;
   combo = 0;
   timeLeft = 30;
   answering = false;
 
-  scoreEl.textContent = score;
+  scoreEl.textContent = displayedScore;
   timeEl.textContent = timeLeft;
   judgeMark.textContent = "";
   comboText.textContent = "";
@@ -237,6 +240,8 @@ function checkAnswer(choice) {
     combo++;
     score += 10 + combo;
 
+    showScorePlus(10 + combo, combo);
+
     judgeMark.textContent = "○";
     judgeMark.style.color = "#ffcc33";
     showJudge();
@@ -257,7 +262,7 @@ function checkAnswer(choice) {
     showJudge();
   }
 
-  scoreEl.textContent = score;
+  animateScore(displayedScore, score);
   timeEl.textContent = timeLeft;
 
   setTimeout(function () {
@@ -389,4 +394,45 @@ function showGo() {
 function generateLoginId() {
   const random = Math.random().toString(36).substring(2, 6);
   return "user-" + random;
+}
+
+function showScorePlus(points, comboCount) {
+  scorePlus.textContent = "+" + points;
+
+  scorePlus.classList.remove("combo-low");
+  scorePlus.classList.remove("combo-mid");
+  scorePlus.classList.remove("combo-high");
+
+  if (comboCount >= 10) {
+    scorePlus.classList.add("combo-high");
+  } else if (comboCount >= 5) {
+    scorePlus.classList.add("combo-mid");
+  } else {
+    scorePlus.classList.add("combo-low");
+  }
+
+  scorePlus.classList.remove("show");
+  void scorePlus.offsetWidth;
+  scorePlus.classList.add("show");
+}
+
+function animateScore(from, to) {
+  const duration = 250;
+  const startTime = performance.now();
+
+  function update(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const current = Math.floor(from + (to - from) * progress);
+
+    scoreEl.textContent = current;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      displayedScore = to;
+      scoreEl.textContent = to;
+    }
+  }
+
+  requestAnimationFrame(update);
 }
