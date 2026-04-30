@@ -2,53 +2,62 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>古典単語タイムアタック</title>
+  <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
-    <h1>古典単語タイムアタック</h1>
 
-    <section id="homeScreen" class="card">
-  <h2>古典単語タイムアタック</h2>
-  <button id="goStartBtn">スタート画面へ</button>
-</section>
+  <button id="menuButton" class="menu-button">☰</button>
 
-<section id="startScreen" class="card hidden"></section>
+  <div id="overlay" class="overlay"></div>
 
-    <section id="startScreen" class="card">
-      <p>60秒で何問正解できるか挑戦！</p>
-      <input id="username" placeholder="ユーザー名を入力" />
-      <button id="startBtn">スタート</button>
-    </section>
+  <nav id="sideMenu" class="side-menu">
+    <button id="closeMenu" class="close-button">×</button>
+    <button onclick="goHome()">古典問題</button>
+    <button onclick="showRanking()">ランキング</button>
+  </nav>
 
-    <section id="quizScreen" class="card hidden">
-      <div class="status">
-        <div>残り時間：<span id="time">60</span>秒</div>
-        <div>正解数：<span id="score">0</span></div>
-      </div>
+  <section id="homeScreen" class="screen active">
+    <h1>古典語彙<br>タイムアタック</h1>
+    <p>制限時間内にたくさん答えよう！</p>
 
-      <div class="question">
-        <p>この古典単語の意味は？</p>
-        <h2 id="word">---</h2>
-      </div>
+    <input id="username" type="text" placeholder="ユーザー名を入力">
 
-      <div id="choices" class="choices"></div>
+    <button class="main-button" onclick="startGame()">スタート</button>
+    <button class="sub-button" onclick="showRanking()">ランキングを見る</button>
+  </section>
 
-      <p id="feedback" class="feedback"></p>
-    </section>
+  <section id="gameScreen" class="screen">
+    <div class="status">
+      <div>TIME：<span id="time">30</span></div>
+      <div>SCORE：<span id="score">0</span></div>
+    </div>
 
-  <section id="resultScreen" class="card hidden">
-  <h2>結果</h2>
-  <p><span id="finalScore">0</span>問正解！</p>
+    <div id="comboText" class="combo-text"></div>
 
-  <h3>ランキング</h3>
-  <ol id="rankingList"></ol>
+    <div class="question-box">
+      <p id="question"></p>
+    </div>
 
-  <button id="retryBtn">もう一度</button>
-</section>
-  </main>
+    <div id="choices" class="choices"></div>
+    <div id="judgeMark" class="judge-mark"></div>
+  </section>
+
+  <section id="resultScreen" class="screen">
+    <h2>結果発表</h2>
+    <p class="result-score">スコア：<span id="finalScore">0</span></p>
+
+    <button class="main-button" onclick="startGame()">もう一度</button>
+    <button class="sub-button" onclick="goHome()">ホームに戻る</button>
+  </section>
+
+  <section id="rankingScreen" class="screen">
+    <h2>ランキング</h2>
+    <ol id="rankingList"></ol>
+
+    <button class="sub-button" onclick="goHome()">ホームに戻る</button>
+  </section>
 
   <script src="app.js"></script>
 </body>

@@ -4,318 +4,198 @@
 
 body {
   margin: 0;
-  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  background: linear-gradient(135deg, #111827, #020617);
-  color: #111827;
-  min-height: 100vh;
-  overflow-x: hidden;
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #243b55, #141e30);
+  color: white;
+  text-align: center;
 }
 
-.app {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 80px 20px 30px;
+}
+
+.screen.active {
+  display: block;
 }
 
 h1 {
-  text-align: center;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+h2 {
   font-size: 40px;
-  color: white;
-  margin: 16px 0 24px;
-  text-shadow: 0 4px 0 #7f1d1d;
 }
 
-.card {
-  background: linear-gradient(180deg, #ffffff, #e5e7eb);
-  border-radius: 28px;
-  padding: 28px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+input {
+  width: 80%;
+  max-width: 320px;
+  padding: 14px;
+  font-size: 20px;
+  border-radius: 12px;
+  border: none;
   text-align: center;
-}
-
-.hidden {
-  display: none;
+  margin: 20px auto;
+  display: block;
 }
 
 button {
-  width: 100%;
-  padding: 18px;
-  margin-top: 14px;
-  font-size: 24px;
-  font-weight: 900;
-  border: none;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #f97316, #dc2626);
-  color: white;
   cursor: pointer;
-  box-shadow: 0 7px 0 #7f1d1d;
 }
 
-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 3px 0 #7f1d1d;
+.main-button,
+.sub-button {
+  display: block;
+  width: 80%;
+  max-width: 320px;
+  margin: 14px auto;
+  padding: 16px;
+  font-size: 22px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
 }
 
-/* 上部ステータス */
+.main-button {
+  background: #ffcc33;
+  color: #222;
+}
+
+.sub-button {
+  background: white;
+  color: #243b55;
+}
+
+.menu-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 50px;
+  height: 50px;
+  z-index: 1001;
+  font-size: 32px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  color: #222;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100vh;
+  background: white;
+  z-index: 1002;
+  padding: 70px 20px;
+  transition: right 0.3s ease;
+}
+
+.side-menu.open {
+  right: 0;
+}
+
+.side-menu button {
+  display: block;
+  width: 100%;
+  margin: 18px 0;
+  padding: 16px;
+  font-size: 22px;
+  border: none;
+  border-radius: 12px;
+  background: #243b55;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none !important;
+  color: #222 !important;
+  font-size: 36px !important;
+  padding: 0 !important;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+}
+
+.overlay.show {
+  display: block;
+}
+
 .status {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: space-around;
   font-size: 24px;
-  font-weight: 900;
-  color: white;
-  margin-bottom: 26px;
+  font-weight: bold;
+  margin-bottom: 25px;
 }
 
-.status div {
-  flex: 1;
-  background: #111827;
-  padding: 14px 18px;
-  border-radius: 18px;
+.question-box {
+  background: rgba(255,255,255,0.15);
+  padding: 28px;
+  border-radius: 20px;
+  margin-bottom: 25px;
 }
 
-#time {
-  font-size: 44px;
-  color: #fde047;
+#question {
+  font-size: 36px;
+  font-weight: bold;
 }
 
-#score {
-  font-size: 44px;
-  color: #facc15;
+.choices button {
+  display: block;
+  width: 90%;
+  max-width: 420px;
+  margin: 14px auto;
+  padding: 18px;
+  font-size: 24px;
+  border-radius: 16px;
+  border: none;
+  background: white;
+  color: #222;
+  font-weight: bold;
 }
 
-/* 問題 */
-#word {
-  font-size: 72px;
-  margin: 28px 0 30px;
-  color: #111827;
-  letter-spacing: 0.08em;
-}
-
-/* 選択肢 */
-#choices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.choice-btn {
-  background: linear-gradient(180deg, #ffffff, #e5e7eb);
-  color: #111827;
-  font-size: 30px;
-  border: 4px solid #d1d5db;
-  box-shadow: 0 7px 0 #9ca3af;
-}
-
-.choice-btn:hover {
-  background: linear-gradient(180deg, #fef3c7, #fde68a);
-}
-
-.choice-btn:disabled {
-  cursor: default;
-}
-
-/* 正解・不正解の選択肢 */
-.choice-correct {
-  background: linear-gradient(180deg, #22c55e, #16a34a) !important;
-  color: white !important;
-  border-color: #86efac !important;
-  box-shadow: 0 7px 0 #166534 !important;
-}
-
-.choice-wrong {
-  background: linear-gradient(180deg, #ef4444, #b91c1c) !important;
-  color: white !important;
-  border-color: #fecaca !important;
-  box-shadow: 0 7px 0 #7f1d1d !important;
-}
-
-/* フィードバック */
-#feedback,
-.feedback {
-  min-height: 44px;
-  font-size: 28px;
-  font-weight: 900;
-  margin-top: 22px;
-}
-
-.correct {
-  color: #16a34a;
-}
-
-.wrong {
-  color: #dc2626;
-}
-
-/* 結果画面 */
-.result-score,
-#resultScreen p {
-  font-size: 48px;
-  font-weight: 900;
-}
-
-.combo-text,
-.time-bonus,
-.judge-mark {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  font-weight: 900;
-  transition: opacity 0.15s ease, transform 0.25s ease;
-}
-
-/* 5コンボ目から表示されるコンボ */
 .combo-text {
-  top: 12%;
-  font-size: 48px; /* 小さく */
-  color: #ef4444;  /* 赤 */
-  -webkit-text-stroke: 1px #7f1d1d;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
+  height: 30px;
+  font-size: 20px;
+  color: red;
+  font-weight: bold;
 }
 
-/* ←ここに入れる */
-.combo-text.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-24px) scale(1.08);
-}
-
-/* ←ここに入れる */
-.combo-low  { color: #60a5fa; }
-.combo-mid  { color: #fde047; }
-.combo-high { color: #fb7185; }
-.combo-max  { color: #c084fc; }
-
-/* +5秒表示 */
-.time-bonus {
-  top: 36%;
-  font-size: 48px;
-  color: #facc15;
-  -webkit-text-stroke: 1px #b91c1c;
-}
-
-/* ○×表示 */
 .judge-mark {
-  top: 42%;
-  font-size: 120px;
+  height: 60px;
+  font-size: 54px;
+  font-weight: bold;
 }
 
-/* 表示時だけ軽く動かす */
-.combo-text.show,
-.time-bonus.show,
-.judge-mark.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-20px);
-}
-
-/* コンボ色変化 */
-.combo-low {
-  color: #38bdf8;
-}
-
-.combo-mid {
-  color: #facc15;
-}
-
-.combo-high {
-  color: #fb7185;
-}
-
-.combo-max {
-  color: #c084fc;
-}
-
-/* 判定色 */
-.judge-correct {
-  color: #22c55e;
-}
-
-.judge-wrong {
-  color: #ef4444;
-}
-
-/* =========================
-   スマホ調整
-========================= */
-
-@media (max-width: 640px) {
-  .app {
-    padding: 14px;
-  }
-
-  h1 {
-    font-size: 30px;
-  }
-
-  .card {
-    padding: 18px;
-    border-radius: 22px;
-  }
-
-  .status {
-    font-size: 17px;
-    gap: 8px;
-  }
-
-  .status div {
-    padding: 10px;
-  }
-
-  #time,
-  #score {
-    font-size: 34px;
-  }
-
-  #word {
-    font-size: 48px;
-    margin: 22px 0;
-  }
-
-  #choices {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .choice-btn {
-    font-size: 23px;
-    padding: 16px;
-  }
-
-  #feedback,
-  .feedback {
-    font-size: 22px;
-  }
-
-  .combo-text {
-    top: 12%;
-    font-size: 52px;
-    -webkit-text-stroke: 1.5px #b91c1c;
-  }
-
-  .time-bonus {
-    font-size: 40px;
-  }
-
-  .judge-mark {
-    font-size: 100px;
-  }
-
-  #resultScreen p {
-    font-size: 38px;
-  }
+.result-score {
+  font-size: 48px;
+  font-weight: bold;
 }
 
 #rankingList {
+  width: 90%;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 0;
   text-align: left;
-  margin-top: 16px;
-  padding-left: 20px;
 }
 
 #rankingList li {
-  font-size: 20px;
-  margin: 6px 0;
-  font-weight: bold;
+  background: rgba(255,255,255,0.15);
+  margin: 10px 0;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 22px;
 }

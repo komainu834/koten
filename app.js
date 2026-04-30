@@ -1,301 +1,294 @@
 let words = [];
-let currentQuestion = null;
-let score = 0;
-let timeLeft = 60;
 
-const rankingList = document.getElementById("rankingList");
-const homeScreen = document.getElementById("homeScreen");
-const goStartBtn = document.getElementById("goStartBtn");
-const homeBtn = document.getElementById("homeBtn");
-
-let timerId = null;
-let isAnswering = false;
-let lastQuestion = null;
-let combo = 0;
 let username = "";
+let score = 0;
+let combo = 0;
+let timeLeft = 30;
+let timer = null;
+let currentQuestion = null;
+let answering = false;
 
-const startScreen = document.getElementById("startScreen");
-const quizScreen = document.getElementById("quizScreen");
+const homeScreen = document.getElementById("homeScreen");
+const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
+const rankingScreen = document.getElementById("rankingScreen");
 
-const startBtn = document.getElementById("startBtn");
-const retryBtn = document.getElementById("retryBtn");
-
+const usernameInput = document.getElementById("username");
 const timeEl = document.getElementById("time");
 const scoreEl = document.getElementById("score");
-const wordEl = document.getElementById("word");
+const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
-const feedbackEl = document.getElementById("feedback");
 const finalScoreEl = document.getElementById("finalScore");
+const rankingList = document.getElementById("rankingList");
+const comboText = document.getElementById("comboText");
+const judgeMark = document.getElementById("judgeMark");
 
-let comboEl;
-let bonusEl;
-let judgeEl;
+const menuButton = document.getElementById("menuButton");
+const sideMenu = document.getElementById("sideMenu");
+const closeMenu = document.getElementById("closeMenu");
+const overlay = document.getElementById("overlay");
 
-startBtn.addEventListener("click", startGame);
-retryBtn.addEventListener("click", startGame);
+window.onload = async function () {
+  const savedName = localStorage.getItem("username");
+  if (savedName) {
+    usernameInput.value = savedName;
+  }
 
-goStartBtn.addEventListener("click", () => {
-  homeScreen.classList.add("hidden");
-  startScreen.classList.remove("hidden");
-});
+  await loadWords();
+};
 
-homeBtn.addEventListener("click", () => {
-  resultScreen.classList.add("hidden");
-  homeScreen.classList.remove("hidden");
-});
+menuButton.addEventListener("click", openMenu);
+closeMenu.addEventListener("click", closeSideMenu);
+overlay.addEventListener("click", closeSideMenu);
 
-createEffectElements();
+function openMenu() {
+  sideMenu.classList.add("open");
+  overlay.classList.add("show");
+}
+
+function closeSideMenu() {
+  sideMenu.classList.remove("open");
+  overlay.classList.remove("show");
+}
+
+function showScreen(screen) {
+  homeScreen.classList.remove("active");
+  gameScreen.classList.remove("active");
+  resultScreen.classList.remove("active");
+  rankingScreen.classList.remove("active");
+
+  screen.classList.add("active");
+}
+
+function goHome() {
+  closeSideMenu();
+  clearInterval(timer);
+  showScreen(homeScreen);
+}
 
 async function loadWords() {
-  const response = await fetch("words.csv");
-  const text = await response.text();
-  const lines = text.trim().split("\n").slice(1);
+  try {
+    const response = await fetch("words.csv");
 
-  words = lines
-    .map(line => {
-      const [word, answer, wrong1, wrong2, wrong3] = line.split(",");
-      if (!word || !answer || !wrong1 || !wrong2 || !wrong3) return null;
+    if (!response.ok) {
+      throw new Error("words.csvを読み込めませんでした");
+    }
 
-      return {
-        word: word.trim(),
-        answer: answer.trim(),
-        choices: [
-          answer.trim(),
-          wrong1.trim(),
-          wrong2.trim(),
-          wrong3.trim()
-        ]
-      };
-    })
-    .filter(Boolean);
+    const text = await response.text();
+    words = parseCSV(text);
+
+    console.log("読み込んだ問題数:", words.length);
+  } catch (error) {
+    console.error(error);
+    alert("words.csvの読み込みに失敗しました");
+  }
 }
 
-async function startGame() {
-  homeScreen.classList.add("hidden");
-  
-  const input = document.getElementById("username");
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const data = [];
 
-if (!input.value) {
-  alert("ユーザー名を入力してください");
-  return;
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(",");
+
+    if (cols.length < 2) continue;
+
+    const question = cols[0].trim();
+    const correct = cols[1].trim();
+    const reading = cols[2] ? cols[2].trim() : "";
+
+    if (!question || !correct) continue;
+
+    data.push({
+      question: question,
+      reading: reading,
+      answer: correct
+    });
+  }
+
+  return data;
 }
 
-username = input.value;
-localStorage.setItem("username", username);
+function startGame() {
+  const inputName = usernameInput.value.trim();
+
+  if (inputName === "") {
+    alert("ユーザー名を入力してください");
+    return;
+  }
 
   if (words.length === 0) {
-    await loadWords();
+    alert("問題が読み込まれていません。words.csvを確認してください。");
+    return;
   }
+
+  username = inputName;
+  localStorage.setItem("username", username);
 
   score = 0;
   combo = 0;
-  timeLeft = 60;
-  lastQuestion = null;
-  isAnswering = false;
+  timeLeft = 30;
+  answering = false;
 
   scoreEl.textContent = score;
   timeEl.textContent = timeLeft;
-  feedbackEl.textContent = "";
-  feedbackEl.className = "feedback";
+  comboText.textContent = "";
+  judgeMark.textContent = "";
 
-  startScreen.classList.add("hidden");
-  resultScreen.classList.add("hidden");
-  quizScreen.classList.remove("hidden");
+  closeSideMenu();
+  showScreen(gameScreen);
 
   showQuestion();
 
-  clearInterval(timerId);
-  timerId = setInterval(() => {
+  clearInterval(timer);
+  timer = setInterval(function () {
     timeLeft--;
     timeEl.textContent = timeLeft;
 
     if (timeLeft <= 0) {
-      endGame();
+      finishGame();
     }
   }, 1000);
 }
 
 function showQuestion() {
-  isAnswering = false;
-  feedbackEl.textContent = "";
-  feedbackEl.className = "feedback";
+  answering = false;
+  judgeMark.textContent = "";
 
-  let nextQuestion;
+  currentQuestion = words[Math.floor(Math.random() * words.length)];
 
-  do {
-    nextQuestion = words[Math.floor(Math.random() * words.length)];
-  } while (words.length > 1 && nextQuestion === lastQuestion);
+  if (currentQuestion.reading) {
+    questionEl.textContent = currentQuestion.question + "（" + currentQuestion.reading + "）";
+  } else {
+    questionEl.textContent = currentQuestion.question;
+  }
 
-  currentQuestion = nextQuestion;
-  lastQuestion = currentQuestion;
+  const choices = makeChoices(currentQuestion);
+  const shuffledChoices = shuffleArray(choices);
 
-  wordEl.textContent = currentQuestion.word;
-
-  const shuffledChoices = shuffleArray([...currentQuestion.choices]);
   choicesEl.innerHTML = "";
 
-  shuffledChoices.forEach(choice => {
+  shuffledChoices.forEach(function (choice) {
     const button = document.createElement("button");
     button.textContent = choice;
-    button.className = "choice-btn";
-    button.addEventListener("click", () => checkAnswer(choice, button));
+
+    button.onclick = function () {
+      checkAnswer(choice);
+    };
+
     choicesEl.appendChild(button);
   });
 }
 
-function checkAnswer(selectedChoice, clickedButton) {
-  if (isAnswering) return;
-  isAnswering = true;
+function checkAnswer(choice) {
+  if (answering) return;
+  answering = true;
 
-  const buttons = document.querySelectorAll(".choice-btn");
-  buttons.forEach(btn => btn.disabled = true);
-
-  if (selectedChoice === currentQuestion.answer) {
-    score++;
+  if (choice === currentQuestion.answer) {
     combo++;
+    score += 10 + combo;
 
-    scoreEl.textContent = score;
-    clickedButton.classList.add("choice-correct");
+    judgeMark.textContent = "○";
+    judgeMark.style.color = "#ffcc33";
 
-    showJudgeMark(true);
-
-    if (combo >= 5) {
-      showComboText(combo);
+    if (combo >= 2) {
+      comboText.textContent = "COMBO " + combo + "!!";
+    } else {
+      comboText.textContent = "";
     }
-
-    if (combo % 10 === 0) {
-      timeLeft += 5;
-      timeEl.textContent = timeLeft;
-      showTimeBonus();
-    }
-
-    feedbackEl.textContent = "正解！";
-    feedbackEl.classList.add("correct");
   } else {
     combo = 0;
+    timeLeft = Math.max(0, timeLeft - 2);
 
-    clickedButton.classList.add("choice-wrong");
-
-    buttons.forEach(btn => {
-      if (btn.textContent === currentQuestion.answer) {
-        btn.classList.add("choice-correct");
-      }
-    });
-
-    showJudgeMark(false);
-
-    feedbackEl.textContent = `不正解… 正解は「${currentQuestion.answer}」`;
-    feedbackEl.classList.add("wrong");
+    judgeMark.textContent = "×";
+    judgeMark.style.color = "#ff4444";
+    comboText.textContent = "";
   }
 
-  setTimeout(() => {
-    if (timeLeft > 0) {
+  scoreEl.textContent = score;
+  timeEl.textContent = timeLeft;
+
+  setTimeout(function () {
+    if (timeLeft <= 0) {
+      finishGame();
+    } else {
       showQuestion();
     }
-  }, 650);
+  }, 500);
 }
 
-function endGame() {
-  clearInterval(timerId);
-
-  quizScreen.classList.add("hidden");
-  resultScreen.classList.remove("hidden");
+function finishGame() {
+  clearInterval(timer);
 
   finalScoreEl.textContent = score;
+  saveRanking(username, score);
 
-saveScore();
-showRanking();
+  showScreen(resultScreen);
 }
 
+function saveRanking(name, score) {
+  const ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
 
+  ranking.push({
+    name: name,
+    score: score
+  });
 
-function createEffectElements() {
-  comboEl = document.createElement("div");
-  comboEl.className = "combo-text";
-  document.body.appendChild(comboEl);
+  ranking.sort(function (a, b) {
+    return b.score - a.score;
+  });
 
-  bonusEl = document.createElement("div");
-  bonusEl.className = "time-bonus";
-  document.body.appendChild(bonusEl);
-
-  judgeEl = document.createElement("div");
-  judgeEl.className = "judge-mark";
-  document.body.appendChild(judgeEl);
+  localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
 }
 
-function showComboText(combo) {
-  comboEl.textContent = `${combo} COMBO!!`;
-  comboEl.className = `combo-text show ${getComboClass(combo)}`;
+function showRanking() {
+  closeSideMenu();
+  clearInterval(timer);
 
-  setTimeout(() => {
-    comboEl.className = "combo-text";
-  }, 500);
+  const ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+  rankingList.innerHTML = "";
+
+  if (ranking.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "まだランキングはありません";
+    rankingList.appendChild(li);
+  } else {
+    ranking.forEach(function (item, index) {
+      const li = document.createElement("li");
+      li.textContent = `${index + 1}位　${item.name}　${item.score}点`;
+      rankingList.appendChild(li);
+    });
+  }
+
+  showScreen(rankingScreen);
 }
 
-function showTimeBonus() {
-  bonusEl.textContent = "+5秒！";
-  bonusEl.className = "time-bonus show";
+function makeChoices(questionData) {
+  const correctAnswer = questionData.answer;
 
-  setTimeout(() => {
-    bonusEl.className = "time-bonus";
-  }, 500);
-}
+  const wrongAnswers = words
+    .map(function (word) {
+      return word.answer;
+    })
+    .filter(function (answer) {
+      return answer !== correctAnswer;
+    });
 
-function showJudgeMark(isCorrect) {
-  judgeEl.textContent = isCorrect ? "○" : "×";
-  judgeEl.className = isCorrect
-    ? "judge-mark show judge-correct"
-    : "judge-mark show judge-wrong";
+  const shuffledWrongAnswers = shuffleArray([...wrongAnswers]);
 
-  setTimeout(() => {
-    judgeEl.className = "judge-mark";
-  }, 400);
-}
+  const selectedWrongAnswers = shuffledWrongAnswers.slice(0, 3);
 
-function getComboClass(combo) {
-  if (combo >= 30) return "combo-max";
-  if (combo >= 20) return "combo-high";
-  if (combo >= 10) return "combo-mid";
-  return "combo-low";
+  return [correctAnswer, ...selectedWrongAnswers];
 }
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[randomIndex];
+    array[randomIndex] = temp;
   }
+
   return array;
-}
-
-window.addEventListener("load", () => {
-  const saved = localStorage.getItem("username");
-  if (saved) {
-    document.getElementById("username").value = saved;
-  }
-});
-
-function saveScore() {
-  const data = JSON.parse(localStorage.getItem("ranking") || "[]");
-
-  data.push({
-    name: username,
-    score: score
-  });
-
-  data.sort((a, b) => b.score - a.score);
-
-  localStorage.setItem("ranking", JSON.stringify(data.slice(0, 10)));
-}
-
-function showRanking() {
-  const data = JSON.parse(localStorage.getItem("ranking") || "[]");
-
-  rankingList.innerHTML = "";
-
-  data.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.textContent = `${index + 1}位　${item.name}　${item.score}点`;
-    rankingList.appendChild(li);
-  });
 }
