@@ -170,10 +170,10 @@ button:active {
 /* 5コンボ目から表示されるコンボ */
 .combo-text {
   top: 12%;
-  font-size: 88px;
-  color: #fde047;
-  -webkit-text-stroke: 3px #7f1d1d;
-  letter-spacing: 0.06em;
+  font-size: 48px; /* 小さく */
+  color: #ef4444;  /* 赤 */
+  -webkit-text-stroke: 1px #7f1d1d;
+  letter-spacing: 0.05em;
   white-space: nowrap;
 }
 

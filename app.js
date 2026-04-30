@@ -2,6 +2,12 @@ let words = [];
 let currentQuestion = null;
 let score = 0;
 let timeLeft = 60;
+
+const rankingList = document.getElementById("rankingList");
+const homeScreen = document.getElementById("homeScreen");
+const goStartBtn = document.getElementById("goStartBtn");
+const homeBtn = document.getElementById("homeBtn");
+
 let timerId = null;
 let isAnswering = false;
 let lastQuestion = null;
@@ -28,6 +34,16 @@ let judgeEl;
 
 startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
+
+goStartBtn.addEventListener("click", () => {
+  homeScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+});
+
+homeBtn.addEventListener("click", () => {
+  resultScreen.classList.add("hidden");
+  homeScreen.classList.remove("hidden");
+});
 
 createEffectElements();
 
@@ -56,6 +72,8 @@ async function loadWords() {
 }
 
 async function startGame() {
+  homeScreen.classList.add("hidden");
+  
   const input = document.getElementById("username");
 
 if (!input.value) {
@@ -187,6 +205,7 @@ function endGame() {
   finalScoreEl.textContent = score;
 
 saveScore();
+showRanking();
 }
 
 
@@ -267,4 +286,16 @@ function saveScore() {
   data.sort((a, b) => b.score - a.score);
 
   localStorage.setItem("ranking", JSON.stringify(data.slice(0, 10)));
+}
+
+function showRanking() {
+  const data = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+  rankingList.innerHTML = "";
+
+  data.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}位　${item.name}　${item.score}点`;
+    rankingList.appendChild(li);
+  });
 }

@@ -10,6 +10,13 @@
   <main class="app">
     <h1>古典単語タイムアタック</h1>
 
+    <section id="homeScreen" class="card">
+  <h2>古典単語タイムアタック</h2>
+  <button id="goStartBtn">スタート画面へ</button>
+</section>
+
+<section id="startScreen" class="card hidden"></section>
+
     <section id="startScreen" class="card">
       <p>60秒で何問正解できるか挑戦！</p>
       <input id="username" placeholder="ユーザー名を入力" />
@@ -32,11 +39,15 @@
       <p id="feedback" class="feedback"></p>
     </section>
 
-    <section id="resultScreen" class="card hidden">
-      <h2>結果</h2>
-      <p class="result-score"><span id="finalScore">0</span>問正解！</p>
-      <button id="retryBtn">もう一度</button>
-    </section>
+  <section id="resultScreen" class="card hidden">
+  <h2>結果</h2>
+  <p><span id="finalScore">0</span>問正解！</p>
+
+  <h3>ランキング</h3>
+  <ol id="rankingList"></ol>
+
+  <button id="retryBtn">もう一度</button>
+</section>
   </main>
 
   <script src="app.js"></script>
