@@ -307,3 +307,15 @@ button:active {
     font-size: 38px;
   }
 }
+
+#rankingList {
+  text-align: left;
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+#rankingList li {
+  font-size: 20px;
+  margin: 6px 0;
+  font-weight: bold;
+}
