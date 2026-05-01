@@ -4,12 +4,15 @@ body {
   min-height: 100%;
   font-family: sans-serif;
   text-align: center;
+  overflow: hidden;
   background: linear-gradient(135deg, #243b55, #141e30);
   color: white;
 }
 
 body {
   min-height: 100vh;
+  position: fixed;
+  width: 100%;
 }
 
 .screen {
@@ -699,4 +702,44 @@ button {
   font-size: 56px;
   margin-top: 40px;
   margin-bottom: 10px;
+}
+
+.question-info {
+  display: block;
+  margin-top: 12px;
+  font-size: 22px;
+  opacity: 0.85;
+}
+
+body.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ===== メニュー系ボタンをオレンジ統一 ===== */
+
+#resultScreen button,
+#rankingScreen button,
+#testScreen button {
+  width: 90%;
+  max-width: 360px;
+  padding: 18px;
+  font-size: 24px;
+  font-weight: 900;
+  border-radius: 16px;
+  border: none;
+
+  background: linear-gradient(135deg, #ffcc33, #ff8800);
+  color: #222;
+
+  box-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+}
+
+/* 押したとき */
+#resultScreen button:active,
+#rankingScreen button:active,
+#testScreen button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
 }

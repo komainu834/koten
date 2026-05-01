@@ -112,16 +112,16 @@ function parseCSV(text) {
 
     if (cols.length < 2) continue;
 
-    const question = cols[0].trim();
-    const correct = cols[1].trim();
-    const reading = cols[2] ? cols[2].trim() : "";
+    const word = cols[0].trim();
+    const answer = cols[1].trim();
+    const info = cols[2] ? cols[2].trim() : "";
 
-    if (!question || !correct) continue;
+    if (!word || !answer) continue;
 
     data.push({
-      question: question,
-      answer: correct,
-      reading: reading
+      question: word,
+      answer: answer,
+      info: info
     });
   }
 
@@ -150,8 +150,10 @@ function goHome() {
 // ===== ゲーム開始 =====
 function startGame() {
 
+   document.body.classList.add("no-scroll");
+
   loginId = localStorage.getItem("loginId");
-username = localStorage.getItem("username");
+  username = localStorage.getItem("username");
 
 if (!loginId || !username) {
   alert("プロフィールを設定してください");
@@ -218,7 +220,15 @@ function showQuestion() {
 
   currentQuestion = words[Math.floor(Math.random() * words.length)];
 
+  if (currentQuestion.info) {
+  questionEl.innerHTML =
+    currentQuestion.question +
+    "<br><span class='question-info'>" +
+    currentQuestion.info +
+    "</span>";
+} else {
   questionEl.textContent = currentQuestion.question;
+}
 
   const choices = makeChoices(currentQuestion);
   const shuffledChoices = shuffleArray(choices);
@@ -324,6 +334,8 @@ if (combo % 10 === 0) {
 
 // ===== ゲーム終了 =====
 function finishGame() {
+  document.body.classList.remove("no-scroll");
+  
   clearInterval(timer);
 
   finalScoreEl.textContent = score;
