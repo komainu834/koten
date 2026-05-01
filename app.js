@@ -161,7 +161,7 @@ if (username === "") {
   score = 0;
   displayedScore = 0;
   combo = 0;
-  timeLeft = 30;
+  timeLeft = 60;
   answering = false;
 
   scoreEl.textContent = displayedScore;
@@ -467,15 +467,15 @@ function animateScore(from, to) {
 }
 
 function updateComboGauge() {
-  const comboInGauge = combo % 10;
-  const percent = (comboInGauge / 10) * 100;
+  const comboInGauge = combo % 40;
+  const percent = (comboInGauge / 40) * 100;
 
   comboCountEl.textContent = comboInGauge;
   comboGauge.style.width = percent + "%";
 }
 
 function showTimeBonus() {
-  comboText.textContent = "+3秒!!";
+  comboText.textContent = "3秒追加!!";
   comboText.classList.remove("show");
   void comboText.offsetWidth;
   comboText.classList.add("show");

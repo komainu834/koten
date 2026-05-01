@@ -529,7 +529,7 @@ button {
 
 .combo-gauge-wrap {
   width: 90%;
-  max-width: 520px;
+  max-width: 720px;
   margin: 16px auto 20px;
   padding: 10px 14px;
   border-radius: 999px;
@@ -560,4 +560,8 @@ button {
   background: linear-gradient(90deg, #ffe600, #ffb300);
   box-shadow: 0 0 12px rgba(255, 230, 0, 0.9);
   transition: width 0.25s ease;
+}
+
+.combo-gauge-fill {
+  background: linear-gradient(90deg, #ffe600, #ffcc00, #ff9900);
 }
