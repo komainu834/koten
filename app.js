@@ -32,6 +32,8 @@ const rankingList = document.getElementById("rankingList");
 
 const judgeMark = document.getElementById("judgeMark");
 const comboText = document.getElementById("comboText");
+const comboCountEl = document.getElementById("comboCount");
+const comboGauge = document.getElementById("comboGauge");
 const scorePlus = document.getElementById("scorePlus");
 const goText = document.getElementById("goText");
 
@@ -166,6 +168,8 @@ if (username === "") {
   timeEl.textContent = timeLeft;
   judgeMark.textContent = "";
   comboText.textContent = "";
+  
+  updateComboGauge();
 
     closeMenu();
   showScreen(gameScreen);
@@ -241,6 +245,13 @@ function checkAnswer(choice) {
   if (choice === currentQuestion.answer) {
     combo++;
     score += 10 + combo;
+    updateComboGauge();
+
+if (combo % 10 === 0) {
+  timeLeft += 3;
+  timeEl.textContent = timeLeft;
+  showTimeBonus();
+}
 
     showScorePlus(10 + combo, combo);
 
@@ -263,6 +274,7 @@ function checkAnswer(choice) {
   } else {
     combo = 0;
     timeLeft = Math.max(0, timeLeft - 2);
+    updateComboGauge();
 
     buttons.forEach(btn => {
   if (btn.textContent === choice) {
@@ -452,4 +464,19 @@ function animateScore(from, to) {
   }
 
   requestAnimationFrame(update);
+}
+
+function updateComboGauge() {
+  const comboInGauge = combo % 10;
+  const percent = (comboInGauge / 10) * 100;
+
+  comboCountEl.textContent = comboInGauge;
+  comboGauge.style.width = percent + "%";
+}
+
+function showTimeBonus() {
+  comboText.textContent = "+3秒!!";
+  comboText.classList.remove("show");
+  void comboText.offsetWidth;
+  comboText.classList.add("show");
 }
