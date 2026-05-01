@@ -650,3 +650,53 @@ button {
   font-size: 18px;
   text-align: center;
 }
+
+/* ===== 縦ボタンUI ===== */
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+  align-items: center;
+}
+
+/* ボタン共通 */
+.menu-buttons button {
+  width: 90%;
+  max-width: 420px;
+  padding: 22px;
+  font-size: 26px;
+  font-weight: 900;
+  border: none;
+  border-radius: 22px;
+
+  background: linear-gradient(135deg, #ffcc33, #ff8800);
+  color: #222;
+
+  box-shadow:
+    0 8px 0 #cc6f00,
+    0 0 20px rgba(255, 180, 0, 0.7);
+
+  transition: all 0.15s ease;
+}
+
+/* 押したとき */
+.menu-buttons button:active {
+  transform: translateY(6px);
+  box-shadow:
+    0 2px 0 #cc6f00,
+    0 0 10px rgba(255, 180, 0, 0.5);
+}
+
+/* ホバー */
+.menu-buttons button:hover {
+  transform: scale(1.03);
+}
+
+/* タイトル調整 */
+#topScreen h1 {
+  font-size: 56px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}

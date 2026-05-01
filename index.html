@@ -15,7 +15,7 @@
 
   <nav id="sideMenu" class="side-menu">
     <button id="closeMenu" class="close-button">×</button>
-    <button onclick="goHome()">古典問題</button>
+    <button onclick="showVocabHome()">古典語彙</button>
     <button onclick="showTestScreen()">テスト</button>
     <button onclick="showRanking()">ランキング</button>
 
@@ -28,16 +28,18 @@
   <section id="topScreen" class="screen active">
   <h1>古典タイムアタック</h1>
 
+<div class="menu-buttons">
   <button onclick="showVocabHome()">古典語彙</button>
   <button onclick="showTestScreen()">テスト</button>
   <button onclick="showRanking()">ランキング</button>
+</div>
 </section>
 
   <!-- ホーム -->
-  <section id="homeScreen" class="screen"></section>
-    <h1>古典語彙タイムアタック</h1>
-    <button onclick="startGame()">スタート</button>
-  </section>
+  <section id="homeScreen" class="screen">
+  <h1>古典語彙タイムアタック</h1>
+  <button onclick="startGame()">スタート</button>
+</section>
 
   <!-- ゲーム -->
   <section id="gameScreen" class="screen">
@@ -71,8 +73,10 @@
     <h2>結果</h2>
     <p id="finalScore"></p>
 
+  <div class="menu-buttons"></div>
     <button onclick="startGame()">もう一度</button>
     <button onclick="goHome()">ホーム</button>
+    </div>
   </section>
 
   <!-- ランキング -->
