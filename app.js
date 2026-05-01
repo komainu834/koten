@@ -57,7 +57,9 @@ window.onload = async function () {
 loginIdInput.value = savedLoginId;
 
   if (savedName) {
-    usernameInput.value = savedName;
+    if (loginIdInput) {
+  loginIdInput.value = savedLoginId;
+}
   }
 
   await loadWords();
@@ -81,11 +83,22 @@ function closeMenu() {
 async function loadWords() {
   try {
     const res = await fetch("words.csv");
+
+    if (!res.ok) {
+      throw new Error("words.csvが見つからない");
+    }
+
     const text = await res.text();
     words = parseCSV(text);
+
+    if (words.length === 0) {
+      throw new Error("CSVの中身が空");
+    }
+
+    console.log("読み込み成功:", words.length);
   } catch (e) {
-    alert("words.csvを確認しろ");
     console.error(e);
+    alert("words.csvを確認しろ");
   }
 }
 
