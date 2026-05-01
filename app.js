@@ -80,19 +80,12 @@ function closeMenu() {
 // ===== CSV読み込み =====
 async function loadWords() {
   try {
-    const response = await fetch("words.csv");
-
-    if (!response.ok) {
-      throw new Error("words.csvを読み込めませんでした");
-    }
-
-    const text = await response.text();
+    const res = await fetch("words.csv");
+    const text = await res.text();
     words = parseCSV(text);
-
-    console.log("読み込んだ問題数:", words.length);
-  } catch (error) {
-    console.error(error);
-    alert("words.csvの読み込みに失敗しました");
+  } catch (e) {
+    alert("words.csvを確認しろ");
+    console.error(e);
   }
 }
 
