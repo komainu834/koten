@@ -743,3 +743,23 @@ body.no-scroll {
   transform: scale(0.95);
   box-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
 }
+
+/* ===== ボタン色分け＋アイコン用 ===== */
+
+.btn-vocab {
+  background: linear-gradient(135deg, #ffcc33, #ff8800) !important;
+  color: #222 !important;
+  box-shadow: 0 0 18px rgba(255, 180, 0, 0.8) !important;
+}
+
+.btn-test {
+  background: linear-gradient(135deg, #4facfe, #0066ff) !important;
+  color: white !important;
+  box-shadow: 0 0 18px rgba(0, 120, 255, 0.8) !important;
+}
+
+.btn-ranking {
+  background: linear-gradient(135deg, #b56cff, #6a00ff) !important;
+  color: white !important;
+  box-shadow: 0 0 18px rgba(150, 80, 255, 0.8) !important;
+}
