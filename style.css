@@ -565,3 +565,84 @@ button {
 .combo-gauge-fill {
   background: linear-gradient(90deg, #ffe600, #ffcc00, #ff9900);
 }
+
+/* ===== コンボゲージ目盛り ===== */
+
+.combo-gauge-bg {
+  position: relative;
+  overflow: visible;
+}
+
+.combo-gauge-fill {
+  position: relative;
+  z-index: 1;
+}
+
+.combo-marker {
+  position: absolute;
+  top: -6px;
+  width: 3px;
+  height: 28px;
+  background: white;
+  transform: translateX(-50%);
+  z-index: 2;
+  border-radius: 999px;
+}
+
+.combo-marker span {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 900;
+  color: #ffeb3b;
+  text-shadow: 0 0 6px black;
+}
+
+.marker-10 {
+  left: 25%;
+}
+
+.marker-20 {
+  left: 50%;
+}
+
+.marker-30 {
+  left: 75%;
+}
+
+.marker-40 {
+  left: 100%;
+}
+
+/* ===== プロフィールボタン ===== */
+
+.profile-area {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.profile-btn {
+  width: 80%;
+  padding: 14px;
+  border-radius: 999px;
+  background: #444;
+  color: white;
+}
+
+/* プロフィール画面 */
+
+#profileScreen input {
+  display: block;
+  width: 80%;
+  margin: 12px auto;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 18px;
+  text-align: center;
+}

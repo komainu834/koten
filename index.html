@@ -17,6 +17,11 @@
     <button id="closeMenu" class="close-button">×</button>
     <button onclick="goHome()">古典問題</button>
     <button onclick="showRanking()">ランキング</button>
+
+    <div class="profile-area">
+      <button onclick="openProfile()" class="profile-btn">プロフィール</button>
+    </div>
+
   </nav>
 
   <!-- ホーム -->
@@ -37,8 +42,13 @@
     COMBO <span id="comboCount">0</span> / 40
   </div>
   <div class="combo-gauge-bg">
-    <div id="comboGauge" class="combo-gauge-fill"></div>
-  </div>
+  <div id="comboGauge" class="combo-gauge-fill"></div>
+
+  <div class="combo-marker marker-10"><span>3秒追加</span></div>
+  <div class="combo-marker marker-20"><span>3秒追加</span></div>
+  <div class="combo-marker marker-30"><span>3秒追加</span></div>
+  <div class="combo-marker marker-40"><span>3秒追加</span></div>
+</div>
 </div>
 
     <p id="question"></p>
@@ -65,6 +75,19 @@
     <ol id="rankingList"></ol>
     <button onclick="goHome()">戻る</button>
   </section>
+
+  <section id="profileScreen" class="screen">
+  <h2>プロフィール</h2>
+
+  <p>ID（変更不可）</p>
+  <input id="profileId" readonly>
+
+  <p>ユーザーネーム（変更可）</p>
+  <input id="profileName">
+
+  <button onclick="saveProfile()">保存</button>
+  <button onclick="goHome()">戻る</button>
+</section>
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -23,6 +23,8 @@ const rankingScreen = document.getElementById("rankingScreen");
 
 const loginIdInput = document.getElementById("loginId");
 const usernameInput = document.getElementById("username");
+const profileIdInput = document.getElementById("profileId");
+const profileNameInput = document.getElementById("profileName");
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
 const scoreEl = document.getElementById("score");
@@ -125,6 +127,8 @@ function showScreen(screen) {
   gameScreen.classList.remove("active");
   resultScreen.classList.remove("active");
   rankingScreen.classList.remove("active");
+
+  document.getElementById("profileScreen").classList.remove("active");
 
   screen.classList.add("active");
 }
@@ -479,4 +483,40 @@ function showTimeBonus() {
   comboText.classList.remove("show");
   void comboText.offsetWidth;
   comboText.classList.add("show");
+}
+
+function openProfile() {
+  closeMenu();
+
+  profileIdInput.value = loginId;
+  profileNameInput.value = username;
+
+  showScreen(document.getElementById("profileScreen"));
+}
+
+async function saveProfile() {
+  const newName = profileNameInput.value.trim();
+
+  if (!newName) {
+    alert("ユーザーネームを入力してください");
+    return;
+  }
+
+  username = newName;
+
+  localStorage.setItem("username", username);
+  usernameInput.value = username;
+
+  const { error } = await supabaseClient
+    .from("scores")
+    .update({ name: username })
+    .eq("login_id", loginId);
+
+  if (error) {
+    console.error("名前更新エラー:", error);
+    alert("名前の更新に失敗しました");
+    return;
+  }
+
+  alert("プロフィールを保存しました");
 }
