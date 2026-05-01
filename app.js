@@ -141,8 +141,15 @@ function goHome() {
 
 // ===== ゲーム開始 =====
 function startGame() {
-  loginId = loginIdInput.value.trim();
-  username = usernameInput.value.trim();
+
+  loginId = localStorage.getItem("loginId");
+username = localStorage.getItem("username");
+
+if (!loginId || !username) {
+  alert("プロフィールを設定してください");
+  openProfile();
+  return;
+}
 
   if (loginId === "") {
   alert("ログインIDを入力してください");
@@ -488,8 +495,16 @@ function showTimeBonus() {
 function openProfile() {
   closeMenu();
 
+  loginId = localStorage.getItem("loginId");
+  username = localStorage.getItem("username");
+
+  if (!loginId) {
+    loginId = generateLoginId();
+    localStorage.setItem("loginId", loginId);
+  }
+
   profileIdInput.value = loginId;
-  profileNameInput.value = username;
+  profileNameInput.value = username || "";
 
   showScreen(document.getElementById("profileScreen"));
 }
@@ -502,10 +517,10 @@ async function saveProfile() {
     return;
   }
 
-  username = newName;
+  loginId = localStorage.getItem("loginId");
 
+  username = newName;
   localStorage.setItem("username", username);
-  usernameInput.value = username;
 
   const { error } = await supabaseClient
     .from("scores")
