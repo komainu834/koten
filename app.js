@@ -16,10 +16,12 @@ let currentQuestion = null;
 let answering = false;
 
 // ===== 要素 =====
+const topScreen = document.getElementById("topScreen");
 const homeScreen = document.getElementById("homeScreen");
 const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
+const testScreen = document.getElementById("testScreen");
 
 const loginIdInput = document.getElementById("loginId");
 const usernameInput = document.getElementById("username");
@@ -128,11 +130,12 @@ function parseCSV(text) {
 
 // ===== 画面切り替え =====
 function showScreen(screen) {
+  topScreen.classList.remove("active");
   homeScreen.classList.remove("active");
   gameScreen.classList.remove("active");
   resultScreen.classList.remove("active");
   rankingScreen.classList.remove("active");
-
+  testScreen.classList.remove("active");
   document.getElementById("profileScreen").classList.remove("active");
 
   screen.classList.add("active");
@@ -538,4 +541,22 @@ async function saveProfile() {
   }
 
   alert("プロフィールを保存しました");
+}
+
+function goTop() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(topScreen);
+}
+
+function showVocabHome() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(homeScreen);
+}
+
+function showTestScreen() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(testScreen);
 }
