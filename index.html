@@ -70,14 +70,18 @@
 
   <!-- 結果 -->
   <section id="resultScreen" class="screen">
-    <h2>結果</h2>
-    <p id="finalScore"></p>
+  <h2>結果発表</h2>
 
-  <div class="menu-buttons"></div>
-    <button onclick="startGame()">もう一度</button>
-    <button onclick="goHome()">🏠 ホーム</button>
-    </div>
-  </section>
+  <div class="result-card">
+    <p class="result-label">SCORE</p>
+    <p class="result-score"><span id="finalScore"></span></p>
+  </div>
+
+  <div class="menu-buttons">
+    <button class="btn-vocab" onclick="startGame()">▶ もう一度</button>
+    <button class="btn-ranking" onclick="goTop()">🏠 ホーム</button>
+  </div>
+</section>
 
   <!-- ランキング -->
   <section id="rankingScreen" class="screen">

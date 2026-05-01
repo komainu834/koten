@@ -42,11 +42,18 @@ button {
 .side-menu {
   position: fixed;
   top: 0;
-  right: -200px;
-  width: 200px;
+  right: -260px;
+  width: 260px;
   height: 100%;
-  background: white;
-  color: black;
+  padding: 20px 14px;
+
+  background: linear-gradient(180deg, #1c2b4a, #0d162b);
+  color: white;
+
+  box-shadow:
+    -4px 0 20px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(0, 150, 255, 0.15);
+
   transition: 0.3s;
 }
 
@@ -762,4 +769,87 @@ body.no-scroll {
   background: linear-gradient(135deg, #b56cff, #6a00ff) !important;
   color: white !important;
   box-shadow: 0 0 18px rgba(150, 80, 255, 0.8) !important;
+}
+
+/* ===== 結果画面強化 ===== */
+
+#resultScreen h2 {
+  font-size: 44px;
+  margin-bottom: 24px;
+  text-shadow:
+    0 0 10px white,
+    0 0 24px #ffcc33;
+}
+
+.result-card {
+  width: 90%;
+  max-width: 420px;
+  margin: 20px auto 36px;
+  padding: 28px 20px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.18),
+    inset 0 0 24px rgba(255, 255, 255, 0.08);
+}
+
+.result-label {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  opacity: 0.85;
+}
+
+.result-score {
+  margin: 10px 0 0;
+  font-size: 72px;
+  font-weight: 900;
+  color: #ffcc33;
+  text-shadow:
+    0 0 10px white,
+    0 0 28px orange,
+    0 0 48px red;
+}
+
+#resultScreen .menu-buttons {
+  margin-top: 24px;
+}
+
+.side-menu button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 14px;
+
+  font-size: 18px;
+  font-weight: 900;
+
+  border-radius: 16px;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.15);
+
+  transition: all 0.15s ease;
+}
+
+.side-menu button:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.close-button {
+  background: transparent;
+  font-size: 26px;
+  color: white;
+}
+
+.profile-btn {
+  background: linear-gradient(135deg, #ffcc33, #ff8800);
+  color: #222;
+  font-weight: 900;
+  box-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
 }
