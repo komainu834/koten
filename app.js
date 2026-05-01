@@ -50,16 +50,14 @@ window.onload = async function () {
   const savedName = localStorage.getItem("username");
 
   if (!savedLoginId) {
-  savedLoginId = generateLoginId();
-  localStorage.setItem("loginId", savedLoginId);
-}
+    savedLoginId = generateLoginId();
+    localStorage.setItem("loginId", savedLoginId);
+  }
 
-loginIdInput.value = savedLoginId;
+   loginId = savedLoginId;
 
   if (savedName) {
-    if (loginIdInput) {
-  loginIdInput.value = savedLoginId;
-}
+    username = savedName;
   }
 
   await loadWords();
