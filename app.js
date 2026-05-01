@@ -486,7 +486,6 @@ function updateComboGauge() {
   const comboInGauge = combo % 40;
   const percent = (comboInGauge / 40) * 100;
 
-  comboCountEl.textContent = comboInGauge;
   comboGauge.style.width = percent + "%";
 }
 

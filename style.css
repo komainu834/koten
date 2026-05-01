@@ -617,6 +617,10 @@ button {
   left: 100%;
 }
 
+.marker-0 {
+  left: 0%;
+}
+
 /* ===== プロフィールボタン ===== */
 
 .profile-area {
