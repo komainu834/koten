@@ -54,7 +54,8 @@ window.onload = async function () {
     localStorage.setItem("loginId", savedLoginId);
   }
 
-   loginId = savedLoginId;
+  // 👇これでOK（変数に入れるだけ）
+  loginId = savedLoginId;
 
   if (savedName) {
     username = savedName;
