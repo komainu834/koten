@@ -42,10 +42,13 @@ button {
 .side-menu {
   position: fixed;
   top: 0;
-  right: -260px;
+  right: -100%;
   width: 260px;
   height: 100%;
+
   padding: 20px 14px;
+
+  box-sizing: border-box;
 
   background: linear-gradient(180deg, #1c2b4a, #0d162b);
   color: white;
