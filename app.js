@@ -5,6 +5,8 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // ===== 状態 =====
 let words = [];
+let grammarWords = [];
+let currentMode = "vocab";
 let username = "";
 let loginId = "";
 let score = 0;
@@ -64,6 +66,7 @@ window.onload = async function () {
   }
 
   await loadWords();
+  await loadGrammar();
 };
 
 // ===== メニュー =====
@@ -100,6 +103,28 @@ async function loadWords() {
   } catch (e) {
     console.error(e);
     alert("words.csvを確認しろ");
+  }
+}
+
+async function loadGrammar() {
+  try {
+    const res = await fetch("grammar.csv");
+
+    if (!res.ok) {
+      throw new Error("grammar.csvが見つからない");
+    }
+
+    const text = await res.text();
+    grammarWords = parseCSV(text);
+
+    if (grammarWords.length === 0) {
+      throw new Error("grammar.csvの中身が空");
+    }
+
+    console.log("文法読み込み成功:", grammarWords.length);
+  } catch (e) {
+    console.error(e);
+    alert("grammar.csvを確認しろ");
   }
 }
 
@@ -149,6 +174,7 @@ function goHome() {
 
 // ===== ゲーム開始 =====
 function startGame() {
+  currentMode = "vocab";
 
    document.body.classList.add("no-scroll");
 
@@ -335,7 +361,7 @@ if (combo % 10 === 0) {
 // ===== ゲーム終了 =====
 function finishGame() {
   document.body.classList.remove("no-scroll");
-  
+
   clearInterval(timer);
 
   finalScoreEl.textContent = score;
@@ -353,7 +379,8 @@ async function saveRanking(loginId, name, score) {
       {
         login_id: loginId,
         name: name,
-        score: score
+        score: score,
+        mode: currentMode
       }
     ]);
 
@@ -372,6 +399,7 @@ async function showRanking() {
   const { data, error } = await supabaseClient
   .from("scores")
   .select("*")
+  .eq("mode", currentMode)
   .order("score", { ascending: false })
   .limit(200);
 
@@ -567,8 +595,26 @@ function showVocabHome() {
   showScreen(homeScreen);
 }
 
-function showTestScreen() {
+function showGrammarScreen() {
   closeMenu();
   clearInterval(timer);
   showScreen(testScreen);
+}
+
+async function loadGrammar() {
+  const res = await fetch("grammar.csv");
+  const text = await res.text();
+  grammarWords = parseCSV(text);
+}
+
+function startGrammarGame() {
+  currentMode = "grammar";
+  words = grammarWords;
+  startGame();
+}
+
+function startGrammarGame() {
+  currentMode = "grammar";
+  words = grammarWords;
+  startGame();
 }
