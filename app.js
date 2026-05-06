@@ -174,7 +174,6 @@ function goHome() {
 
 // ===== ゲーム開始 =====
 function startGame() {
-  currentMode = "vocab";
 
    document.body.classList.add("no-scroll");
 
@@ -590,6 +589,7 @@ function goTop() {
 }
 
 function showVocabHome() {
+  currentMode = "vocab";
   closeMenu();
   clearInterval(timer);
   showScreen(homeScreen);
@@ -601,19 +601,12 @@ function showGrammarScreen() {
   showScreen(testScreen);
 }
 
-async function loadGrammar() {
-  const res = await fetch("grammar.csv");
-  const text = await res.text();
-  grammarWords = parseCSV(text);
-}
-
 function startGrammarGame() {
-  currentMode = "grammar";
-  words = grammarWords;
-  startGame();
-}
+  if (grammarWords.length === 0) {
+    alert("文法データが読み込まれていません");
+    return;
+  }
 
-function startGrammarGame() {
   currentMode = "grammar";
   words = grammarWords;
   startGame();
