@@ -393,9 +393,16 @@ async function saveRanking(loginId, name, score) {
 }
 
 // ===== ランキング表示 =====
+// ===== ランキング表示 =====
 async function showRanking() {
   closeMenu();
   clearInterval(timer);
+
+  await showRankingByMode(currentMode);
+}
+
+async function showRankingByMode(mode) {
+  currentMode = mode;
 
   const rankingTitle = document.getElementById("rankingTitle");
 
@@ -406,11 +413,11 @@ async function showRanking() {
   }
 
   const { data, error } = await supabaseClient
-  .from("scores")
-  .select("*")
-  .eq("mode", currentMode)
-  .order("score", { ascending: false })
-  .limit(200);
+    .from("scores")
+    .select("*")
+    .eq("mode", currentMode)
+    .order("score", { ascending: false })
+    .limit(200);
 
   if (error) {
     console.error("ランキング取得エラー:", error);
@@ -419,19 +426,19 @@ async function showRanking() {
   }
 
   const allScores = data || [];
-const bestMap = {};
+  const bestMap = {};
 
-allScores.forEach(function (item) {
-  if (!bestMap[item.login_id] || item.score > bestMap[item.login_id].score) {
-  bestMap[item.login_id] = item;
-}
-});
+  allScores.forEach(function (item) {
+    if (!bestMap[item.login_id] || item.score > bestMap[item.login_id].score) {
+      bestMap[item.login_id] = item;
+    }
+  });
 
-const ranking = Object.values(bestMap)
-  .sort(function (a, b) {
-    return b.score - a.score;
-  })
-  .slice(0, 10);
+  const ranking = Object.values(bestMap)
+    .sort(function (a, b) {
+      return b.score - a.score;
+    })
+    .slice(0, 10);
 
   rankingList.innerHTML = "";
 
@@ -441,16 +448,16 @@ const ranking = Object.values(bestMap)
     rankingList.appendChild(li);
   } else {
     ranking.forEach(function (item, index) {
-  const li = document.createElement("li");
+      const li = document.createElement("li");
 
-  // 順位ごとのクラス
-  if (index === 0) li.className = "rank-1";
-  else if (index === 1) li.className = "rank-2";
-  else if (index === 2) li.className = "rank-3";
-  else li.className = "rank-other";
+      if (index === 0) li.className = "rank-1";
+      else if (index === 1) li.className = "rank-2";
+      else if (index === 2) li.className = "rank-3";
+      else li.className = "rank-other";
 
-  li.textContent =
-    (index + 1) + "位　" + item.name + "　" + item.score + "点";
+      li.textContent =
+        (index + 1) + "位　" + item.name + "　" + item.score + "点";
+
       rankingList.appendChild(li);
     });
   }

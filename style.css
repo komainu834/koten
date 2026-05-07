@@ -916,3 +916,26 @@ body {
   font-weight: 900;
   opacity: 0.9;
 }
+
+/* ===== ランキング内モード切替 ===== */
+
+.ranking-mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 10px auto 20px;
+  flex-wrap: wrap;
+}
+
+.ranking-mode-buttons button {
+  width: 42%;
+  max-width: 180px;
+  padding: 14px 10px;
+  font-size: 18px;
+  font-weight: 900;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4facfe, #0066ff);
+  color: white;
+  box-shadow: 0 0 16px rgba(0, 120, 255, 0.7);
+}

@@ -85,10 +85,17 @@
 
   <!-- ランキング -->
   <section id="rankingScreen" class="screen">
-    <h2 id="rankingTitle">ランキング</h2>
-    <ol id="rankingList"></ol>
-    <button onclick="goHome()">ホームへ戻る</button>
-  </section>
+  <h2 id="rankingTitle">ランキング</h2>
+
+  <div class="ranking-mode-buttons">
+    <button onclick="showRankingByMode('vocab')">古典語彙</button>
+    <button onclick="showRankingByMode('grammar')">古典文法</button>
+  </div>
+
+  <ol id="rankingList"></ol>
+
+  <button onclick="goTop()">ホームへ戻る</button>
+</section>
 
   <section id="testScreen" class="screen">
   <h2>📘 古典文法</h2>
