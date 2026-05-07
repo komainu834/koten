@@ -856,3 +856,63 @@ body.no-scroll {
   font-weight: 900;
   box-shadow: 0 0 14px rgba(255, 180, 0, 0.8);
 }
+
+/* ===== 全画面の雰囲気・字体統一 ===== */
+
+body {
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "YuGothic",
+    "Meiryo",
+    sans-serif;
+  font-weight: 700;
+}
+
+.screen {
+  background: radial-gradient(circle at top, #31436f, #111827);
+  box-sizing: border-box;
+}
+
+.screen h1,
+.screen h2 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 10px white,
+    0 0 24px #00f0ff;
+}
+
+#topScreen h1,
+#homeScreen h1,
+#testScreen h2,
+#rankingScreen h2,
+#profileScreen h2,
+#resultScreen h2 {
+  font-size: 44px;
+  margin-top: 40px;
+  margin-bottom: 28px;
+}
+
+#testScreen,
+#rankingScreen,
+#profileScreen,
+#resultScreen {
+  background: radial-gradient(circle at top, #31436f, #111827);
+}
+
+#testScreen button,
+#rankingScreen button,
+#profileScreen button,
+#resultScreen button,
+#homeScreen button,
+.menu-buttons button {
+  font-family: inherit;
+  font-weight: 900;
+}
+
+#profileScreen p {
+  font-size: 18px;
+  font-weight: 900;
+  opacity: 0.9;
+}

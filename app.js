@@ -4,6 +4,7 @@ const supabaseKey = "sb_publishable_LbcCpdtehJlEBmVlzFWQmg_TFf6AU4L";
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // ===== 状態 =====
+let vocabWords = [];
 let words = [];
 let grammarWords = [];
 let currentMode = "vocab";
@@ -93,7 +94,8 @@ async function loadWords() {
     }
 
     const text = await res.text();
-    words = parseCSV(text);
+    vocabWords = parseCSV(text);
+    words = [...vocabWords];
 
     if (words.length === 0) {
       throw new Error("CSVの中身が空");
@@ -395,6 +397,14 @@ async function showRanking() {
   closeMenu();
   clearInterval(timer);
 
+  const rankingTitle = document.getElementById("rankingTitle");
+
+  if (currentMode === "grammar") {
+    rankingTitle.textContent = "古典文法ランキング";
+  } else {
+    rankingTitle.textContent = "古典語彙ランキング";
+  }
+
   const { data, error } = await supabaseClient
   .from("scores")
   .select("*")
@@ -591,8 +601,8 @@ function goTop() {
 function showVocabHome() {
   currentMode = "vocab";
 
-  // 語彙モードに戻す
-  words = [...words];
+  // 語彙問題に戻す
+  words = [...vocabWords];
 
   closeMenu();
   clearInterval(timer);
