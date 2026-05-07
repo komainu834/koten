@@ -590,6 +590,10 @@ function goTop() {
 
 function showVocabHome() {
   currentMode = "vocab";
+
+  // 語彙モードに戻す
+  words = [...words];
+
   closeMenu();
   clearInterval(timer);
   showScreen(homeScreen);
@@ -602,12 +606,16 @@ function showGrammarScreen() {
 }
 
 function startGrammarGame() {
+
   if (grammarWords.length === 0) {
     alert("文法データが読み込まれていません");
     return;
   }
 
   currentMode = "grammar";
-  words = grammarWords;
+
+  // 文法問題を使う
+  words = [...grammarWords];
+
   startGame();
 }
