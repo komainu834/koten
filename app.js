@@ -406,11 +406,15 @@ async function showRankingByMode(mode) {
 
   const rankingTitle = document.getElementById("rankingTitle");
 
-  if (currentMode === "grammar") {
-    rankingTitle.textContent = "古典文法ランキング";
-  } else {
-    rankingTitle.textContent = "古典語彙ランキング";
-  }
+  const rankingSwitchButton = document.getElementById("rankingSwitchButton");
+
+if (currentMode === "grammar") {
+  rankingTitle.textContent = "古典文法ランキング";
+  rankingSwitchButton.textContent = "古典語彙ランキングへ";
+} else {
+  rankingTitle.textContent = "古典語彙ランキング";
+  rankingSwitchButton.textContent = "古典文法ランキングへ";
+}
 
   const { data, error } = await supabaseClient
     .from("scores")
@@ -463,6 +467,14 @@ async function showRankingByMode(mode) {
   }
 
   showScreen(rankingScreen);
+}
+
+function toggleRankingMode() {
+  if (currentMode === "vocab") {
+    showRankingByMode("grammar");
+  } else {
+    showRankingByMode("vocab");
+  }
 }
 
 // ===== シャッフル =====

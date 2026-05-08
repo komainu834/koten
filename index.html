@@ -38,7 +38,11 @@
   <!-- ホーム -->
   <section id="homeScreen" class="screen">
   <h1>古典語彙タイムアタック</h1>
-  <button onclick="startGame()">スタート</button>
+
+  <div class="menu-buttons">
+    <button onclick="startGame()">スタート</button>
+    <button onclick="goTop()">ホームへ戻る</button>
+  </div>
 </section>
 
   <!-- ゲーム -->
@@ -79,7 +83,7 @@
 
   <div class="menu-buttons">
     <button class="btn-vocab" onclick="startGame()">▶ もう一度</button>
-    <button class="btn-ranking" onclick="goTop()">🏠 ホーム</button>
+    <button class="btn-ranking" onclick="goTop()">🏠 ホームへ戻る</button>
   </div>
 </section>
 
@@ -88,9 +92,8 @@
   <h2 id="rankingTitle">ランキング</h2>
 
   <div class="ranking-mode-buttons">
-    <button onclick="showRankingByMode('vocab')">古典語彙</button>
-    <button onclick="showRankingByMode('grammar')">古典文法</button>
-  </div>
+  <button id="rankingSwitchButton" onclick="toggleRankingMode()">古典文法ランキングへ</button>
+</div>
 
   <ol id="rankingList"></ol>
 
@@ -98,10 +101,12 @@
 </section>
 
   <section id="testScreen" class="screen">
-  <h2>古典文法タイムアタック</h2>
+  <h2>📘 古典文法</h2>
 
-  <button onclick="startGrammarGame()">スタート</button>
-  <button onclick="goTop()">戻る</button>
+  <div class="menu-buttons">
+    <button onclick="startGrammarGame()">スタート</button>
+    <button onclick="goTop()">ホームへ戻る</button>
+  </div>
 </section>
 
   <section id="profileScreen" class="screen">
