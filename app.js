@@ -7,6 +7,7 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 let vocabWords = [];
 let words = [];
 let grammarWords = [];
+let jodoushiWords = [];
 let currentMode = "vocab";
 let username = "";
 let loginId = "";
@@ -25,6 +26,7 @@ const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
 const testScreen = document.getElementById("testScreen");
+const jodoushiScreen = document.getElementById("jodoushiScreen");
 
 const loginIdInput = document.getElementById("loginId");
 const usernameInput = document.getElementById("username");
@@ -68,6 +70,7 @@ window.onload = async function () {
 
   await loadWords();
   await loadGrammar();
+  await loadJodoushi();
 };
 
 // ===== メニュー =====
@@ -130,6 +133,28 @@ async function loadGrammar() {
   }
 }
 
+async function loadJodoushi() {
+  try {
+    const res = await fetch("jodoushi.csv");
+
+    if (!res.ok) {
+      throw new Error("jodoushi.csvが見つからない");
+    }
+
+    const text = await res.text();
+    jodoushiWords = parseCSV(text);
+
+    if (jodoushiWords.length === 0) {
+      throw new Error("jodoushi.csvの中身が空");
+    }
+
+    console.log("助動詞読み込み成功:", jodoushiWords.length);
+  } catch (e) {
+    console.error(e);
+    alert("jodoushi.csvを確認しろ");
+  }
+}
+
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   const data = [];
@@ -163,6 +188,7 @@ function showScreen(screen) {
   resultScreen.classList.remove("active");
   rankingScreen.classList.remove("active");
   testScreen.classList.remove("active");
+  jodoushiScreen.classList.remove("active");
   document.getElementById("profileScreen").classList.remove("active");
 
   screen.classList.add("active");
@@ -645,6 +671,24 @@ function startGrammarGame() {
 
   // 文法問題を使う
   words = [...grammarWords];
+
+  startGame();
+}
+
+function showJodoushiScreen() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(jodoushiScreen);
+}
+
+function startJodoushiGame() {
+  if (jodoushiWords.length === 0) {
+    alert("助動詞データが読み込まれていません");
+    return;
+  }
+
+  currentMode = "jodoushi";
+  words = [...jodoushiWords];
 
   startGame();
 }
