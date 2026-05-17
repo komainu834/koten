@@ -142,33 +142,37 @@
   </section>
 
   <!-- 探索 -->
-  <section id="exploreScreen" class="screen">
+<section id="exploreScreen" class="screen">
   <div class="raise-top">
     <button class="back-btn" onclick="goTop()">←</button>
     <h2>式神育成</h2>
     <button class="help-btn">?</button>
   </div>
 
-  <div class="resource-bar">
-    <div>霊力 <span id="spiritPowerText">0</span></div>
-    <div>古銭 <span>0</span></div>
-    <div>晶石 <span>0</span></div>
+  <div class="character-stage">
+
+  <div
+    class="shikigami-name"
+    id="activeShikigamiName"
+  >
+    白狐ノ影
   </div>
 
-  <div class="character-stage">
-    <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
-    <div class="shikigami-character">
+  <div class="shikigami-character">
 
-  <img
-    id="activeShikigamiImage"
-    src="img/shikigami_fox_transparent.png"
-  >
+    <img
+      id="activeShikigamiImage"
+      src="img/shikigami_fox_transparent.png"
+      alt="式神"
+    >
+
+  </div>
+
+  <div class="shikigami-level">
+    Lv.<span id="activeShikigamiLevel">1</span>
+  </div>
 
 </div>
-    <div class="shikigami-level">
-      Lv.<span id="activeShikigamiLevel">1</span>
-    </div>
-  </div>
 
   <div class="growth-card">
     <div class="growth-row">
@@ -184,22 +188,10 @@
   </div>
 
   <div class="shikigami-select">
-    <button onclick="selectShikigami(
-'白狐ノ影',
-'img/shikigami_fox_transparent.png'
-)">
-<button onclick="selectShikigami(
-'鴉天狗',
-'img/shikigami_tengu_transparent.png'
-)">
-<button onclick="selectShikigami(
-'青龍',
-'img/shikigami_dragon_transparent.png'
-)">
-<button onclick="selectShikigami(
-'九尾ノ焔',
-'img/shikigami_kitsune_fire_transparent.png'
-)">
+    <button onclick="selectShikigami('白狐ノ影','🦊')">🦊 白狐</button>
+    <button onclick="selectShikigami('鴉天狗','🐦‍⬛')">🐦‍⬛ 鴉天狗</button>
+    <button onclick="selectShikigami('青龍','🐉')">🐉 青龍</button>
+    <button onclick="selectShikigami('九尾ノ焔','🔥')">🔥 九尾</button>
   </div>
 
   <div id="explorePanel" class="explore-panel hidden">

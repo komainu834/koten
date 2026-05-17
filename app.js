@@ -29,6 +29,9 @@ let activeShikigamiImage =
   localStorage.getItem("activeShikigamiImage")
   || "img/shikigami_fox_transparent.png";
 let activeShikigami = localStorage.getItem("activeShikigami") || "白狐ノ影";
+let activeShikigamiImage =
+  localStorage.getItem("activeShikigamiImage") ||
+  "img/shikigami_fox_transparent.png";
 let shikigamiLevels = JSON.parse(
   localStorage.getItem("shikigamiLevels") ||
   '{"白狐ノ影":1,"鴉天狗":1,"青龍":1,"九尾ノ焔":1}'
@@ -796,6 +799,11 @@ function updateShikigamiUI() {
   const levelEl = document.getElementById("activeShikigamiLevel");
   const spiritEl = document.getElementById("spiritPowerText");
   const battlePowerEl = document.getElementById("battlePowerText");
+  const imageEl = document.getElementById("activeShikigamiImage");
+
+if (imageEl) {
+  imageEl.src = activeShikigamiImage;
+}
 if (battlePowerEl) {
   const level = shikigamiLevels[activeShikigami] || 1;
   battlePowerEl.textContent = level * 1200;
@@ -815,11 +823,6 @@ function selectShikigami(name, image) {
 
   localStorage.setItem("activeShikigami", name);
   localStorage.setItem("activeShikigamiImage", image);
-
-  localStorage.setItem(
-    "activeShikigamiImage",
-    image
-  );
 
   updateShikigamiUI();
 }
