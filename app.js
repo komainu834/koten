@@ -8,9 +8,11 @@ let vocabWords = [];
 let words = [];
 let grammarWords = [];
 let jodoushiWords = [];
+
 let currentMode = "vocab";
 let username = "";
 let loginId = "";
+
 let score = 0;
 let displayedScore = 0;
 let combo = 0;
@@ -18,8 +20,17 @@ let timeLeft = 60;
 let timer = null;
 let currentQuestion = null;
 let answering = false;
+
 let exploreEndTime = null;
 let exploreInterval = null;
+
+let spiritPower = Number(localStorage.getItem("spiritPower") || 0);
+let activeShikigami = localStorage.getItem("activeShikigami") || "白狐ノ影";
+let activeShikigamiIcon = localStorage.getItem("activeShikigamiIcon") || "🦊";
+let shikigamiLevels = JSON.parse(
+  localStorage.getItem("shikigamiLevels") ||
+  '{"白狐ノ影":1,"鴉天狗":1,"青龍":1,"九尾ノ焔":1}'
+);
 
 // ===== 要素 =====
 const topScreen = document.getElementById("topScreen");
@@ -28,23 +39,23 @@ const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
 const testScreen = document.getElementById("testScreen");
-const exploreScreen = document.getElementById("exploreScreen");
 const jodoushiScreen = document.getElementById("jodoushiScreen");
+const exploreScreen = document.getElementById("exploreScreen");
+const profileScreen = document.getElementById("profileScreen");
 
-const loginIdInput = document.getElementById("loginId");
-const usernameInput = document.getElementById("username");
 const profileIdInput = document.getElementById("profileId");
 const profileNameInput = document.getElementById("profileName");
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
+const comboValueEl = document.getElementById("comboValue");
 const finalScoreEl = document.getElementById("finalScore");
+const finalSpiritEl = document.getElementById("finalSpirit");
 const rankingList = document.getElementById("rankingList");
 
 const judgeMark = document.getElementById("judgeMark");
 const comboText = document.getElementById("comboText");
-const comboCountEl = document.getElementById("comboCount");
 const comboGauge = document.getElementById("comboGauge");
 const scorePlus = document.getElementById("scorePlus");
 const goText = document.getElementById("goText");
@@ -64,25 +75,22 @@ window.onload = async function () {
     localStorage.setItem("loginId", savedLoginId);
   }
 
-  loadExplore();
-
-  // 👇これでOK（変数に入れるだけ）
   loginId = savedLoginId;
-
-  if (savedName) {
-    username = savedName;
-  }
+  username = savedName || "";
 
   await loadWords();
   await loadGrammar();
   await loadJodoushi();
+
+  setModeTheme("vocab");
+  loadExplore();
+  updateShikigamiUI();
 };
 
 // ===== メニュー =====
 menuButton.onclick = function () {
   sideMenu.classList.add("open");
   overlay.classList.add("show");
-
   document.body.classList.add("menu-open");
 };
 
@@ -92,74 +100,56 @@ overlay.onclick = closeMenu;
 function closeMenu() {
   sideMenu.classList.remove("open");
   overlay.classList.remove("show");
-
   document.body.classList.remove("menu-open");
 }
+
 // ===== CSV読み込み =====
 async function loadWords() {
   try {
     const res = await fetch("words.csv");
-
-    if (!res.ok) {
-      throw new Error("words.csvが見つからない");
-    }
+    if (!res.ok) throw new Error("words.csvが見つからない");
 
     const text = await res.text();
     vocabWords = parseCSV(text);
     words = [...vocabWords];
 
-    if (words.length === 0) {
-      throw new Error("CSVの中身が空");
-    }
-
-    console.log("読み込み成功:", words.length);
+    if (words.length === 0) throw new Error("words.csvの中身が空");
+    console.log("語彙読み込み成功:", words.length);
   } catch (e) {
     console.error(e);
-    alert("words.csvを確認しろ");
+    alert("words.csvを確認してください");
   }
 }
 
 async function loadGrammar() {
   try {
     const res = await fetch("grammar.csv");
-
-    if (!res.ok) {
-      throw new Error("grammar.csvが見つからない");
-    }
+    if (!res.ok) throw new Error("grammar.csvが見つからない");
 
     const text = await res.text();
     grammarWords = parseCSV(text);
 
-    if (grammarWords.length === 0) {
-      throw new Error("grammar.csvの中身が空");
-    }
-
+    if (grammarWords.length === 0) throw new Error("grammar.csvの中身が空");
     console.log("文法読み込み成功:", grammarWords.length);
   } catch (e) {
     console.error(e);
-    alert("grammar.csvを確認しろ");
+    alert("grammar.csvを確認してください");
   }
 }
 
 async function loadJodoushi() {
   try {
     const res = await fetch("jodoushi.csv");
-
-    if (!res.ok) {
-      throw new Error("jodoushi.csvが見つからない");
-    }
+    if (!res.ok) throw new Error("jodoushi.csvが見つからない");
 
     const text = await res.text();
     jodoushiWords = parseCSV(text);
 
-    if (jodoushiWords.length === 0) {
-      throw new Error("jodoushi.csvの中身が空");
-    }
-
+    if (jodoushiWords.length === 0) throw new Error("jodoushi.csvの中身が空");
     console.log("助動詞読み込み成功:", jodoushiWords.length);
   } catch (e) {
     console.error(e);
-    alert("jodoushi.csvを確認しろ");
+    alert("jodoushi.csvを確認してください");
   }
 }
 
@@ -169,7 +159,6 @@ function parseCSV(text) {
 
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(",");
-
     if (cols.length < 2) continue;
 
     const word = cols[0].trim();
@@ -190,56 +179,120 @@ function parseCSV(text) {
 
 // ===== 画面切り替え =====
 function showScreen(screen) {
-  topScreen.classList.remove("active");
-  homeScreen.classList.remove("active");
-  gameScreen.classList.remove("active");
-  resultScreen.classList.remove("active");
-  rankingScreen.classList.remove("active");
-  testScreen.classList.remove("active");
-  jodoushiScreen.classList.remove("active");
-  exploreScreen.classList.remove("active");
-  document.getElementById("profileScreen").classList.remove("active");
+  [
+    topScreen,
+    homeScreen,
+    gameScreen,
+    resultScreen,
+    rankingScreen,
+    testScreen,
+    jodoushiScreen,
+    exploreScreen,
+    profileScreen
+  ].forEach(s => s.classList.remove("active"));
 
   screen.classList.add("active");
 }
 
+function goTop() {
+  closeMenu();
+  clearInterval(timer);
+  document.body.classList.remove("no-scroll");
+  showScreen(topScreen);
+}
+
 function goHome() {
+  goTop();
+}
+
+function setModeTheme(mode) {
+  document.body.classList.remove("mode-vocab", "mode-grammar", "mode-jodoushi");
+  document.body.classList.add("mode-" + mode);
+}
+
+// ===== 各モード =====
+function showVocabHome() {
+  currentMode = "vocab";
+  setModeTheme("vocab");
+  words = [...vocabWords];
+
   closeMenu();
   clearInterval(timer);
   showScreen(homeScreen);
 }
 
+function startVocabGame() {
+  currentMode = "vocab";
+  setModeTheme("vocab");
+  words = [...vocabWords];
+  startGame();
+}
+
+function showGrammarScreen() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(testScreen);
+}
+
+function startGrammarGame() {
+  if (grammarWords.length === 0) {
+    alert("文法データが読み込まれていません");
+    return;
+  }
+
+  currentMode = "grammar";
+  setModeTheme("grammar");
+  words = [...grammarWords];
+
+  startGame();
+}
+
+function showJodoushiScreen() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(jodoushiScreen);
+}
+
+function startJodoushiGame() {
+  if (jodoushiWords.length === 0) {
+    alert("助動詞データが読み込まれていません");
+    return;
+  }
+
+  currentMode = "jodoushi";
+  setModeTheme("jodoushi");
+  words = [...jodoushiWords];
+
+  startGame();
+}
+
+function restartCurrentMode() {
+  if (currentMode === "grammar") {
+    startGrammarGame();
+  } else if (currentMode === "jodoushi") {
+    startJodoushiGame();
+  } else {
+    startVocabGame();
+  }
+}
+
 // ===== ゲーム開始 =====
 function startGame() {
-
-   document.body.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
 
   loginId = localStorage.getItem("loginId");
   username = localStorage.getItem("username");
 
-if (!loginId || !username) {
-  alert("プロフィールを設定してください");
-  openProfile();
-  return;
-}
-
-  if (loginId === "") {
-  alert("ログインIDを入力してください");
-  return;
-}
-
-if (username === "") {
-  alert("ユーザーネームを入力してください");
-  return;
-}
-
-  if (words.length === 0) {
-    alert("問題が読み込まれていません。words.csvを確認してください。");
+  if (!loginId || !username) {
+    alert("プロフィールを設定してください");
+    openProfile();
     return;
   }
 
-  localStorage.setItem("loginId", loginId);
-  localStorage.setItem("username", username);
+  if (words.length === 0) {
+    alert("問題が読み込まれていません。CSVを確認してください。");
+    return;
+  }
 
   score = 0;
   displayedScore = 0;
@@ -249,23 +302,22 @@ if (username === "") {
 
   scoreEl.textContent = displayedScore;
   timeEl.textContent = timeLeft;
+  comboValueEl.textContent = combo;
   judgeMark.textContent = "";
   comboText.textContent = "";
-  
   updateComboGauge();
 
-    closeMenu();
+  closeMenu();
   showScreen(gameScreen);
 
   const modeTitle = document.getElementById("modeTitle");
-
-if (currentMode === "vocab") {
-  modeTitle.textContent = "📘 古典語彙";
-} else if (currentMode === "grammar") {
-  modeTitle.textContent = "🧠 古典文法";
-} else {
-  modeTitle.textContent = "⚔ 助動詞";
-}
+  if (currentMode === "vocab") {
+    modeTitle.textContent = "📘 古典語彙";
+  } else if (currentMode === "grammar") {
+    modeTitle.textContent = "📖 古典文法";
+  } else {
+    modeTitle.textContent = "⚔ 助動詞";
+  }
 
   showGo();
 
@@ -273,7 +325,6 @@ if (currentMode === "vocab") {
     showQuestion();
 
     clearInterval(timer);
-
     timer = setInterval(function () {
       timeLeft--;
       timeEl.textContent = timeLeft;
@@ -289,18 +340,17 @@ if (currentMode === "vocab") {
 function showQuestion() {
   answering = false;
   judgeMark.textContent = "";
-
   currentQuestion = words[Math.floor(Math.random() * words.length)];
 
   if (currentQuestion.info) {
-  questionEl.innerHTML =
-    currentQuestion.question +
-    "<br><span class='question-info'>" +
-    currentQuestion.info +
-    "</span>";
-} else {
-  questionEl.textContent = currentQuestion.question;
-}
+    questionEl.innerHTML =
+      currentQuestion.question +
+      "<br><span class='question-info'>" +
+      currentQuestion.info +
+      "</span>";
+  } else {
+    questionEl.textContent = currentQuestion.question;
+  }
 
   const choices = makeChoices(currentQuestion);
   const shuffledChoices = shuffleArray(choices);
@@ -310,33 +360,24 @@ function showQuestion() {
   shuffledChoices.forEach(function (choice) {
     const button = document.createElement("button");
     button.textContent = choice;
-
     button.onclick = function () {
       checkAnswer(choice);
     };
-
     choicesEl.appendChild(button);
   });
 }
 
-// ===== 選択肢作成 =====
 function makeChoices(questionData) {
   const correctAnswer = questionData.answer;
 
   const wrongAnswers = words
-    .map(function (word) {
-      return word.answer;
-    })
-    .filter(function (answer) {
-      return answer !== correctAnswer;
-    });
+    .map(word => word.answer)
+    .filter(answer => answer !== correctAnswer);
 
-  const selectedWrongAnswers = shuffleArray([...wrongAnswers]).slice(0, 3);
-
+  const selectedWrongAnswers = shuffleArray([...new Set(wrongAnswers)]).slice(0, 3);
   return [correctAnswer, ...selectedWrongAnswers];
 }
 
-// ===== 回答判定 =====
 function checkAnswer(choice) {
   if (answering) return;
   answering = true;
@@ -348,19 +389,17 @@ function checkAnswer(choice) {
     score += 10 + combo;
     updateComboGauge();
 
-if (combo % 10 === 0) {
-  timeLeft += 3;
-  timeEl.textContent = timeLeft;
-  showTimeBonus();
-}
+    if (combo % 10 === 0) {
+      timeLeft += 3;
+      timeEl.textContent = timeLeft;
+      showTimeBonus();
+    }
 
     showScorePlus(10 + combo, combo);
 
     buttons.forEach(btn => {
-    if (btn.textContent === choice) {
-      btn.classList.add("correct");
-    }
-  });
+      if (btn.textContent === choice) btn.classList.add("correct");
+    });
 
     judgeMark.textContent = "○";
     judgeMark.style.color = "#ffcc33";
@@ -378,13 +417,9 @@ if (combo % 10 === 0) {
     updateComboGauge();
 
     buttons.forEach(btn => {
-  if (btn.textContent === choice) {
-    btn.classList.add("wrong");
-  }
-  if (btn.textContent === currentQuestion.answer) {
-    btn.classList.add("correct");
-  }
-});
+      if (btn.textContent === choice) btn.classList.add("wrong");
+      if (btn.textContent === currentQuestion.answer) btn.classList.add("correct");
+    });
 
     judgeMark.textContent = "×";
     judgeMark.style.color = "#ff4444";
@@ -393,6 +428,7 @@ if (combo % 10 === 0) {
   }
 
   animateScore(displayedScore, score);
+  comboValueEl.textContent = combo;
   timeEl.textContent = timeLeft;
 
   setTimeout(function () {
@@ -404,15 +440,19 @@ if (combo % 10 === 0) {
   }, 500);
 }
 
-// ===== ゲーム終了 =====
 function finishGame() {
   document.body.classList.remove("no-scroll");
-
   clearInterval(timer);
 
+  const gainedSpirit = Math.max(10, Math.floor(score / 10));
+  spiritPower += gainedSpirit;
+  localStorage.setItem("spiritPower", spiritPower);
+
   finalScoreEl.textContent = score;
+  finalSpiritEl.textContent = gainedSpirit;
 
   saveRanking(loginId, username, score);
+  updateShikigamiUI();
 
   showScreen(resultScreen);
 }
@@ -438,27 +478,26 @@ async function saveRanking(loginId, name, score) {
 }
 
 // ===== ランキング表示 =====
-// ===== ランキング表示 =====
 async function showRanking() {
   closeMenu();
   clearInterval(timer);
-
-  // ランキングを開くときは、まず古典語彙ランキングから表示
+  document.body.classList.remove("no-scroll");
   await showRankingByMode("vocab");
 }
 
 async function showRankingByMode(mode) {
   currentMode = mode;
+  setModeTheme(mode);
 
   const rankingTitle = document.getElementById("rankingTitle");
 
-if (currentMode === "vocab") {
-  rankingTitle.textContent = "古典語彙ランキング";
-} else if (currentMode === "grammar") {
-  rankingTitle.textContent = "古典文法ランキング";
-} else if (currentMode === "jodoushi") {
-  rankingTitle.textContent = "助動詞ランキング";
-}
+  if (currentMode === "vocab") {
+    rankingTitle.textContent = "古典語彙ランキング";
+  } else if (currentMode === "grammar") {
+    rankingTitle.textContent = "古典文法ランキング";
+  } else if (currentMode === "jodoushi") {
+    rankingTitle.textContent = "助動詞ランキング";
+  }
 
   const { data, error } = await supabaseClient
     .from("scores")
@@ -483,9 +522,7 @@ if (currentMode === "vocab") {
   });
 
   const ranking = Object.values(bestMap)
-    .sort(function (a, b) {
-      return b.score - a.score;
-    })
+    .sort((a, b) => b.score - a.score)
     .slice(0, 10);
 
   rankingList.innerHTML = "";
@@ -503,9 +540,7 @@ if (currentMode === "vocab") {
       else if (index === 2) li.className = "rank-3";
       else li.className = "rank-other";
 
-      li.textContent =
-        (index + 1) + "位　" + item.name + "　" + item.score + "点";
-
+      li.textContent = (index + 1) + "位　" + item.name + "　" + item.score + "点";
       rankingList.appendChild(li);
     });
   }
@@ -513,30 +548,12 @@ if (currentMode === "vocab") {
   showScreen(rankingScreen);
 }
 
-function toggleRankingMode() {
-  if (currentMode === "vocab") {
-    showRankingByMode("grammar");
-  } else if (currentMode === "grammar") {
-    showRankingByMode("jodoushi");
-  } else {
-    showRankingByMode("vocab");
-  }
-}
-
-function setModeTheme(mode) {
-  document.body.classList.remove("mode-vocab", "mode-grammar", "mode-jodoushi");
-  document.body.classList.add("mode-" + mode);
-}
-
-// ===== シャッフル =====
+// ===== 汎用 =====
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const randomIndex = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[randomIndex];
-    array[randomIndex] = temp;
+    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
   }
-
   return array;
 }
 
@@ -566,17 +583,11 @@ function generateLoginId() {
 function showScorePlus(points, comboCount) {
   scorePlus.textContent = "+" + points;
 
-  scorePlus.classList.remove("combo-low");
-  scorePlus.classList.remove("combo-mid");
-  scorePlus.classList.remove("combo-high");
+  scorePlus.classList.remove("combo-low", "combo-mid", "combo-high");
 
-  if (comboCount >= 10) {
-    scorePlus.classList.add("combo-high");
-  } else if (comboCount >= 5) {
-    scorePlus.classList.add("combo-mid");
-  } else {
-    scorePlus.classList.add("combo-low");
-  }
+  if (comboCount >= 10) scorePlus.classList.add("combo-high");
+  else if (comboCount >= 5) scorePlus.classList.add("combo-mid");
+  else scorePlus.classList.add("combo-low");
 
   scorePlus.classList.remove("show");
   void scorePlus.offsetWidth;
@@ -590,7 +601,6 @@ function animateScore(from, to) {
   function update(now) {
     const progress = Math.min((now - startTime) / duration, 1);
     const current = Math.floor(from + (to - from) * progress);
-
     scoreEl.textContent = current;
 
     if (progress < 1) {
@@ -607,8 +617,8 @@ function animateScore(from, to) {
 function updateComboGauge() {
   const comboInGauge = combo % 40;
   const percent = (comboInGauge / 40) * 100;
-
   comboGauge.style.width = percent + "%";
+  comboValueEl.textContent = combo;
 }
 
 function showTimeBonus() {
@@ -618,6 +628,7 @@ function showTimeBonus() {
   comboText.classList.add("show");
 }
 
+// ===== プロフィール =====
 function openProfile() {
   closeMenu();
 
@@ -632,7 +643,7 @@ function openProfile() {
   profileIdInput.value = loginId;
   profileNameInput.value = username || "";
 
-  showScreen(document.getElementById("profileScreen"));
+  showScreen(profileScreen);
 }
 
 async function saveProfile() {
@@ -644,7 +655,6 @@ async function saveProfile() {
   }
 
   loginId = localStorage.getItem("loginId");
-
   username = newName;
   localStorage.setItem("username", username);
 
@@ -660,72 +670,18 @@ async function saveProfile() {
   }
 
   alert("プロフィールを保存しました");
+  goTop();
 }
 
-function goTop() {
+// ===== 探索 =====
+function showExploreScreen() {
   closeMenu();
   clearInterval(timer);
-  showScreen(topScreen);
+  document.body.classList.remove("no-scroll");
+  updateExploreUI();
+  updateShikigamiUI();
+  showScreen(exploreScreen);
 }
-
-function showVocabHome() {
-  currentMode = "vocab";
-  setModeTheme("vocab");
-
-  // 語彙問題に戻す
-  words = [...vocabWords];
-
-  closeMenu();
-  clearInterval(timer);
-  showScreen(homeScreen);
-}
-
-function showGrammarScreen() {
-  closeMenu();
-  clearInterval(timer);
-  showScreen(testScreen);
-}
-
-function startGrammarGame() {
-
-  if (grammarWords.length === 0) {
-    alert("文法データが読み込まれていません");
-    return;
-  }
-
-  currentMode = "grammar";
-  setModeTheme("grammar");
-
-  // 文法問題を使う
-  words = [...grammarWords];
-
-  startGame();
-}
-
-function showJodoushiScreen() {
-  closeMenu();
-  clearInterval(timer);
-  showScreen(jodoushiScreen);
-}
-
-function startJodoushiGame() {
-  if (jodoushiWords.length === 0) {
-    alert("助動詞データが読み込まれていません");
-    return;
-  }
-
-  currentMode = "jodoushi";
-  setModeTheme("jodoushi");
-
-  // 助動詞問題を使う
-  words = [...jodoushiWords];
-
-  startGame();
-}
-
-/* =========================
-   探索システム
-========================= */
 
 function startExplore(place, hours) {
   if (exploreEndTime) {
@@ -737,163 +693,102 @@ function startExplore(place, hours) {
 
   localStorage.setItem("exploreEndTime", exploreEndTime);
   localStorage.setItem("explorePlace", place);
+  localStorage.setItem("exploreCharacter", activeShikigami);
 
-  alert(place + "へ探索に出発しました！");
+  alert(activeShikigami + " が " + place + "へ探索に出発しました！");
 
   updateExploreUI();
+  clearInterval(exploreInterval);
   exploreInterval = setInterval(updateExploreUI, 1000);
-
-  goTop();
 }
 
 function updateExploreUI() {
+  const panel = document.getElementById("explorePanel");
+  const timerEl = document.getElementById("exploreTimer");
+  const placeEl = document.getElementById("explorePlace");
+  const characterEl = document.getElementById("exploreCharacter");
 
-  const panel =
-    document.getElementById(
-      "explorePanel"
-    );
-
-  const timer =
-    document.getElementById(
-      "exploreTimer"
-    );
-
-    const placeEl = document.getElementById("explorePlace");
-const savedPlace = localStorage.getItem("explorePlace") || "月夜の竹林";
-placeEl.textContent = savedPlace;
+  if (!panel || !timerEl || !placeEl || !characterEl) return;
 
   if (!exploreEndTime) {
     panel.classList.add("hidden");
     return;
   }
 
+  const savedPlace = localStorage.getItem("explorePlace") || "月夜の竹林";
+  const savedCharacter = localStorage.getItem("exploreCharacter") || activeShikigami;
+
+  placeEl.textContent = savedPlace;
+  characterEl.textContent = savedCharacter + " が探索中";
+
   panel.classList.remove("hidden");
 
-  const remain =
-    exploreEndTime - Date.now();
+  const remain = exploreEndTime - Date.now();
 
   if (remain <= 0) {
-
-    timer.textContent =
-      "探索完了！";
-
+    timerEl.textContent = "探索完了！";
     return;
   }
 
-  const totalSec =
-    Math.floor(remain / 1000);
+  const totalSec = Math.floor(remain / 1000);
+  const h = String(Math.floor(totalSec / 3600)).padStart(2, "0");
+  const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
+  const s = String(totalSec % 60).padStart(2, "0");
 
-  const h =
-    String(
-      Math.floor(totalSec / 3600)
-    ).padStart(2, "0");
-
-  const m =
-    String(
-      Math.floor(
-        (totalSec % 3600) / 60
-      )
-    ).padStart(2, "0");
-
-  const s =
-    String(totalSec % 60)
-    .padStart(2, "0");
-
-  timer.textContent =
-    `${h}:${m}:${s}`;
+  timerEl.textContent = `${h}:${m}:${s}`;
 }
 
 function collectExploreReward() {
+  if (!exploreEndTime) return;
 
-  if (!exploreEndTime) {
-    return;
-  }
-
-  const remain =
-    exploreEndTime - Date.now();
+  const remain = exploreEndTime - Date.now();
 
   if (remain > 0) {
+    alert("まだ探索中です");
     return;
   }
 
-  const reward =
-    Math.floor(
-      Math.random() * 200
-    ) + 100;
+  const place = localStorage.getItem("explorePlace") || "月夜の竹林";
+  let baseReward = 150;
 
-    spiritPower += reward;
-localStorage.setItem("spiritPower", spiritPower);
-updateShikigamiUI();
+  if (place === "幽玄の社") baseReward = 280;
+  if (place === "紅蓮峡谷") baseReward = 520;
 
-  alert(
-    `探索成功！\n古典霊力 +${reward}`
-  );
+  const level = shikigamiLevels[activeShikigami] || 1;
+  const reward = baseReward + Math.floor(Math.random() * 120) + level * 10;
+
+  spiritPower += reward;
+  localStorage.setItem("spiritPower", spiritPower);
+
+  alert(`探索成功！\n古典霊力 +${reward}`);
 
   exploreEndTime = null;
+  localStorage.removeItem("exploreEndTime");
+  localStorage.removeItem("explorePlace");
+  localStorage.removeItem("exploreCharacter");
 
-  localStorage.removeItem(
-    "exploreEndTime"
-  );
+  document.getElementById("explorePanel").classList.add("hidden");
 
-  document
-    .getElementById(
-      "explorePanel"
-    )
-    .classList.add("hidden");
-
-  clearInterval(
-    exploreInterval
-  );
+  clearInterval(exploreInterval);
+  updateShikigamiUI();
 }
 
 function loadExplore() {
-
-  const saved =
-    localStorage.getItem(
-      "exploreEndTime"
-    );
+  const saved = localStorage.getItem("exploreEndTime");
 
   if (!saved) {
+    updateExploreUI();
     return;
   }
 
-  exploreEndTime =
-    Number(saved);
+  exploreEndTime = Number(saved);
 
   updateExploreUI();
-
-  exploreInterval =
-    setInterval(
-      updateExploreUI,
-      1000
-    );
+  clearInterval(exploreInterval);
+  exploreInterval = setInterval(updateExploreUI, 1000);
 }
 
-function showExploreScreen() {
-  closeMenu();
-  clearInterval(timer);
-  showScreen(exploreScreen);
-}
-
-function goTop() {
-  closeMenu();
-  clearInterval(timer);
-  showScreen(topScreen);
-}
-
-/* =========================
-   式神育成システム
-========================= */
-
-let spiritPower = Number(localStorage.getItem("spiritPower") || 0);
-let activeShikigami = localStorage.getItem("activeShikigami") || "白狐ノ影";
-let activeShikigamiIcon = localStorage.getItem("activeShikigamiIcon") || "🦊";
-
-let shikigamiLevels = JSON.parse(
-  localStorage.getItem("shikigamiLevels") ||
-  '{"白狐ノ影":1,"鴉天狗":1,"青龍":1,"九尾ノ焔":1}'
-);
-
+// ===== 式神育成 =====
 function updateShikigamiUI() {
   const nameEl = document.getElementById("activeShikigamiName");
   const iconEl = document.getElementById("activeShikigamiIcon");
