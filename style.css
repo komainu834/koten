@@ -2422,3 +2422,40 @@ button {
   width: 100%;
   font-size: 15px;
 }
+
+/* ===== 探索画面の下見切れ修正 ===== */
+
+#exploreScreen {
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-bottom: 140px !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+#exploreScreen .explore-map,
+#exploreScreen .shikigami-select {
+  padding-bottom: 20px;
+}
+
+#exploreScreen > button {
+  margin-bottom: 80px !important;
+}
+
+@media (max-width: 640px) {
+  #exploreScreen {
+    padding-top: 62px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: 160px !important;
+  }
+
+  .explore-card {
+    margin-bottom: 14px;
+  }
+
+  #exploreScreen > button {
+    margin-bottom: 110px !important;
+  }
+}
