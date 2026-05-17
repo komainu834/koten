@@ -419,10 +419,12 @@ async function saveRanking(loginId, name, score) {
 }
 
 // ===== ランキング表示 =====
+// ===== ランキング表示 =====
 async function showRanking() {
   closeMenu();
   clearInterval(timer);
 
+  // ランキングを開くときは、まず古典語彙ランキングから表示
   await showRankingByMode("vocab");
 }
 
@@ -692,6 +694,8 @@ function startJodoushiGame() {
   }
 
   currentMode = "jodoushi";
+
+  // 助動詞問題を使う
   words = [...jodoushiWords];
 
   startGame();

@@ -939,3 +939,192 @@ body {
   color: white;
   box-shadow: 0 0 16px rgba(0, 120, 255, 0.7);
 }
+
+/* ===== スマホ対応：メニュー・コンボ・4択の被り対策 ===== */
+@media (max-width: 640px) {
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  .screen {
+    min-height: 100dvh;
+    height: 100dvh;
+    padding: 54px 10px 10px;
+    overflow: hidden;
+  }
+
+  .menu-button {
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    z-index: 300;
+  }
+
+  .side-menu {
+    z-index: 400;
+  }
+
+  .overlay {
+    z-index: 350;
+  }
+
+  #topScreen h1,
+  #homeScreen h1,
+  #testScreen h2,
+  #jodoushiScreen h2,
+  #rankingScreen h2,
+  #profileScreen h2,
+  #resultScreen h2 {
+    font-size: 34px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    line-height: 1.15;
+  }
+
+  .menu-buttons {
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .menu-buttons button {
+    width: 92%;
+    padding: 17px 12px;
+    font-size: 22px;
+  }
+
+  #gameScreen {
+    padding-top: 48px;
+  }
+
+  #gameScreen > div:first-child,
+  #gameScreen > div:nth-child(2) {
+    margin: 2px 3px 6px;
+    padding: 7px 11px;
+    font-size: 17px;
+  }
+
+  .combo-gauge-wrap {
+    width: 92%;
+    margin: 4px auto 8px;
+    padding: 5px 8px;
+  }
+
+  .combo-gauge-bg {
+    height: 10px;
+  }
+
+  .combo-marker {
+    top: -5px;
+    height: 20px;
+    width: 2px;
+  }
+
+  .combo-marker span {
+    top: -20px;
+    font-size: 9px;
+  }
+
+  #question {
+    width: 94%;
+    margin: 12px auto 10px;
+    padding: 18px 12px;
+    border-radius: 18px;
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.18;
+    letter-spacing: 1px;
+  }
+
+  .question-info {
+    margin-top: 7px;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  #choices {
+    width: 94%;
+    margin: 0 auto;
+  }
+
+  #choices button {
+    width: 100%;
+    margin: 7px auto;
+    padding: 12px 10px;
+    min-height: 50px;
+    border-radius: 15px;
+    font-size: clamp(18px, 5.2vw, 24px);
+    line-height: 1.15;
+    box-shadow: 0 4px 0 #cfcfcf;
+  }
+
+  .judge-mark {
+    font-size: 88px;
+  }
+
+  .combo-text {
+    top: 18%;
+    font-size: 26px;
+  }
+
+  .score-plus {
+    font-size: 32px;
+  }
+
+  .go-text {
+    font-size: 72px;
+  }
+
+  #rankingList {
+    width: 94%;
+    margin: 12px auto;
+  }
+
+  #rankingList li {
+    margin: 8px auto;
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .ranking-mode-buttons button,
+  #rankingScreen button,
+  #resultScreen button,
+  #testScreen button,
+  #jodoushiScreen button,
+  #profileScreen button {
+    font-size: 18px;
+    padding: 14px 10px;
+  }
+}
+
+@media (max-height: 720px) and (max-width: 640px) {
+  .screen {
+    padding-top: 44px;
+  }
+
+  #gameScreen > div:first-child,
+  #gameScreen > div:nth-child(2) {
+    font-size: 15px;
+    padding: 5px 9px;
+  }
+
+  .combo-marker span {
+    display: none;
+  }
+
+  #question {
+    margin-top: 8px;
+    padding: 14px 10px;
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  #choices button {
+    margin: 5px auto;
+    padding: 10px 8px;
+    min-height: 44px;
+    font-size: clamp(17px, 4.8vw, 22px);
+  }
+}
