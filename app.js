@@ -1965,3 +1965,106 @@ function closeRewardOverlay() {
 
 }
 
+
+
+
+/* ==================================================
+   Phase5：覚醒・限界突破の土台
+   ホームとメニューの順番は壊しません。
+================================================== */
+
+let shikigamiAwaken =
+  JSON.parse(
+    localStorage.getItem("shikigamiAwaken") ||
+    JSON.stringify({
+      "白狐ノ影": 0,
+      "鴉天狗": 0,
+      "青龍": 0,
+      "九尾ノ焔": 0
+    })
+  );
+
+function savePhase5Data() {
+  localStorage.setItem(
+    "shikigamiAwaken",
+    JSON.stringify(shikigamiAwaken)
+  );
+
+  savePhase35Data();
+}
+
+const oldUpdateShikigamiUIPhase5 =
+  updateShikigamiUI;
+
+updateShikigamiUI = function () {
+  oldUpdateShikigamiUIPhase5();
+
+  const awaken =
+    shikigamiAwaken[activeShikigami] || 0;
+
+  setText(
+    "awakenRankText",
+    awaken
+  );
+
+  const powerEl =
+    document.getElementById("battlePowerText");
+
+  if (powerEl) {
+    const basePower =
+      calcBattlePower(activeShikigami);
+
+    const bonusPower =
+      Math.floor(basePower * awaken * 0.12);
+
+    powerEl.textContent =
+      basePower + bonusPower;
+  }
+};
+
+function awakenShikigami() {
+  ensurePhase4Inventory();
+
+  const awaken =
+    shikigamiAwaken[activeShikigami] || 0;
+
+  const rainbowCost =
+    awaken + 1;
+
+  const scrollCost =
+    2 + awaken;
+
+  if (inventory.rainbowCrystal < rainbowCost) {
+    alert("虹晶石が足りません。必要数：" + rainbowCost);
+    return;
+  }
+
+  if (inventory.scroll < scrollCost) {
+    alert("巻物が足りません。必要数：" + scrollCost);
+    return;
+  }
+
+  inventory.rainbowCrystal -= rainbowCost;
+  inventory.scroll -= scrollCost;
+
+  shikigamiAwaken[activeShikigami] = awaken + 1;
+
+  savePhase5Data();
+  updateShikigamiUI();
+
+  alert(activeShikigami + " が覚醒しました！");
+}
+
+function scrollToExploreArea() {
+  const area =
+    document.getElementById("phase5ExploreArea");
+
+  if (!area) {
+    return;
+  }
+
+  area.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}

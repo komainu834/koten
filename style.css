@@ -3609,3 +3609,169 @@ body.menu-open .menu-button {
 
 }
 
+
+
+
+/* ==================================================
+   Phase5：カラフル化・覚醒カード・探索ボタン修正
+================================================== */
+
+#exploreScreen.phase35-screen {
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 220, 90, .20), transparent 26%),
+    radial-gradient(circle at 18% 34%, rgba(255, 90, 180, .20), transparent 28%),
+    radial-gradient(circle at 82% 42%, rgba(80, 220, 255, .20), transparent 30%),
+    radial-gradient(circle at 50% 84%, rgba(120, 255, 160, .13), transparent 30%),
+    linear-gradient(180deg, #020614 0%, #071638 48%, #05020b 100%) !important;
+}
+
+.phase35-hero {
+  border-color: rgba(255, 214, 107, .68) !important;
+  box-shadow:
+    0 0 28px rgba(255, 214, 107, .22),
+    0 0 40px rgba(182, 108, 255, .25),
+    0 0 52px rgba(0, 208, 255, .18),
+    inset 0 0 32px rgba(255, 255, 255, .08) !important;
+}
+
+.phase35-name-card {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(80, 20, 120, .58),
+      rgba(4, 14, 32, .74)
+    ) !important;
+}
+
+.phase35-power-card {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(130, 75, 0, .58),
+      rgba(4, 14, 32, .74)
+    ) !important;
+}
+
+.phase5-awaken-card {
+  width: min(460px, 94vw);
+  margin: 0 auto 10px;
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .65);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 90, 160, .18),
+      rgba(90, 220, 255, .14),
+      rgba(255, 220, 90, .12)
+    ),
+    rgba(4, 14, 32, .92);
+  box-shadow:
+    0 0 26px rgba(255,255,255,.20),
+    0 0 36px rgba(182,108,255,.18),
+    inset 0 0 20px rgba(255,255,255,.10);
+}
+
+.phase5-awaken-info {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.phase5-awaken-rank {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.08);
+  color: #d8ecff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.phase5-awaken-rank strong {
+  display: block;
+  margin-top: 4px;
+  color: #ffd66b;
+  font-size: 34px;
+  text-shadow: 0 0 14px rgba(255,214,107,.9);
+}
+
+.phase5-awaken-desc {
+  color: #d8ecff;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.6;
+}
+
+.phase5-awaken-card button {
+  width: 100%;
+  min-height: 52px;
+  margin: 12px 0 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.7);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 90, 160, .42),
+      rgba(120, 75, 255, .42),
+      rgba(255, 214, 107, .30)
+    );
+  color: white;
+  font-size: 20px;
+  font-weight: 1000;
+  box-shadow: 0 0 22px rgba(255,255,255,.20);
+}
+
+.phase5-explore-card {
+  border-color: rgba(0, 208, 255, .70) !important;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 208, 255, .13),
+      rgba(182, 108, 255, .13),
+      rgba(255, 214, 107, .10)
+    ),
+    rgba(4, 14, 32, .92) !important;
+  box-shadow:
+    0 0 24px rgba(0,208,255,.20),
+    0 0 30px rgba(182,108,255,.16),
+    inset 0 0 20px rgba(255,255,255,.08);
+}
+
+.phase35-place-art {
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(255, 214, 107, .26),
+      rgba(0, 208, 255, .15) 42%,
+      rgba(2, 8, 24, .95) 70%
+    ) !important;
+  color: #fff8df !important;
+  text-shadow:
+    0 0 12px rgba(255,214,107,.9),
+    0 0 24px rgba(0,208,255,.65);
+}
+
+.phase35-bottom-nav {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 22, 48, .95),
+      rgba(2, 8, 24, .98)
+    ) !important;
+  border-top: 1px solid rgba(255,214,107,.50) !important;
+}
+
+.phase35-bottom-nav button.active {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(182,108,255,.28),
+      rgba(0,208,255,.20)
+    ) !important;
+}
+
+#topScreen .menu-buttons button {
+  max-width: 380px;
+}

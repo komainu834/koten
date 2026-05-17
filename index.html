@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase4">
+  <link rel="stylesheet" href="style.css?v=phase5">
 </head>
 <body>
 
@@ -34,10 +34,7 @@
   <button onclick="showGrammarScreen()">📘 古典文法</button>
   <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
   <button onclick="showRanking()">🏆 ランキング</button>
-    <button onclick="showExploreScreen()">🌙 探索</button>
-  <button onclick="showExploreScreen()">
-  🌙 探索
-</button>
+  <button onclick="showExploreScreen()">🌙 探索</button>
 </div>
 </section>
 
@@ -294,6 +291,31 @@
 
   </div>
 
+  
+  <div class="phase5-awaken-card">
+
+    <div class="phase35-section-title">
+      覚醒
+    </div>
+
+    <div class="phase5-awaken-info">
+      <div class="phase5-awaken-rank">
+        覚醒段階
+        <strong id="awakenRankText">0</strong>
+      </div>
+
+      <div class="phase5-awaken-desc">
+        虹晶石と巻物を使って、式神の上限と戦力を上げます。
+      </div>
+    </div>
+
+    <button onclick="awakenShikigami()">
+      覚醒する
+    </button>
+
+  </div>
+
+
   <div class="phase35-select-card">
 
     <div class="phase35-section-title">
@@ -322,7 +344,7 @@
 
   </div>
 
-  <div class="phase35-explore-card">
+  <div id="phase5ExploreArea" class="phase35-explore-card phase5-explore-card">
 
     <div class="phase35-section-title">
       探索に出す
@@ -404,7 +426,7 @@
       <span>ホーム</span>
     </button>
 
-    <button onclick="showExploreScreen()">
+    <button onclick="scrollToExploreArea()">
       🌙
       <span>探索</span>
     </button>
@@ -481,7 +503,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase4"></script>
+  <script src="app.js?v=phase5"></script>
 </body>
 </html>
   

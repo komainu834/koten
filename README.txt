@@ -1,35 +1,13 @@
-古典タイムアタック Phase4
+古典タイムアタック Phase5
 
-追加内容：
-- Phase3.5の構成を維持
-- ホームとサイドメニューの順番は維持
+内容：
+- Phase4をベースに修正
+- ホーム画面の探索ボタン重複を修正
+- サイドメニューの順番を維持
   古典語彙 → 古典文法 → 助動詞 → ランキング → 探索
-- 探索回収時に「探索成功！」演出を表示
-- 探索ランク C / B / A / S / SS を追加
-- 素材画像を追加
-- レア素材・虹晶石を追加
-
-画像フォルダ：
-img/
-  fox.png
-  tengu.png
-  dragon.png
-  kitsune.png
-  materials/
-    soul_normal.png
-    soul_fire.png
-    soul_water.png
-    soul_wind.png
-    soul_light.png
-    crystal_blue.png
-    crystal_red.png
-    crystal_green.png
-    crystal_purple.png
-    crystal_rainbow.png
-    scroll_vocab.png
-    scroll_grammar.png
-    scroll_jodoushi.png
-
-GitHub Pagesに上げるとき：
-- imgフォルダの中身も必ずアップしてください。
-- 特に img/materials/ の中身を忘れると素材画像が表示されません。
+- 探索画面をさらにカラフル化
+- 下メニューの探索ボタンを修正
+  探索ボタンを押すと探索エリアへスクロールします
+- Phase5：覚醒システムの土台を追加
+  虹晶石と巻物を使って覚醒できます
+- img と img/materials も同梱
