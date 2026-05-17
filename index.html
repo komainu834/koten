@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase35">
+  <link rel="stylesheet" href="style.css?v=phase4">
 </head>
 <body>
 
@@ -250,29 +250,47 @@
       強化素材
     </div>
 
-    <div class="phase35-material-grid">
+    
+    <div class="phase35-material-grid phase4-material-grid">
 
       <div>
+        <img src="img/materials/soul_normal.png" alt="霊魂">
         🔮 霊魂
         <span id="soulText">0</span>
       </div>
 
       <div>
+        <img src="img/materials/crystal_blue.png" alt="蒼晶石">
         💎 蒼晶石
         <span id="blueCrystalText">0</span>
       </div>
 
       <div>
+        <img src="img/materials/crystal_red.png" alt="紅晶石">
         ❤️ 紅晶石
         <span id="redCrystalText">0</span>
       </div>
 
       <div>
+        <img src="img/materials/scroll_vocab.png" alt="巻物">
         📜 巻物
         <span id="scrollText">0</span>
       </div>
 
+      <div>
+        <img src="img/materials/crystal_rainbow.png" alt="虹晶石">
+        ✨ 虹晶石
+        <span id="rainbowCrystalText">0</span>
+      </div>
+
+      <div>
+        <img src="img/materials/soul_fire.png" alt="炎魂">
+        🔥 炎魂
+        <span id="fireSoulText">0</span>
+      </div>
+
     </div>
+
 
   </div>
 
@@ -350,6 +368,34 @@
     </div>
 
   </div>
+
+  
+  <div id="rewardOverlay" class="reward-overlay hidden">
+
+    <div class="reward-modal">
+
+      <div class="reward-title">
+        探索成功！
+      </div>
+
+      <div id="rewardRank" class="reward-rank">
+        A
+      </div>
+
+      <div id="rewardList" class="reward-list">
+      </div>
+
+      <div id="rewardMessage" class="reward-message">
+      </div>
+
+      <button onclick="closeRewardOverlay()">
+        OK
+      </button>
+
+    </div>
+
+  </div>
+
 
   <div class="phase35-bottom-nav">
 
@@ -435,7 +481,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase35"></script>
+  <script src="app.js?v=phase4"></script>
 </body>
 </html>
   

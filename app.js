@@ -1487,3 +1487,481 @@ function showPhase35Help() {
   );
 }
 
+
+
+
+/* ==================================================
+   Phase4：素材画像・探索成功演出・ランク報酬
+   Phase3.5の関数を上書きしています。
+================================================== */
+
+
+/* ---------- Phase4素材定義 ---------- */
+
+const PHASE4_MATERIALS = {
+  soul: {
+    label: "霊魂",
+    image: "img/materials/soul_normal.png",
+    rare: "normal"
+  },
+
+  fireSoul: {
+    label: "炎魂",
+    image: "img/materials/soul_fire.png",
+    rare: "rare"
+  },
+
+  waterSoul: {
+    label: "水魂",
+    image: "img/materials/soul_water.png",
+    rare: "rare"
+  },
+
+  windSoul: {
+    label: "風魂",
+    image: "img/materials/soul_wind.png",
+    rare: "rare"
+  },
+
+  blueCrystal: {
+    label: "蒼晶石",
+    image: "img/materials/crystal_blue.png",
+    rare: "normal"
+  },
+
+  redCrystal: {
+    label: "紅晶石",
+    image: "img/materials/crystal_red.png",
+    rare: "normal"
+  },
+
+  greenCrystal: {
+    label: "翠晶石",
+    image: "img/materials/crystal_green.png",
+    rare: "rare"
+  },
+
+  purpleCrystal: {
+    label: "紫晶石",
+    image: "img/materials/crystal_purple.png",
+    rare: "rare"
+  },
+
+  rainbowCrystal: {
+    label: "虹晶石",
+    image: "img/materials/crystal_rainbow.png",
+    rare: "legend"
+  },
+
+  scroll: {
+    label: "古文巻物",
+    image: "img/materials/scroll_vocab.png",
+    rare: "normal"
+  },
+
+  grammarScroll: {
+    label: "文法秘巻",
+    image: "img/materials/scroll_grammar.png",
+    rare: "rare"
+  },
+
+  jodoushiScroll: {
+    label: "助動詞秘伝書",
+    image: "img/materials/scroll_jodoushi.png",
+    rare: "rare"
+  }
+};
+
+
+/* ---------- inventory初期化強化 ---------- */
+
+function ensurePhase4Inventory() {
+
+  const defaults = {
+    soul: 0,
+    fireSoul: 0,
+    waterSoul: 0,
+    windSoul: 0,
+    blueCrystal: 0,
+    redCrystal: 0,
+    greenCrystal: 0,
+    purpleCrystal: 0,
+    rainbowCrystal: 0,
+    scroll: 0,
+    grammarScroll: 0,
+    jodoushiScroll: 0
+  };
+
+  Object.keys(defaults).forEach(function (key) {
+
+    if (inventory[key] === undefined) {
+      inventory[key] = defaults[key];
+    }
+
+  });
+
+}
+
+
+/* ---------- 表示更新をPhase4対応に上書き ---------- */
+
+const oldUpdateShikigamiUIPhase4 =
+  updateShikigamiUI;
+
+updateShikigamiUI = function () {
+
+  ensurePhase4Inventory();
+
+  oldUpdateShikigamiUIPhase4();
+
+  setText("fireSoulText", inventory.fireSoul);
+  setText("rainbowCrystalText", inventory.rainbowCrystal);
+
+};
+
+
+/* ---------- 探索回収を演出つきに上書き ---------- */
+
+collectExploreReward = function () {
+
+  if (!exploreEndTime) {
+    return;
+  }
+
+  const remain =
+    exploreEndTime - Date.now();
+
+  if (remain > 0) {
+    alert("まだ探索中です");
+    return;
+  }
+
+  const place =
+    localStorage.getItem("explorePlace") ||
+    "月夜の竹林";
+
+  const reward =
+    createExploreReward(place);
+
+  applyExploreReward(reward);
+
+  exploreEndTime =
+    null;
+
+  localStorage.removeItem("exploreEndTime");
+  localStorage.removeItem("explorePlace");
+  localStorage.removeItem("exploreShikigami");
+
+  clearInterval(exploreInterval);
+
+  savePhase35Data();
+
+  updateExploreUI();
+
+  updateShikigamiUI();
+
+  showRewardOverlay(reward);
+
+};
+
+
+/* ---------- ランクつき報酬生成 ---------- */
+
+createExploreReward = function (place) {
+
+  ensurePhase4Inventory();
+
+  const rank =
+    decideExploreRank();
+
+  const multiplier =
+    getRankMultiplier(rank);
+
+  const reward = {
+    rank: rank,
+    spirit: Math.floor(randomReward(120, 260) * multiplier),
+    coins: Math.floor(randomReward(30, 90) * multiplier),
+    gems: 0,
+    items: [],
+    message: ""
+  };
+
+  addRewardItem(
+    reward,
+    "soul",
+    Math.floor(randomReward(4, 14) * multiplier)
+  );
+
+  if (place === "月夜の竹林") {
+
+    addRewardItem(
+      reward,
+      "blueCrystal",
+      randomReward(1, 4)
+    );
+
+    addRewardItem(
+      reward,
+      "waterSoul",
+      randomReward(0, 2)
+    );
+
+  }
+
+  if (place === "幽玄の社") {
+
+    addRewardItem(
+      reward,
+      "scroll",
+      randomReward(1, 3)
+    );
+
+    addRewardItem(
+      reward,
+      "grammarScroll",
+      randomReward(0, 1)
+    );
+
+    reward.gems =
+      randomReward(0, 2);
+
+  }
+
+  if (place === "紅蓮峡谷") {
+
+    reward.spirit +=
+      80;
+
+    addRewardItem(
+      reward,
+      "redCrystal",
+      randomReward(1, 5)
+    );
+
+    addRewardItem(
+      reward,
+      "fireSoul",
+      randomReward(1, 3)
+    );
+
+    addRewardItem(
+      reward,
+      "jodoushiScroll",
+      randomReward(0, 1)
+    );
+
+  }
+
+  if (rank === "S" || rank === "SS") {
+
+    addRewardItem(
+      reward,
+      "purpleCrystal",
+      randomReward(1, 2)
+    );
+
+  }
+
+  if (rank === "SS") {
+
+    addRewardItem(
+      reward,
+      "rainbowCrystal",
+      1
+    );
+
+  }
+
+  reward.message =
+    "霊力 +" + reward.spirit + "\n" +
+    "古銭 +" + reward.coins;
+
+  if (reward.gems > 0) {
+    reward.message +=
+      "\n晶石 +" + reward.gems;
+  }
+
+  return reward;
+
+};
+
+
+/* ---------- 報酬アイテム追加 ---------- */
+
+function addRewardItem(reward, key, amount) {
+
+  if (!amount || amount <= 0) {
+    return;
+  }
+
+  reward.items.push({
+    key: key,
+    amount: amount
+  });
+
+}
+
+
+/* ---------- 報酬反映をPhase4対応に上書き ---------- */
+
+applyExploreReward = function (reward) {
+
+  ensurePhase4Inventory();
+
+  spiritPower +=
+    reward.spirit;
+
+  coins +=
+    reward.coins;
+
+  gems +=
+    reward.gems || 0;
+
+  reward.items.forEach(function (item) {
+
+    if (inventory[item.key] === undefined) {
+      inventory[item.key] = 0;
+    }
+
+    inventory[item.key] +=
+      item.amount;
+
+  });
+
+};
+
+
+/* ---------- ランク決定 ---------- */
+
+function decideExploreRank() {
+
+  const r =
+    Math.random();
+
+  if (r < 0.03) {
+    return "SS";
+  }
+
+  if (r < 0.14) {
+    return "S";
+  }
+
+  if (r < 0.34) {
+    return "A";
+  }
+
+  if (r < 0.64) {
+    return "B";
+  }
+
+  return "C";
+
+}
+
+function getRankMultiplier(rank) {
+
+  if (rank === "SS") {
+    return 2.2;
+  }
+
+  if (rank === "S") {
+    return 1.7;
+  }
+
+  if (rank === "A") {
+    return 1.3;
+  }
+
+  if (rank === "B") {
+    return 1.0;
+  }
+
+  return 0.8;
+
+}
+
+
+/* ---------- 探索成功演出 ---------- */
+
+function showRewardOverlay(reward) {
+
+  const overlay =
+    document.getElementById("rewardOverlay");
+
+  const rankEl =
+    document.getElementById("rewardRank");
+
+  const listEl =
+    document.getElementById("rewardList");
+
+  const messageEl =
+    document.getElementById("rewardMessage");
+
+  if (!overlay || !rankEl || !listEl || !messageEl) {
+    alert("探索成功！\n" + reward.message);
+    return;
+  }
+
+  rankEl.textContent =
+    reward.rank + " RANK";
+
+  rankEl.className =
+    "reward-rank rank-" + reward.rank.toLowerCase();
+
+  listEl.innerHTML =
+    "";
+
+  reward.items.forEach(function (item) {
+
+    const master =
+      PHASE4_MATERIALS[item.key];
+
+    if (!master) {
+      return;
+    }
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "reward-item reward-" + master.rare;
+
+    card.innerHTML =
+      "<img src='" + master.image + "' alt='" + master.label + "'>" +
+      "<div>" + master.label + "</div>" +
+      "<strong>×" + item.amount + "</strong>";
+
+    listEl.appendChild(card);
+
+  });
+
+  messageEl.textContent =
+    reward.message.replace(/\n/g, " / ");
+
+  overlay.classList.remove("hidden");
+
+  overlay.classList.remove("show");
+
+  void overlay.offsetWidth;
+
+  overlay.classList.add("show");
+
+}
+
+
+/* ---------- 報酬演出を閉じる ---------- */
+
+function closeRewardOverlay() {
+
+  const overlay =
+    document.getElementById("rewardOverlay");
+
+  if (!overlay) {
+    return;
+  }
+
+  overlay.classList.add("hidden");
+  overlay.classList.remove("show");
+
+}
+

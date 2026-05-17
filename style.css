@@ -3193,3 +3193,419 @@ body.menu-open .menu-button {
 
 }
 
+
+
+
+/* ==================================================
+   Phase4：素材画像・探索成功演出
+================================================== */
+
+
+/* ---------- 素材画像カード ---------- */
+
+.phase4-material-grid div {
+  position: relative;
+
+  min-height: 112px;
+
+  display: grid;
+  place-items: center;
+
+  gap: 3px;
+
+  overflow: hidden;
+}
+
+.phase4-material-grid img {
+  width: 54px;
+  height: 54px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 10px rgba(0,208,255,.45));
+}
+
+.phase4-material-grid div:nth-child(5) {
+  border-color:
+    rgba(255,255,255,.75);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,90,160,.25),
+      rgba(90,220,255,.18),
+      rgba(255,220,90,.18)
+    );
+
+  box-shadow:
+    0 0 22px rgba(255,255,255,.25),
+    inset 0 0 20px rgba(255,255,255,.10);
+}
+
+
+/* ---------- 報酬演出背景 ---------- */
+
+.reward-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 5000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255,214,107,.18),
+      transparent 32%
+    ),
+    rgba(0,0,0,.78);
+
+  backdrop-filter:
+    blur(6px);
+}
+
+.reward-overlay.hidden {
+  display: none;
+}
+
+.reward-overlay.show {
+  animation:
+    rewardFadeIn .25s ease;
+}
+
+@keyframes rewardFadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+
+/* ---------- 報酬モーダル ---------- */
+
+.reward-modal {
+  width: min(460px, 92vw);
+
+  padding:
+    26px
+    18px
+    20px;
+
+  border-radius: 28px;
+
+  border:
+    1px solid rgba(255,214,107,.75);
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255,214,107,.22),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8,22,48,.98),
+      rgba(2,8,24,.98)
+    );
+
+  box-shadow:
+    0 0 36px rgba(255,214,107,.35),
+    0 0 60px rgba(182,108,255,.24),
+    inset 0 0 32px rgba(0,208,255,.10);
+
+  text-align: center;
+
+  animation:
+    rewardPop .42s ease;
+}
+
+@keyframes rewardPop {
+
+  0% {
+    transform:
+      scale(.82)
+      translateY(20px);
+
+    opacity: 0;
+  }
+
+  70% {
+    transform:
+      scale(1.04)
+      translateY(0);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      scale(1);
+  }
+
+}
+
+
+/* ---------- タイトル ---------- */
+
+.reward-title {
+  color: #fff8df;
+
+  font-size:
+    clamp(34px, 9vw, 54px);
+
+  font-weight: 1000;
+
+  text-shadow:
+    0 0 8px white,
+    0 0 24px rgba(255,214,107,.95),
+    0 0 46px rgba(255,100,160,.7);
+}
+
+.reward-rank {
+  margin:
+    8px
+    auto
+    16px;
+
+  font-size:
+    clamp(42px, 13vw, 72px);
+
+  font-weight: 1000;
+
+  color: #ffd66b;
+
+  text-shadow:
+    0 0 10px white,
+    0 0 28px rgba(255,214,107,.95);
+}
+
+.reward-rank.rank-ss {
+  background:
+    linear-gradient(
+      90deg,
+      #ff66cc,
+      #ffd66b,
+      #66e1ff,
+      #b66cff
+    );
+
+  -webkit-background-clip: text;
+  color: transparent;
+
+  filter:
+    drop-shadow(0 0 16px rgba(255,255,255,.7));
+}
+
+
+/* ---------- 報酬カード ---------- */
+
+.reward-list {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 10px;
+
+  margin:
+    0
+    auto
+    16px;
+}
+
+.reward-item {
+  min-height: 120px;
+
+  padding: 10px;
+
+  border-radius: 18px;
+
+  border:
+    1px solid rgba(0,208,255,.35);
+
+  background:
+    rgba(4,14,32,.88);
+
+  color: white;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  animation:
+    itemPop .45s ease both;
+}
+
+.reward-item:nth-child(1) {
+  animation-delay: .05s;
+}
+
+.reward-item:nth-child(2) {
+  animation-delay: .12s;
+}
+
+.reward-item:nth-child(3) {
+  animation-delay: .19s;
+}
+
+.reward-item:nth-child(4) {
+  animation-delay: .26s;
+}
+
+.reward-item:nth-child(5) {
+  animation-delay: .33s;
+}
+
+@keyframes itemPop {
+
+  from {
+    transform:
+      translateY(14px)
+      scale(.88);
+
+    opacity: 0;
+  }
+
+  to {
+    transform:
+      translateY(0)
+      scale(1);
+
+    opacity: 1;
+  }
+
+}
+
+.reward-item img {
+  width: 58px;
+  height: 58px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 12px rgba(0,208,255,.45));
+}
+
+.reward-item strong {
+  color: #ffd66b;
+
+  font-size: 18px;
+}
+
+.reward-rare {
+  border-color:
+    rgba(182,108,255,.8);
+
+  box-shadow:
+    0 0 18px rgba(182,108,255,.35),
+    inset 0 0 16px rgba(182,108,255,.14);
+}
+
+.reward-legend {
+  border-color:
+    rgba(255,255,255,.9);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,90,160,.22),
+      rgba(90,220,255,.20),
+      rgba(255,220,90,.18)
+    );
+
+  box-shadow:
+    0 0 24px rgba(255,255,255,.45),
+    0 0 40px rgba(255,90,200,.30),
+    inset 0 0 20px rgba(255,255,255,.16);
+
+  animation:
+    itemPop .45s ease both,
+    legendGlow 1.6s infinite alternate;
+}
+
+@keyframes legendGlow {
+
+  from {
+    filter:
+      brightness(1);
+  }
+
+  to {
+    filter:
+      brightness(1.35);
+  }
+
+}
+
+
+/* ---------- 報酬メッセージ ---------- */
+
+.reward-message {
+  margin:
+    4px
+    auto
+    16px;
+
+  color: #d8ecff;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  line-height: 1.6;
+}
+
+.reward-modal button {
+  width: min(300px, 72vw);
+
+  min-height: 56px;
+
+  border-radius: 18px;
+
+  border:
+    1px solid rgba(0,208,255,.8);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8,22,48,.96),
+      rgba(2,8,24,.96)
+    );
+
+  color: white;
+
+  font-size: 22px;
+  font-weight: 1000;
+
+  box-shadow:
+    0 0 18px rgba(0,208,255,.35),
+    inset 0 0 18px rgba(0,208,255,.10);
+}
+
+
+/* ---------- 小さい画面 ---------- */
+
+@media (max-width: 420px) {
+
+  .reward-list {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .reward-item {
+    min-height: 108px;
+  }
+
+}
+

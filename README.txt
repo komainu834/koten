@@ -1,19 +1,35 @@
-古典タイムアタック Phase3.5
+古典タイムアタック Phase4
 
-重要：
-- ホーム画面とサイドメニューの順番は維持しています。
+追加内容：
+- Phase3.5の構成を維持
+- ホームとサイドメニューの順番は維持
   古典語彙 → 古典文法 → 助動詞 → ランキング → 探索
-- 探索を開くと、ソシャゲ風の式神育成画面が出ます。
-- img フォルダには必ず以下が入っています。
+- 探索回収時に「探索成功！」演出を表示
+- 探索ランク C / B / A / S / SS を追加
+- 素材画像を追加
+- レア素材・虹晶石を追加
+
+画像フォルダ：
+img/
   fox.png
   tengu.png
   dragon.png
   kitsune.png
+  materials/
+    soul_normal.png
+    soul_fire.png
+    soul_water.png
+    soul_wind.png
+    soul_light.png
+    crystal_blue.png
+    crystal_red.png
+    crystal_green.png
+    crystal_purple.png
+    crystal_rainbow.png
+    scroll_vocab.png
+    scroll_grammar.png
+    scroll_jodoushi.png
 
-GitHub Pagesにアップするとき：
-1. index.html / app.js / style.css / csv をリポジトリ直下にアップ
-2. img フォルダをGitHub上で作る
-3. img の中に fox.png / tengu.png / dragon.png / kitsune.png をアップ
-4. スマホで画像が出ない場合は、直接
-   https://あなたのURL/img/fox.png
-   を開いて確認してください。
+GitHub Pagesに上げるとき：
+- imgフォルダの中身も必ずアップしてください。
+- 特に img/materials/ の中身を忘れると素材画像が表示されません。
