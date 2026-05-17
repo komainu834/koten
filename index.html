@@ -52,6 +52,8 @@
     <div>TIME：<span id="time">60</span></div>
     <div>SCORE：<span id="score">0</span></div>
 
+    <div id="modeTitle" class="mode-title"></div>
+
     <div class="combo-gauge-wrap">
     <div class="combo-gauge-bg">
     <div class="combo-marker marker-0"><span>START</span></div>
@@ -94,7 +96,9 @@
   <h2 id="rankingTitle">ランキング</h2>
 
   <div class="ranking-mode-buttons">
-  <button id="rankingSwitchButton" onclick="toggleRankingMode()">古典文法ランキングへ</button>
+  <button onclick="showRankingByMode('vocab')">古典語彙</button>
+  <button onclick="showRankingByMode('grammar')">古典文法</button>
+  <button onclick="showRankingByMode('jodoushi')">助動詞</button>
 </div>
 
   <ol id="rankingList"></ol>

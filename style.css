@@ -2072,3 +2072,60 @@ body {
     margin: 8px auto;
   }
 }
+
+/* ==================================================
+   モード別テーマ色
+================================================== */
+
+body.mode-vocab {
+  --main-glow: #00d0ff;
+  --main-gold: #ffd66b;
+}
+
+body.mode-grammar {
+  --main-glow: #b66cff;
+  --main-gold: #d8b4ff;
+}
+
+body.mode-jodoushi {
+  --main-glow: #ff4d6d;
+  --main-gold: #ffb703;
+}
+
+body.mode-vocab #question,
+body.mode-vocab #choices button {
+  border-color: rgba(0, 208, 255, 0.75);
+  box-shadow:
+    0 0 22px rgba(0, 208, 255, 0.28),
+    inset 0 0 22px rgba(0, 208, 255, 0.10);
+}
+
+body.mode-grammar #question,
+body.mode-grammar #choices button {
+  border-color: rgba(182, 108, 255, 0.75);
+  box-shadow:
+    0 0 22px rgba(182, 108, 255, 0.28),
+    inset 0 0 22px rgba(182, 108, 255, 0.10);
+}
+
+body.mode-jodoushi #question,
+body.mode-jodoushi #choices button {
+  border-color: rgba(255, 77, 109, 0.75);
+  box-shadow:
+    0 0 22px rgba(255, 77, 109, 0.28),
+    inset 0 0 22px rgba(255, 77, 109, 0.10);
+}
+
+/* ===== メニュー最前面修正 ===== */
+
+.menu-button {
+  z-index: 3000 !important;
+}
+
+.side-menu {
+  z-index: 2999 !important;
+}
+
+.overlay {
+  z-index: 2998 !important;
+}

@@ -248,6 +248,16 @@ if (username === "") {
     closeMenu();
   showScreen(gameScreen);
 
+  const modeTitle = document.getElementById("modeTitle");
+
+if (currentMode === "vocab") {
+  modeTitle.textContent = "📘 古典語彙";
+} else if (currentMode === "grammar") {
+  modeTitle.textContent = "🧠 古典文法";
+} else {
+  modeTitle.textContent = "⚔ 助動詞";
+}
+
   showGo();
 
   setTimeout(function () {
@@ -433,17 +443,12 @@ async function showRankingByMode(mode) {
 
   const rankingTitle = document.getElementById("rankingTitle");
 
-  const rankingSwitchButton = document.getElementById("rankingSwitchButton");
-
 if (currentMode === "vocab") {
   rankingTitle.textContent = "古典語彙ランキング";
-  rankingSwitchButton.textContent = "古典文法ランキングへ";
 } else if (currentMode === "grammar") {
   rankingTitle.textContent = "古典文法ランキング";
-  rankingSwitchButton.textContent = "助動詞ランキングへ";
 } else if (currentMode === "jodoushi") {
   rankingTitle.textContent = "助動詞ランキング";
-  rankingSwitchButton.textContent = "古典語彙ランキングへ";
 }
 
   const { data, error } = await supabaseClient
@@ -507,6 +512,11 @@ function toggleRankingMode() {
   } else {
     showRankingByMode("vocab");
   }
+}
+
+function setModeTheme(mode) {
+  document.body.classList.remove("mode-vocab", "mode-grammar", "mode-jodoushi");
+  document.body.classList.add("mode-" + mode);
 }
 
 // ===== シャッフル =====
@@ -651,6 +661,7 @@ function goTop() {
 
 function showVocabHome() {
   currentMode = "vocab";
+  setModeTheme("vocab");
 
   // 語彙問題に戻す
   words = [...vocabWords];
@@ -674,6 +685,7 @@ function startGrammarGame() {
   }
 
   currentMode = "grammar";
+  setModeTheme("grammar");
 
   // 文法問題を使う
   words = [...grammarWords];
@@ -694,6 +706,7 @@ function startJodoushiGame() {
   }
 
   currentMode = "jodoushi";
+  setModeTheme("jodoushi");
 
   // 助動詞問題を使う
   words = [...jodoushiWords];
