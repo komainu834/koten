@@ -62,8 +62,9 @@ window.onload = async function () {
   if (!savedLoginId) {
     savedLoginId = generateLoginId();
     localStorage.setItem("loginId", savedLoginId);
-    loadExplore();
   }
+
+  loadExplore();
 
   // 👇これでOK（変数に入れるだけ）
   loginId = savedLoginId;
@@ -868,4 +869,10 @@ function showExploreScreen() {
   closeMenu();
   clearInterval(timer);
   showScreen(exploreScreen);
+}
+
+function goTop() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(topScreen);
 }
