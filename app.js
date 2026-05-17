@@ -2068,3 +2068,120 @@ function scrollToExploreArea() {
     block: "start"
   });
 }
+
+
+
+/* =========================
+   Phase6 タブUI
+========================= */
+
+function hideAllExploreTabs(){
+
+  const ids = [
+    "exploreTabPage",
+    "shikigamiTabPage",
+    "upgradeTabPage"
+  ];
+
+  ids.forEach(function(id){
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+      el.classList.add("hidden");
+    }
+
+  });
+
+  [
+    "tabExploreBtn",
+    "tabShikigamiBtn",
+    "tabUpgradeBtn"
+  ].forEach(function(id){
+
+    const btn =
+      document.getElementById(id);
+
+    if(btn){
+      btn.classList.remove("active");
+    }
+
+  });
+
+}
+
+function showExploreTab(){
+
+  hideAllExploreTabs();
+
+  const page =
+    document.getElementById("exploreTabPage");
+
+  const btn =
+    document.getElementById("tabExploreBtn");
+
+  if(page){
+    page.classList.remove("hidden");
+  }
+
+  if(btn){
+    btn.classList.add("active");
+  }
+
+}
+
+function showShikigamiTab(){
+
+  hideAllExploreTabs();
+
+  const page =
+    document.getElementById("shikigamiTabPage");
+
+  const btn =
+    document.getElementById("tabShikigamiBtn");
+
+  if(page){
+    page.classList.remove("hidden");
+  }
+
+  if(btn){
+    btn.classList.add("active");
+  }
+
+}
+
+function showUpgradeTab(){
+
+  hideAllExploreTabs();
+
+  const page =
+    document.getElementById("upgradeTabPage");
+
+  const btn =
+    document.getElementById("tabUpgradeBtn");
+
+  if(page){
+    page.classList.remove("hidden");
+  }
+
+  if(btn){
+    btn.classList.add("active");
+  }
+
+}
+
+/* 探索画面開いた時は探索タブ */
+const oldShowExploreScreenPhase6 =
+  showExploreScreen;
+
+showExploreScreen = function(){
+
+  oldShowExploreScreenPhase6();
+
+  setTimeout(function(){
+    showExploreTab();
+  }, 0);
+
+};
+

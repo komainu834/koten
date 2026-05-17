@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase5">
+  <link rel="stylesheet" href="style.css?v=phase6">
 </head>
 <body>
 
@@ -344,7 +344,8 @@
 
   </div>
 
-  <div id="phase5ExploreArea" class="phase35-explore-card phase5-explore-card">
+  <div id="exploreTabPage" class="phase6-tab-page">
+<div id="phase5ExploreArea" class="phase35-explore-card phase5-explore-card">
 
     <div class="phase35-section-title">
       探索に出す
@@ -426,19 +427,19 @@
       <span>ホーム</span>
     </button>
 
-    <button onclick="scrollToExploreArea()">
+    <button onclick="showExploreTab()" class="active" id="tabExploreBtn">
       🌙
       <span>探索</span>
     </button>
 
-    <button onclick="showExploreScreen()" class="active">
+    <button onclick="showShikigamiTab()" id="tabShikigamiBtn">
       🦊
       <span>式神</span>
     </button>
 
-    <button onclick="alert('召喚は今後追加予定です')">
-      ⛩
-      <span>召喚</span>
+    <button onclick="showUpgradeTab()" id="tabUpgradeBtn">
+      ✨
+      <span>強化</span>
     </button>
 
     <button onclick="alert('ショップは今後追加予定です')">
@@ -503,7 +504,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase5"></script>
+  <script src="app.js?v=phase6"></script>
 </body>
 </html>
   
