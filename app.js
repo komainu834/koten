@@ -28,6 +28,7 @@ const gameScreen = document.getElementById("gameScreen");
 const resultScreen = document.getElementById("resultScreen");
 const rankingScreen = document.getElementById("rankingScreen");
 const testScreen = document.getElementById("testScreen");
+const exploreScreen = document.getElementById("exploreScreen");
 const jodoushiScreen = document.getElementById("jodoushiScreen");
 
 const loginIdInput = document.getElementById("loginId");
@@ -195,6 +196,7 @@ function showScreen(screen) {
   rankingScreen.classList.remove("active");
   testScreen.classList.remove("active");
   jodoushiScreen.classList.remove("active");
+  exploreScreen.classList.remove("active");
   document.getElementById("profileScreen").classList.remove("active");
 
   screen.classList.add("active");
@@ -724,32 +726,23 @@ function startJodoushiGame() {
    探索システム
 ========================= */
 
-function startExplore() {
-
-  // 既に探索中なら開始しない
+function startExplore(place, hours) {
   if (exploreEndTime) {
+    alert("すでに探索中です");
     return;
   }
 
-  // 2時間探索
-  const hours = 2;
+  exploreEndTime = Date.now() + hours * 60 * 60 * 1000;
 
-  exploreEndTime =
-    Date.now() +
-    hours * 60 * 60 * 1000;
+  localStorage.setItem("exploreEndTime", exploreEndTime);
+  localStorage.setItem("explorePlace", place);
 
-  localStorage.setItem(
-    "exploreEndTime",
-    exploreEndTime
-  );
+  alert(place + "へ探索に出発しました！");
 
   updateExploreUI();
+  exploreInterval = setInterval(updateExploreUI, 1000);
 
-  exploreInterval =
-    setInterval(
-      updateExploreUI,
-      1000
-    );
+  goTop();
 }
 
 function updateExploreUI() {
@@ -763,6 +756,10 @@ function updateExploreUI() {
     document.getElementById(
       "exploreTimer"
     );
+
+    const placeEl = document.getElementById("explorePlace");
+const savedPlace = localStorage.getItem("explorePlace") || "月夜の竹林";
+placeEl.textContent = savedPlace;
 
   if (!exploreEndTime) {
     panel.classList.add("hidden");
@@ -865,4 +862,10 @@ function loadExplore() {
       updateExploreUI,
       1000
     );
+}
+
+function showExploreScreen() {
+  closeMenu();
+  clearInterval(timer);
+  showScreen(exploreScreen);
 }

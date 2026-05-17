@@ -50,7 +50,7 @@
   <button onclick="showGrammarScreen()">📘 古典文法</button>
   <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
   <button onclick="showRanking()">🏆 ランキング</button>
-  <button onclick="startExplore()">
+  <button onclick="showExploreScreen()">
   🌙 探索
 </button>
 </div>
@@ -108,6 +108,37 @@
     <button class="btn-vocab" onclick="startGame()">▶ もう一度</button>
     <button class="btn-ranking" onclick="goTop()">🏠 ホームへ戻る</button>
   </div>
+</section>
+
+<section id="exploreScreen" class="screen">
+  <h2>探索</h2>
+
+  <div class="explore-map">
+
+    <div class="explore-card">
+      <div class="explore-card-title">🌙 月夜の竹林</div>
+      <p>探索時間：2時間</p>
+      <p>古典霊力を入手しやすい</p>
+      <button onclick="startExplore('月夜の竹林', 2)">探索開始</button>
+    </div>
+
+    <div class="explore-card">
+      <div class="explore-card-title">⛩ 幽玄の社</div>
+      <p>探索時間：4時間</p>
+      <p>レア素材を見つけやすい</p>
+      <button onclick="startExplore('幽玄の社', 4)">探索開始</button>
+    </div>
+
+    <div class="explore-card">
+      <div class="explore-card-title">🔥 紅蓮峡谷</div>
+      <p>探索時間：8時間</p>
+      <p>助動詞霊力を多く入手</p>
+      <button onclick="startExplore('紅蓮峡谷', 8)">探索開始</button>
+    </div>
+
+  </div>
+
+  <button onclick="goTop()">ホームへ戻る</button>
 </section>
 
   <!-- ランキング -->
