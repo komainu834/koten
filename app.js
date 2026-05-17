@@ -77,6 +77,8 @@ window.onload = async function () {
 menuButton.onclick = function () {
   sideMenu.classList.add("open");
   overlay.classList.add("show");
+
+  document.body.classList.add("menu-open");
 };
 
 closeMenuButton.onclick = closeMenu;
@@ -85,8 +87,9 @@ overlay.onclick = closeMenu;
 function closeMenu() {
   sideMenu.classList.remove("open");
   overlay.classList.remove("show");
-}
 
+  document.body.classList.remove("menu-open");
+}
 // ===== CSV読み込み =====
 async function loadWords() {
   try {
