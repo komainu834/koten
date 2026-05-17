@@ -113,6 +113,28 @@
 <section id="exploreScreen" class="screen">
   <h2>探索</h2>
 
+  <div class="shikigami-panel">
+  <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
+
+  <div class="shikigami-character" id="activeShikigamiIcon">
+    🦊
+  </div>
+
+  <div class="shikigami-status">
+    Lv.<span id="activeShikigamiLevel">1</span>
+    ／ 霊力 <span id="spiritPowerText">0</span>
+  </div>
+
+  <button onclick="trainShikigami()">強化する</button>
+</div>
+
+<div class="shikigami-select">
+  <button onclick="selectShikigami('白狐ノ影','🦊')">🦊 白狐ノ影</button>
+  <button onclick="selectShikigami('鴉天狗','🐦‍⬛')">🐦‍⬛ 鴉天狗</button>
+  <button onclick="selectShikigami('青龍','🐉')">🐉 青龍</button>
+  <button onclick="selectShikigami('九尾ノ焔','🔥')">🔥 九尾ノ焔</button>
+</div>
+
   <div class="explore-map">
 
     <div class="explore-card">

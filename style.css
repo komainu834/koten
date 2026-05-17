@@ -2327,3 +2327,98 @@ button {
   margin: 18px auto 0;
   border-color: rgba(255,214,107,.72);
 }
+
+/* ===== 探索画面だけスマホで縦スクロール可能にする ===== */
+
+#exploreScreen {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 120px !important;
+}
+
+@media (max-width: 640px) {
+  #exploreScreen {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow-y: auto !important;
+  }
+
+  #exploreScreen .explore-map {
+    padding-bottom: 90px;
+  }
+}
+
+/* ===== 式神育成UI ===== */
+
+.shikigami-panel {
+  position: relative;
+  z-index: 1;
+  width: min(460px, 86vw);
+  margin: 10px auto 18px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,214,107,.55);
+  background:
+    linear-gradient(135deg, rgba(8,22,48,.96), rgba(2,8,24,.98));
+  box-shadow:
+    0 0 24px rgba(0,208,255,.20),
+    inset 0 0 24px rgba(182,108,255,.12);
+}
+
+.shikigami-name {
+  font-size: 24px;
+  font-weight: 1000;
+  color: #ffd66b;
+  text-shadow: 0 0 12px rgba(255,214,107,.8);
+}
+
+.shikigami-character {
+  width: 150px;
+  height: 150px;
+  margin: 14px auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 82px;
+  background:
+    radial-gradient(circle, rgba(0,208,255,.28), rgba(2,8,24,.95) 65%);
+  border: 1px solid rgba(0,208,255,.65);
+  box-shadow:
+    0 0 32px rgba(0,208,255,.28),
+    inset 0 0 28px rgba(255,214,107,.10);
+}
+
+.shikigami-status {
+  font-size: 18px;
+  font-weight: 900;
+  color: #d8ecff;
+}
+
+.shikigami-panel button,
+.shikigami-select button {
+  width: min(340px, 76vw);
+  min-height: 48px;
+  margin: 8px auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255,214,107,.6);
+  background:
+    linear-gradient(135deg, rgba(8,22,48,.96), rgba(2,8,24,.96));
+  color: white;
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.shikigami-select {
+  position: relative;
+  z-index: 1;
+  width: min(460px, 86vw);
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.shikigami-select button {
+  width: 100%;
+  font-size: 15px;
+}

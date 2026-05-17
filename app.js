@@ -821,6 +821,10 @@ function collectExploreReward() {
       Math.random() * 200
     ) + 100;
 
+    spiritPower += reward;
+localStorage.setItem("spiritPower", spiritPower);
+updateShikigamiUI();
+
   alert(
     `探索成功！\n古典霊力 +${reward}`
   );
@@ -875,4 +879,59 @@ function goTop() {
   closeMenu();
   clearInterval(timer);
   showScreen(topScreen);
+}
+
+/* =========================
+   式神育成システム
+========================= */
+
+let spiritPower = Number(localStorage.getItem("spiritPower") || 0);
+let activeShikigami = localStorage.getItem("activeShikigami") || "白狐ノ影";
+let activeShikigamiIcon = localStorage.getItem("activeShikigamiIcon") || "🦊";
+
+let shikigamiLevels = JSON.parse(
+  localStorage.getItem("shikigamiLevels") ||
+  '{"白狐ノ影":1,"鴉天狗":1,"青龍":1,"九尾ノ焔":1}'
+);
+
+function updateShikigamiUI() {
+  const nameEl = document.getElementById("activeShikigamiName");
+  const iconEl = document.getElementById("activeShikigamiIcon");
+  const levelEl = document.getElementById("activeShikigamiLevel");
+  const spiritEl = document.getElementById("spiritPowerText");
+
+  if (!nameEl || !iconEl || !levelEl || !spiritEl) return;
+
+  nameEl.textContent = activeShikigami;
+  iconEl.textContent = activeShikigamiIcon;
+  levelEl.textContent = shikigamiLevels[activeShikigami] || 1;
+  spiritEl.textContent = spiritPower;
+}
+
+function selectShikigami(name, icon) {
+  activeShikigami = name;
+  activeShikigamiIcon = icon;
+
+  localStorage.setItem("activeShikigami", name);
+  localStorage.setItem("activeShikigamiIcon", icon);
+
+  updateShikigamiUI();
+}
+
+function trainShikigami() {
+  const level = shikigamiLevels[activeShikigami] || 1;
+  const cost = level * 100;
+
+  if (spiritPower < cost) {
+    alert("霊力が足りません。\n必要霊力：" + cost);
+    return;
+  }
+
+  spiritPower -= cost;
+  shikigamiLevels[activeShikigami] = level + 1;
+
+  localStorage.setItem("spiritPower", spiritPower);
+  localStorage.setItem("shikigamiLevels", JSON.stringify(shikigamiLevels));
+
+  updateShikigamiUI();
 }
