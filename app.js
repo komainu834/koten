@@ -419,12 +419,11 @@ async function saveRanking(loginId, name, score) {
 }
 
 // ===== ランキング表示 =====
-// ===== ランキング表示 =====
 async function showRanking() {
   closeMenu();
   clearInterval(timer);
 
-  await showRankingByMode(currentMode);
+  await showRankingByMode("vocab");
 }
 
 async function showRankingByMode(mode) {
@@ -434,12 +433,15 @@ async function showRankingByMode(mode) {
 
   const rankingSwitchButton = document.getElementById("rankingSwitchButton");
 
-if (currentMode === "grammar") {
-  rankingTitle.textContent = "古典文法ランキング";
-  rankingSwitchButton.textContent = "古典語彙ランキングへ";
-} else {
+if (currentMode === "vocab") {
   rankingTitle.textContent = "古典語彙ランキング";
   rankingSwitchButton.textContent = "古典文法ランキングへ";
+} else if (currentMode === "grammar") {
+  rankingTitle.textContent = "古典文法ランキング";
+  rankingSwitchButton.textContent = "助動詞ランキングへ";
+} else if (currentMode === "jodoushi") {
+  rankingTitle.textContent = "助動詞ランキング";
+  rankingSwitchButton.textContent = "古典語彙ランキングへ";
 }
 
   const { data, error } = await supabaseClient
@@ -498,6 +500,8 @@ if (currentMode === "grammar") {
 function toggleRankingMode() {
   if (currentMode === "vocab") {
     showRankingByMode("grammar");
+  } else if (currentMode === "grammar") {
+    showRankingByMode("jodoushi");
   } else {
     showRankingByMode("vocab");
   }
