@@ -18,6 +18,8 @@ let timeLeft = 60;
 let timer = null;
 let currentQuestion = null;
 let answering = false;
+let exploreEndTime = null;
+let exploreInterval = null;
 
 // ===== 要素 =====
 const topScreen = document.getElementById("topScreen");
@@ -59,6 +61,7 @@ window.onload = async function () {
   if (!savedLoginId) {
     savedLoginId = generateLoginId();
     localStorage.setItem("loginId", savedLoginId);
+    loadExplore();
   }
 
   // 👇これでOK（変数に入れるだけ）
@@ -715,4 +718,151 @@ function startJodoushiGame() {
   words = [...jodoushiWords];
 
   startGame();
+}
+
+/* =========================
+   探索システム
+========================= */
+
+function startExplore() {
+
+  // 既に探索中なら開始しない
+  if (exploreEndTime) {
+    return;
+  }
+
+  // 2時間探索
+  const hours = 2;
+
+  exploreEndTime =
+    Date.now() +
+    hours * 60 * 60 * 1000;
+
+  localStorage.setItem(
+    "exploreEndTime",
+    exploreEndTime
+  );
+
+  updateExploreUI();
+
+  exploreInterval =
+    setInterval(
+      updateExploreUI,
+      1000
+    );
+}
+
+function updateExploreUI() {
+
+  const panel =
+    document.getElementById(
+      "explorePanel"
+    );
+
+  const timer =
+    document.getElementById(
+      "exploreTimer"
+    );
+
+  if (!exploreEndTime) {
+    panel.classList.add("hidden");
+    return;
+  }
+
+  panel.classList.remove("hidden");
+
+  const remain =
+    exploreEndTime - Date.now();
+
+  if (remain <= 0) {
+
+    timer.textContent =
+      "探索完了！";
+
+    return;
+  }
+
+  const totalSec =
+    Math.floor(remain / 1000);
+
+  const h =
+    String(
+      Math.floor(totalSec / 3600)
+    ).padStart(2, "0");
+
+  const m =
+    String(
+      Math.floor(
+        (totalSec % 3600) / 60
+      )
+    ).padStart(2, "0");
+
+  const s =
+    String(totalSec % 60)
+    .padStart(2, "0");
+
+  timer.textContent =
+    `${h}:${m}:${s}`;
+}
+
+function collectExploreReward() {
+
+  if (!exploreEndTime) {
+    return;
+  }
+
+  const remain =
+    exploreEndTime - Date.now();
+
+  if (remain > 0) {
+    return;
+  }
+
+  const reward =
+    Math.floor(
+      Math.random() * 200
+    ) + 100;
+
+  alert(
+    `探索成功！\n古典霊力 +${reward}`
+  );
+
+  exploreEndTime = null;
+
+  localStorage.removeItem(
+    "exploreEndTime"
+  );
+
+  document
+    .getElementById(
+      "explorePanel"
+    )
+    .classList.add("hidden");
+
+  clearInterval(
+    exploreInterval
+  );
+}
+
+function loadExplore() {
+
+  const saved =
+    localStorage.getItem(
+      "exploreEndTime"
+    );
+
+  if (!saved) {
+    return;
+  }
+
+  exploreEndTime =
+    Number(saved);
+
+  updateExploreUI();
+
+  exploreInterval =
+    setInterval(
+      updateExploreUI,
+      1000
+    );
 }
