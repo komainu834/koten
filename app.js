@@ -874,12 +874,12 @@ function showExploreScreen() {
 
 
 /* ==================================================
-   Phase3：式神育成・素材・探索システム
-   後から編集しやすいように、処理を分けています。
+   Phase3.5：探索画面をソシャゲ風育成画面に統一
+   ホームとサイドメニューの順番は壊しません。
 ================================================== */
 
 
-/* ---------- 基本データ ---------- */
+/* ---------- 式神マスター ---------- */
 
 const SHIKIGAMI_MASTER = {
   "白狐ノ影": {
@@ -983,50 +983,20 @@ let shikigamiData =
 
 /* ---------- 保存 ---------- */
 
-function savePhase3Data() {
-
-  localStorage.setItem(
-    "spiritPower",
-    spiritPower
-  );
-
-  localStorage.setItem(
-    "coins",
-    coins
-  );
-
-  localStorage.setItem(
-    "gems",
-    gems
-  );
-
-  localStorage.setItem(
-    "inventory",
-    JSON.stringify(inventory)
-  );
-
-  localStorage.setItem(
-    "activeShikigami",
-    activeShikigami
-  );
-
-  localStorage.setItem(
-    "activeShikigamiImage",
-    activeShikigamiImage
-  );
-
-  localStorage.setItem(
-    "shikigamiData",
-    JSON.stringify(shikigamiData)
-  );
-
+function savePhase35Data() {
+  localStorage.setItem("spiritPower", spiritPower);
+  localStorage.setItem("coins", coins);
+  localStorage.setItem("gems", gems);
+  localStorage.setItem("inventory", JSON.stringify(inventory));
+  localStorage.setItem("activeShikigami", activeShikigami);
+  localStorage.setItem("activeShikigamiImage", activeShikigamiImage);
+  localStorage.setItem("shikigamiData", JSON.stringify(shikigamiData));
 }
 
 
 /* ---------- 表示更新 ---------- */
 
 function updateShikigamiUI() {
-
   const master =
     SHIKIGAMI_MASTER[activeShikigami];
 
@@ -1050,9 +1020,11 @@ function updateShikigamiUI() {
     );
 
   setText("activeShikigamiName", activeShikigami);
+  setText("activeShikigamiNameTop", activeShikigami);
   setText("activeShikigamiRole", master.role);
-  setText("activeShikigamiLevel", level);
   setText("activeShikigamiElement", master.element);
+  setText("activeShikigamiLevel", level);
+  setText("activeShikigamiLevelTop", level);
 
   setText("spiritPowerText", spiritPower);
   setText("coinText", coins);
@@ -1063,59 +1035,33 @@ function updateShikigamiUI() {
   setText("redCrystalText", inventory.redCrystal);
   setText("scrollText", inventory.scroll);
 
-  setText(
-    "battlePowerText",
-    calcBattlePower(activeShikigami)
-  );
+  setText("battlePowerText", calcBattlePower(activeShikigami));
+  setText("expText", data.exp + " / " + requiredExp);
 
-  setText(
-    "expText",
-    data.exp + " / " + requiredExp
-  );
-
-  setText(
-    "hpText",
-    calcStat(master.baseHp, level)
-  );
-
-  setText(
-    "atkText",
-    calcStat(master.baseAtk, level)
-  );
-
-  setText(
-    "defText",
-    calcStat(master.baseDef, level)
-  );
-
-  setText(
-    "spdText",
-    calcStat(master.baseSpd, level)
-  );
+  setText("hpText", calcStat(master.baseHp, level));
+  setText("atkText", calcStat(master.baseAtk, level));
+  setText("defText", calcStat(master.baseDef, level));
+  setText("spdText", calcStat(master.baseSpd, level));
 
   const imageEl =
     document.getElementById("activeShikigamiImage");
 
   if (imageEl) {
-    imageEl.src =
-      activeShikigamiImage;
+    imageEl.src = activeShikigamiImage;
   }
 
   const expFill =
     document.getElementById("expFill");
 
   if (expFill) {
-    expFill.style.width =
-      expPercent + "%";
+    expFill.style.width = expPercent + "%";
   }
-
 }
 
 
 /* ---------- 小さい便利関数 ---------- */
 
 function setText(id, value) {
-
   const el =
     document.getElementById(id);
 
@@ -1123,27 +1069,20 @@ function setText(id, value) {
     return;
   }
 
-  el.textContent =
-    value;
-
+  el.textContent = value;
 }
 
 function getRequiredExp(level) {
-
   return 100 + (level - 1) * 60;
-
 }
 
 function calcStat(base, level) {
-
   return Math.floor(
     base + level * base * 0.08
   );
-
 }
 
 function calcBattlePower(name) {
-
   const master =
     SHIKIGAMI_MASTER[name];
 
@@ -1175,31 +1114,27 @@ function calcBattlePower(name) {
     def * 3 +
     spd * 2
   );
-
 }
 
 
 /* ---------- 式神選択 ---------- */
 
 function selectShikigami(name, image) {
-
   activeShikigami =
     name;
 
   activeShikigamiImage =
     image;
 
-  savePhase3Data();
+  savePhase35Data();
 
   updateShikigamiUI();
-
 }
 
 
 /* ---------- 強化 ---------- */
 
 function trainShikigami() {
-
   const data =
     shikigamiData[activeShikigami];
 
@@ -1220,53 +1155,34 @@ function trainShikigami() {
     );
 
   if (spiritPower < spiritCost) {
-    alert(
-      "霊力が足りません。\n必要霊力：" +
-      spiritCost
-    );
-
+    alert("霊力が足りません。必要霊力：" + spiritCost);
     return;
   }
 
   if (inventory.soul < soulCost) {
-    alert(
-      "霊魂が足りません。\n必要霊魂：" +
-      soulCost
-    );
-
+    alert("霊魂が足りません。必要霊魂：" + soulCost);
     return;
   }
 
-  spiritPower -=
-    spiritCost;
+  spiritPower -= spiritCost;
+  inventory.soul -= soulCost;
 
-  inventory.soul -=
-    soulCost;
-
-  data.exp +=
-    50;
+  data.exp += 50;
 
   while (data.exp >= getRequiredExp(data.level)) {
-
-    data.exp -=
-      getRequiredExp(data.level);
-
-    data.level +=
-      1;
-
+    data.exp -= getRequiredExp(data.level);
+    data.level += 1;
   }
 
-  savePhase3Data();
+  savePhase35Data();
 
   updateShikigamiUI();
-
 }
 
 
 /* ---------- 探索画面 ---------- */
 
 function showExploreScreen() {
-
   closeMenu();
 
   clearInterval(timer);
@@ -1276,14 +1192,12 @@ function showExploreScreen() {
   updateExploreUI();
 
   updateShikigamiUI();
-
 }
 
 
 /* ---------- 探索開始 ---------- */
 
 function startExplore(place, hours) {
-
   if (exploreEndTime) {
     alert("すでに探索中です");
     return;
@@ -1292,23 +1206,13 @@ function startExplore(place, hours) {
   exploreEndTime =
     Date.now() + hours * 60 * 60 * 1000;
 
-  localStorage.setItem(
-    "exploreEndTime",
-    exploreEndTime
-  );
+  localStorage.setItem("exploreEndTime", exploreEndTime);
+  localStorage.setItem("explorePlace", place);
+  localStorage.setItem("exploreShikigami", activeShikigami);
 
-  localStorage.setItem(
-    "explorePlace",
-    place
-  );
-
-  alert(
-    place + "へ探索に出発しました！"
-  );
+  alert(place + "へ探索に出発しました！");
 
   updateExploreUI();
-
-  updateShikigamiUI();
 
   clearInterval(exploreInterval);
 
@@ -1317,14 +1221,12 @@ function startExplore(place, hours) {
       updateExploreUI,
       1000
     );
-
 }
 
 
 /* ---------- 探索表示 ---------- */
 
 function updateExploreUI() {
-
   const panel =
     document.getElementById("explorePanel");
 
@@ -1333,6 +1235,9 @@ function updateExploreUI() {
 
   const placeEl =
     document.getElementById("explorePlace");
+
+  const shikigamiEl =
+    document.getElementById("exploreShikigamiName");
 
   if (!panel || !timerEl || !placeEl) {
     return;
@@ -1349,52 +1254,53 @@ function updateExploreUI() {
     localStorage.getItem("explorePlace") ||
     "月夜の竹林";
 
+  const shikigami =
+    localStorage.getItem("exploreShikigami") ||
+    activeShikigami;
+
   placeEl.textContent =
     place;
+
+  if (shikigamiEl) {
+    shikigamiEl.textContent =
+      shikigami;
+  }
 
   const remain =
     exploreEndTime - Date.now();
 
   if (remain <= 0) {
-    timerEl.textContent =
-      "探索完了！";
-
+    timerEl.textContent = "探索完了！";
     return;
   }
 
   timerEl.textContent =
     formatRemainTime(remain);
-
 }
 
 function formatRemainTime(ms) {
-
   const totalSec =
     Math.floor(ms / 1000);
 
   const h =
-    String(
-      Math.floor(totalSec / 3600)
-    ).padStart(2, "0");
+    String(Math.floor(totalSec / 3600))
+      .padStart(2, "0");
 
   const m =
-    String(
-      Math.floor((totalSec % 3600) / 60)
-    ).padStart(2, "0");
+    String(Math.floor((totalSec % 3600) / 60))
+      .padStart(2, "0");
 
   const s =
     String(totalSec % 60)
       .padStart(2, "0");
 
   return h + ":" + m + ":" + s;
-
 }
 
 
 /* ---------- 探索回収 ---------- */
 
 function collectExploreReward() {
-
   if (!exploreEndTime) {
     return;
   }
@@ -1416,34 +1322,30 @@ function collectExploreReward() {
 
   applyExploreReward(reward);
 
-  alert(
-    "探索成功！\n" +
-    reward.message
-  );
+  alert("探索成功！\n" + reward.message);
 
   exploreEndTime =
     null;
 
   localStorage.removeItem("exploreEndTime");
   localStorage.removeItem("explorePlace");
+  localStorage.removeItem("exploreShikigami");
 
   clearInterval(exploreInterval);
 
-  savePhase3Data();
+  savePhase35Data();
 
   updateExploreUI();
 
   updateShikigamiUI();
-
 }
 
 function createExploreReward(place) {
-
   const reward = {
-    spirit: randomInt(120, 260),
-    coins: randomInt(30, 90),
+    spirit: randomReward(120, 260),
+    coins: randomReward(30, 90),
     gems: 0,
-    soul: randomInt(4, 14),
+    soul: randomReward(4, 14),
     blueCrystal: 0,
     redCrystal: 0,
     scroll: 0,
@@ -1451,26 +1353,17 @@ function createExploreReward(place) {
   };
 
   if (place === "月夜の竹林") {
+    reward.blueCrystal = randomReward(1, 4);
+  }
 
-    reward.blueCrystal =
-      randomInt(1, 4);
+  if (place === "幽玄の社") {
+    reward.scroll = randomReward(1, 3);
+    reward.gems = randomReward(0, 2);
+  }
 
-  } else if (place === "幽玄の社") {
-
-    reward.scroll =
-      randomInt(1, 3);
-
-    reward.gems =
-      randomInt(0, 2);
-
-  } else if (place === "紅蓮峡谷") {
-
-    reward.redCrystal =
-      randomInt(1, 5);
-
-    reward.spirit +=
-      80;
-
+  if (place === "紅蓮峡谷") {
+    reward.redCrystal = randomReward(1, 5);
+    reward.spirit += 80;
   }
 
   reward.message =
@@ -1482,52 +1375,33 @@ function createExploreReward(place) {
     "巻物 +" + reward.scroll;
 
   if (reward.gems > 0) {
-    reward.message +=
-      "\n晶石 +" + reward.gems;
+    reward.message += "\n晶石 +" + reward.gems;
   }
 
   return reward;
-
 }
 
 function applyExploreReward(reward) {
+  spiritPower += reward.spirit;
+  coins += reward.coins;
+  gems += reward.gems;
 
-  spiritPower +=
-    reward.spirit;
-
-  coins +=
-    reward.coins;
-
-  gems +=
-    reward.gems;
-
-  inventory.soul +=
-    reward.soul;
-
-  inventory.blueCrystal +=
-    reward.blueCrystal;
-
-  inventory.redCrystal +=
-    reward.redCrystal;
-
-  inventory.scroll +=
-    reward.scroll;
-
+  inventory.soul += reward.soul;
+  inventory.blueCrystal += reward.blueCrystal;
+  inventory.redCrystal += reward.redCrystal;
+  inventory.scroll += reward.scroll;
 }
 
-function randomInt(min, max) {
-
+function randomReward(min, max) {
   return Math.floor(
     Math.random() * (max - min + 1)
   ) + min;
-
 }
 
 
 /* ---------- 起動時探索復元 ---------- */
 
 function loadExplore() {
-
   const saved =
     localStorage.getItem("exploreEndTime");
 
@@ -1550,14 +1424,12 @@ function loadExplore() {
   updateExploreUI();
 
   updateShikigamiUI();
-
 }
 
 
 /* ---------- 古典タイムアタック報酬 ---------- */
 
 function giveGameReward(score, mode) {
-
   const base =
     Math.floor(score / 10);
 
@@ -1577,40 +1449,41 @@ function giveGameReward(score, mode) {
       Math.floor(base * 1.2);
   }
 
-  spiritPower +=
-    spiritBonus;
-
-  coins +=
-    coinBonus;
+  spiritPower += spiritBonus;
+  coins += coinBonus;
 
   if (mode === "vocab") {
-    inventory.blueCrystal +=
-      Math.floor(score / 300);
+    inventory.blueCrystal += Math.floor(score / 300);
   }
 
   if (mode === "jodoushi") {
-    inventory.redCrystal +=
-      Math.floor(score / 300);
+    inventory.redCrystal += Math.floor(score / 300);
   }
 
   if (mode === "grammar") {
-    inventory.scroll +=
-      Math.floor(score / 500);
+    inventory.scroll += Math.floor(score / 500);
   }
 
-  savePhase3Data();
+  savePhase35Data();
+}
 
+
+/* ---------- 下メニューからサイドメニューを開く ---------- */
+
+function openSideMenuFromBottom() {
+  sideMenu.classList.add("open");
+  overlay.classList.add("show");
+
+  document.body.classList.add("menu-open");
 }
 
 
 /* ---------- ヘルプ ---------- */
 
-function showPhase3Help() {
-
+function showPhase35Help() {
   alert(
-    "古典をプレイすると霊力・古銭が増えます。\n" +
+    "古典をプレイすると霊力と古銭が増えます。\n" +
     "探索で素材を集め、式神を強化できます。"
   );
-
 }
 

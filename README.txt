@@ -1,32 +1,19 @@
-古典タイムアタック Phase3 再構築版
+古典タイムアタック Phase3.5
 
-入っているもの：
-- 古典語彙
-- 古典文法
-- 助動詞タイムアタック
-- Supabaseランキング3モード
-- 和風ネオンUI
-- 式神育成 Phase3
-  - レベル
-  - EXP
-  - 戦力
-  - HP / 攻撃 / 防御 / 素早さ
-  - 霊力 / 古銭 / 晶石
-  - 霊魂 / 蒼晶石 / 紅晶石 / 巻物
-- 探索
-  - 月夜の竹林
-  - 幽玄の社
-  - 紅蓮峡谷
-- 探索報酬で素材獲得
-- 古典タイムアタックのスコアで育成報酬獲得
-- スマホ縦画面対応
-- 探索画面スクロール対応
+重要：
+- ホーム画面とサイドメニューの順番は維持しています。
+  古典語彙 → 古典文法 → 助動詞 → ランキング → 探索
+- 探索を開くと、ソシャゲ風の式神育成画面が出ます。
+- img フォルダには必ず以下が入っています。
+  fox.png
+  tengu.png
+  dragon.png
+  kitsune.png
 
-GitHub Pagesにアップする時：
-1. ZIPを解凍
-2. index.html / app.js / style.css / csv をリポジトリ直下にアップ
-3. img フォルダを作る
-4. img の中に fox.png / tengu.png / dragon.png / kitsune.png をアップ
-5. 反映後、スマホではキャッシュ対策で再読み込み
-
-後から編集しやすいように、app.js と style.css は Phase3 の部分をコメントで分けています。
+GitHub Pagesにアップするとき：
+1. index.html / app.js / style.css / csv をリポジトリ直下にアップ
+2. img フォルダをGitHub上で作る
+3. img の中に fox.png / tengu.png / dragon.png / kitsune.png をアップ
+4. スマホで画像が出ない場合は、直接
+   https://あなたのURL/img/fox.png
+   を開いて確認してください。

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase3">
+  <link rel="stylesheet" href="style.css?v=phase35">
 </head>
 <body>
 
@@ -95,71 +95,90 @@
   </div>
 </section>
 
-<section id="exploreScreen" class="screen">
+<section id="exploreScreen" class="screen phase35-screen">
 
-  <div class="raise-top">
-    <button class="back-btn" onclick="goTop()">←</button>
-    <h2>式神育成</h2>
-    <button class="help-btn" onclick="showPhase3Help()">?</button>
+  <div class="phase35-top">
+
+    <button
+      class="phase35-round-btn"
+      onclick="goTop()"
+    >
+      ←
+    </button>
+
+    <div class="phase35-player">
+      <div class="phase35-player-level">
+        Lv.<span id="activeShikigamiLevelTop">1</span>
+      </div>
+
+      <div class="phase35-player-name">
+        <span id="activeShikigamiNameTop">白狐ノ影</span>
+      </div>
+    </div>
+
+    <button
+      class="phase35-round-btn"
+      onclick="showPhase35Help()"
+    >
+      ?
+    </button>
+
   </div>
 
-  <div class="resource-bar">
+  <div class="phase35-resource-bar">
 
     <div>
-      霊力
+      🔥 霊力
       <span id="spiritPowerText">0</span>
     </div>
 
     <div>
-      古銭
+      🪙 古銭
       <span id="coinText">0</span>
     </div>
 
     <div>
-      晶石
+      💎 晶石
       <span id="gemText">0</span>
     </div>
 
   </div>
 
-  <div class="material-grid">
+  <h2 class="phase35-title">
+    式神育成
+  </h2>
 
-    <div class="material-item">
-      🔮 霊魂
-      <span id="soulText">0</span>
+  <div class="phase35-hero">
+
+    <div class="phase35-name-card">
+
+      <div class="phase35-element" id="activeShikigamiElement">
+        水
+      </div>
+
+      <div class="phase35-name" id="activeShikigamiName">
+        白狐ノ影
+      </div>
+
+      <div class="phase35-stars">
+        ★★★★★
+      </div>
+
+      <div class="phase35-role">
+        役割：
+        <span id="activeShikigamiRole">
+          語彙特化
+        </span>
+      </div>
+
     </div>
 
-    <div class="material-item">
-      💎 蒼晶石
-      <span id="blueCrystalText">0</span>
+    <div class="phase35-power-card">
+      <div>戦力</div>
+      <strong id="battlePowerText">1200</strong>
     </div>
 
-    <div class="material-item">
-      ❤️ 紅晶石
-      <span id="redCrystalText">0</span>
-    </div>
-
-    <div class="material-item">
-      📜 巻物
-      <span id="scrollText">0</span>
-    </div>
-
-  </div>
-
-  <div class="character-stage">
-
-    <div
-      class="shikigami-name"
-      id="activeShikigamiName"
-    >
-      白狐ノ影
-    </div>
-
-    <div class="shikigami-role" id="activeShikigamiRole">
-      語彙特化
-    </div>
-
-    <div class="shikigami-character">
+    <div class="phase35-character-wrap">
 
       <img
         id="activeShikigamiImage"
@@ -169,31 +188,30 @@
 
     </div>
 
-    <div class="shikigami-level">
-      Lv.<span id="activeShikigamiLevel">1</span>
-      ／
-      <span id="activeShikigamiElement">水</span>属性
-    </div>
-
   </div>
 
-  <div class="growth-card">
+  <div class="phase35-growth-card">
 
-    <div class="growth-row">
-      <span>戦力</span>
-      <strong id="battlePowerText">1200</strong>
+    <div class="phase35-level-row">
+      <span>
+        Lv.<span id="activeShikigamiLevel">1</span>
+        / 40
+      </span>
+
+      <button onclick="trainShikigami()">
+        レベルアップ
+      </button>
     </div>
 
-    <div class="exp-label">
-      EXP
-      <span id="expText">0 / 100</span>
+    <div class="phase35-exp-bar">
+      <div id="expFill" class="phase35-exp-fill"></div>
     </div>
 
-    <div class="exp-bar">
-      <div class="exp-fill" id="expFill"></div>
+    <div id="expText" class="phase35-exp-text">
+      0 / 100
     </div>
 
-    <div class="stat-grid">
+    <div class="phase35-stat-grid">
 
       <div>
         HP
@@ -217,143 +235,153 @@
 
     </div>
 
-    <button onclick="trainShikigami()">
-      強化する
-    </button>
-
   </div>
 
-  <div class="shikigami-select">
-
-    <button
-      onclick="selectShikigami(
-        '白狐ノ影',
-        'img/fox.png'
-      )"
-    >
-      🦊 白狐
-    </button>
-
-    <button
-      onclick="selectShikigami(
-        '鴉天狗',
-        'img/tengu.png'
-      )"
-    >
-      🐦‍⬛ 鴉天狗
-    </button>
-
-    <button
-      onclick="selectShikigami(
-        '青龍',
-        'img/dragon.png'
-      )"
-    >
-      🐉 青龍
-    </button>
-
-    <button
-      onclick="selectShikigami(
-        '九尾ノ焔',
-        'img/kitsune.png'
-      )"
-    >
-      🔥 九尾
-    </button>
-
+  <div class="phase35-tab-row">
+    <button class="active">強化</button>
+    <button onclick="alert('装備は今後追加予定です')">装備</button>
+    <button onclick="alert('スキルは今後追加予定です')">スキル</button>
+    <button onclick="alert('覚醒は今後追加予定です')">覚醒</button>
   </div>
 
-  <div id="explorePanel" class="explore-panel hidden">
+  <div class="phase35-material-card">
 
-    <div class="explore-title">
-      探索中
+    <div class="phase35-section-title">
+      強化素材
     </div>
 
-    <div
-      id="explorePlace"
-      class="explore-place"
-    >
-      月夜の竹林
-    </div>
+    <div class="phase35-material-grid">
 
-    <div
-      id="exploreTimer"
-      class="explore-timer"
-    >
-      00:00:00
-    </div>
-
-    <button onclick="collectExploreReward()">
-      回収する
-    </button>
-
-  </div>
-
-  <h3 class="section-title">
-    探索に出す
-  </h3>
-
-  <div class="explore-map">
-
-    <div class="explore-card">
-
-      <div class="explore-card-title">
-        🌙 月夜の竹林
+      <div>
+        🔮 霊魂
+        <span id="soulText">0</span>
       </div>
 
-      <p>
-        探索時間：2時間
-      </p>
+      <div>
+        💎 蒼晶石
+        <span id="blueCrystalText">0</span>
+      </div>
 
-      <p>
-        霊魂・蒼晶石を入手しやすい
-      </p>
+      <div>
+        ❤️ 紅晶石
+        <span id="redCrystalText">0</span>
+      </div>
+
+      <div>
+        📜 巻物
+        <span id="scrollText">0</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="phase35-select-card">
+
+    <div class="phase35-section-title">
+      式神を選ぶ
+    </div>
+
+    <div class="phase35-shikigami-select">
+
+      <button onclick="selectShikigami('白狐ノ影', 'img/fox.png')">
+        🦊 白狐
+      </button>
+
+      <button onclick="selectShikigami('鴉天狗', 'img/tengu.png')">
+        🐦‍⬛ 鴉天狗
+      </button>
+
+      <button onclick="selectShikigami('青龍', 'img/dragon.png')">
+        🐉 青龍
+      </button>
+
+      <button onclick="selectShikigami('九尾ノ焔', 'img/kitsune.png')">
+        🔥 九尾
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="phase35-explore-card">
+
+    <div class="phase35-section-title">
+      探索に出す
+    </div>
+
+    <div class="phase35-explore-place">
+      <div class="phase35-place-art">
+        月夜の竹林
+      </div>
+
+      <div class="phase35-place-info">
+        <strong>月夜の竹林</strong>
+        <span>探索時間：2時間</span>
+        <span>おすすめ属性：水</span>
+      </div>
 
       <button onclick="startExplore('月夜の竹林', 2)">
-        探索開始
+        探索に出す
       </button>
-
     </div>
 
-    <div class="explore-card">
+    <div id="explorePanel" class="phase35-explore-status hidden">
 
-      <div class="explore-card-title">
-        ⛩ 幽玄の社
+      <div>
+        探索中の式神：
+        <span id="exploreShikigamiName">白狐ノ影</span>
       </div>
 
-      <p>
-        探索時間：4時間
-      </p>
-
-      <p>
-        巻物を見つけやすい
-      </p>
-
-      <button onclick="startExplore('幽玄の社', 4)">
-        探索開始
-      </button>
-
-    </div>
-
-    <div class="explore-card">
-
-      <div class="explore-card-title">
-        🔥 紅蓮峡谷
+      <div>
+        場所：
+        <span id="explorePlace">月夜の竹林</span>
       </div>
 
-      <p>
-        探索時間：8時間
-      </p>
+      <div>
+        残り時間：
+        <span id="exploreTimer">00:00:00</span>
+      </div>
 
-      <p>
-        紅晶石を多く入手
-      </p>
-
-      <button onclick="startExplore('紅蓮峡谷', 8)">
-        探索開始
+      <button onclick="collectExploreReward()">
+        回収する
       </button>
 
     </div>
+
+  </div>
+
+  <div class="phase35-bottom-nav">
+
+    <button onclick="goTop()">
+      ⛩
+      <span>ホーム</span>
+    </button>
+
+    <button onclick="showExploreScreen()">
+      🌙
+      <span>探索</span>
+    </button>
+
+    <button onclick="showExploreScreen()" class="active">
+      🦊
+      <span>式神</span>
+    </button>
+
+    <button onclick="alert('召喚は今後追加予定です')">
+      ⛩
+      <span>召喚</span>
+    </button>
+
+    <button onclick="alert('ショップは今後追加予定です')">
+      🏪
+      <span>ショップ</span>
+    </button>
+
+    <button onclick="openSideMenuFromBottom()">
+      ☰
+      <span>メニュー</span>
+    </button>
 
   </div>
 
@@ -407,7 +435,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase3"></script>
+  <script src="app.js?v=phase35"></script>
 </body>
 </html>
   

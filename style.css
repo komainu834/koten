@@ -2330,14 +2330,14 @@ button {
 
 
 /* ==================================================
-   Phase3：探索・式神育成画面
-   後から編集しやすいように、まとまりごとに分けています。
+   Phase3.5：探索画面専用ソシャゲ風UI
+   ホーム画面と通常メニューは壊さない。
 ================================================== */
 
 
-/* ---------- 探索画面全体 ---------- */
+/* ---------- 画面全体 ---------- */
 
-#exploreScreen {
+#exploreScreen.phase35-screen {
   height: 100dvh !important;
   min-height: 100dvh !important;
 
@@ -2345,25 +2345,25 @@ button {
   overflow-x: hidden !important;
 
   padding:
-    18px
-    14px
-    130px !important;
+    12px
+    12px
+    112px !important;
 
   background:
     radial-gradient(
-      circle at 50% 18%,
-      rgba(182,108,255,.26),
-      transparent 32%
+      circle at 50% 16%,
+      rgba(182,108,255,.28),
+      transparent 30%
     ),
     radial-gradient(
       circle at 20% 72%,
-      rgba(0,208,255,.16),
+      rgba(0,208,255,.18),
       transparent 30%
     ),
     linear-gradient(
       180deg,
       #020614 0%,
-      #06142b 54%,
+      #06142b 52%,
       #02040b 100%
     );
 
@@ -2371,45 +2371,31 @@ button {
 }
 
 
-/* ---------- 上部ヘッダー ---------- */
+/* ---------- 上部 ---------- */
 
-.raise-top {
-  display: grid;
-  grid-template-columns:
-    52px
-    1fr
-    52px;
-
-  align-items: center;
-  gap: 8px;
-
-  width: min(460px, 92vw);
+.phase35-top {
+  width: min(460px, 94vw);
 
   margin:
     0
     auto
-    10px;
+    8px;
+
+  display: grid;
+  grid-template-columns:
+    48px
+    1fr
+    48px;
+
+  align-items: center;
+  gap: 8px;
 }
 
-.raise-top h2 {
+.phase35-round-btn {
+  width: 46px;
+  height: 46px;
+
   margin: 0;
-
-  font-size:
-    clamp(30px, 8vw, 48px);
-
-  color: #fff8df;
-
-  text-shadow:
-    0 0 8px white,
-    0 0 24px rgba(255,214,107,.9),
-    0 0 42px rgba(182,108,255,.55);
-}
-
-.back-btn,
-.help-btn {
-  width: 48px;
-  height: 48px;
-
   padding: 0;
 
   border-radius: 50%;
@@ -2422,20 +2408,38 @@ button {
 
   color: #ffd66b;
 
-  font-size: 24px;
+  font-size: 23px;
+  font-weight: 1000;
+}
+
+.phase35-player {
+  text-align: left;
+}
+
+.phase35-player-level {
+  color: #ffd66b;
+
+  font-size: 16px;
+  font-weight: 1000;
+}
+
+.phase35-player-name {
+  color: white;
+
+  font-size: 20px;
   font-weight: 1000;
 }
 
 
 /* ---------- 資源バー ---------- */
 
-.resource-bar {
-  width: min(460px, 92vw);
+.phase35-resource-bar {
+  width: min(460px, 94vw);
 
   margin:
     0
     auto
-    12px;
+    8px;
 
   display: grid;
   grid-template-columns:
@@ -2444,9 +2448,9 @@ button {
   gap: 8px;
 }
 
-.resource-bar div {
+.phase35-resource-bar div {
   padding:
-    10px
+    9px
     6px;
 
   border-radius: 14px;
@@ -2457,89 +2461,67 @@ button {
   background:
     rgba(4,14,32,.86);
 
-  font-size: 13px;
+  color: #cceeff;
+
+  font-size: 12px;
   font-weight: 900;
 }
 
-.resource-bar span {
+.phase35-resource-bar span {
   display: block;
 
   color: #ffd66b;
 
-  font-size: 18px;
+  font-size: 17px;
 }
 
 
-/* ---------- 素材表示 ---------- */
+/* ---------- タイトル ---------- */
 
-.material-grid {
-  width: min(460px, 92vw);
-
+.phase35-title {
   margin:
-    0
+    6px
     auto
-    14px;
+    8px !important;
 
-  display: grid;
-  grid-template-columns:
-    repeat(2, 1fr);
+  color: #fff8df !important;
 
-  gap: 8px;
-}
+  font-size:
+    clamp(32px, 8vw, 50px) !important;
 
-.material-item {
-  padding: 12px;
-
-  border-radius: 16px;
-
-  border:
-    1px solid rgba(255,214,107,.35);
-
-  background:
-    rgba(4,14,32,.88);
-
-  font-size: 15px;
-  font-weight: 900;
-}
-
-.material-item span {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #ffd66b;
-
-  font-size: 22px;
+  text-shadow:
+    0 0 8px white,
+    0 0 24px rgba(255,214,107,.9),
+    0 0 42px rgba(182,108,255,.55) !important;
 }
 
 
-/* ---------- キャラ表示 ---------- */
+/* ---------- キャラステージ ---------- */
 
-.character-stage {
+.phase35-hero {
   position: relative;
 
-  width: min(460px, 92vw);
+  width: min(460px, 94vw);
+
+  min-height: 390px;
 
   margin:
     0
     auto
-    12px;
+    10px;
 
-  padding:
-    18px
-    16px
-    22px;
+  padding: 12px;
 
-  border-radius: 26px;
+  border-radius: 24px;
 
   border:
     1px solid rgba(255,214,107,.45);
 
   background:
     radial-gradient(
-      circle at 50% 45%,
+      circle at 50% 50%,
       rgba(182,108,255,.32),
-      transparent 38%
+      transparent 42%
     ),
     linear-gradient(
       135deg,
@@ -2550,129 +2532,193 @@ button {
   box-shadow:
     0 0 28px rgba(182,108,255,.24),
     inset 0 0 28px rgba(0,208,255,.08);
+
+  overflow: hidden;
 }
 
-.shikigami-name {
-  font-size:
-    clamp(26px, 7vw, 38px);
+.phase35-name-card {
+  position: absolute;
+  left: 12px;
+  top: 18px;
 
-  font-weight: 1000;
+  z-index: 2;
 
-  color: #ffd66b;
+  width: 42%;
 
-  text-shadow:
-    0 0 14px rgba(255,214,107,.85);
-}
+  padding: 12px;
 
-.shikigami-role {
-  margin-top: 4px;
-
-  color: #cceeff;
-
-  font-size: 15px;
-  font-weight: 900;
-}
-
-.shikigami-character {
-  width: 220px;
-  height: 260px;
-
-  margin:
-    10px
-    auto;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 26px;
+  border-radius: 16px;
 
   background:
-    radial-gradient(
-      circle,
-      rgba(0,208,255,.20),
-      rgba(2,8,24,.96) 70%
-    );
+    rgba(4,14,32,.70);
 
   border:
-    1px solid rgba(0,208,255,.55);
+    1px solid rgba(182,108,255,.35);
 
-  box-shadow:
-    0 0 36px rgba(0,208,255,.24),
-    inset 0 0 28px rgba(255,214,107,.08);
+  text-align: left;
 }
 
-#activeShikigamiImage {
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-
-  filter:
-    drop-shadow(0 0 18px rgba(0,208,255,.45))
-    drop-shadow(0 0 34px rgba(182,108,255,.28));
-}
-
-.shikigami-level {
-  font-size: 20px;
-  font-weight: 1000;
-}
-
-
-/* ---------- 強化カード ---------- */
-
-.growth-card {
-  width: min(460px, 92vw);
-
-  margin:
-    0
-    auto
-    12px;
-
-  padding: 16px;
-
-  border-radius: 22px;
-
-  border:
-    1px solid rgba(255,214,107,.45);
-
-  background:
-    rgba(4,14,32,.90);
-}
-
-.growth-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  font-size: 20px;
-  font-weight: 1000;
-}
-
-.growth-row strong {
-  color: #ffd66b;
-
-  font-size: 30px;
-}
-
-.exp-label {
-  margin-top: 10px;
-
-  display: flex;
-  justify-content: space-between;
-
-  color: #cceeff;
+.phase35-element {
+  color: #8fdfff;
 
   font-size: 14px;
   font-weight: 900;
 }
 
-.exp-bar {
-  height: 14px;
+.phase35-name {
+  color: #ffd66b;
+
+  font-size:
+    clamp(22px, 6vw, 32px);
+
+  font-weight: 1000;
+
+  text-shadow:
+    0 0 12px rgba(255,214,107,.85);
+}
+
+.phase35-stars {
+  color: #ffd66b;
+
+  margin-top: 4px;
+
+  font-size: 18px;
+}
+
+.phase35-role {
+  margin-top: 10px;
+
+  color: #d8ecff;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.phase35-power-card {
+  position: absolute;
+  right: 12px;
+  top: 34px;
+
+  z-index: 2;
+
+  width: 34%;
+
+  padding: 12px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(4,14,32,.72);
+
+  border:
+    1px solid rgba(255,214,107,.38);
+
+  color: #d8ecff;
+}
+
+.phase35-power-card strong {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #ffd66b;
+
+  font-size: 30px;
+}
+
+.phase35-character-wrap {
+  position: absolute;
+
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  width: 92%;
+  height: 84%;
+
+  display: grid;
+  place-items: end center;
+}
+
+#activeShikigamiImage {
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 18px rgba(0,208,255,.45))
+    drop-shadow(0 0 34px rgba(182,108,255,.35));
+}
+
+
+/* ---------- 成長カード ---------- */
+
+.phase35-growth-card {
+  width: min(460px, 94vw);
 
   margin:
-    8px
     0
-    12px;
+    auto
+    10px;
+
+  padding: 14px;
+
+  border-radius: 20px;
+
+  border:
+    1px solid rgba(255,214,107,.42);
+
+  background:
+    rgba(4,14,32,.90);
+}
+
+.phase35-level-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: white;
+
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.phase35-level-row button {
+  width: auto;
+  min-width: 132px;
+
+  margin: 0;
+  padding:
+    12px
+    16px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(255,214,107,.78);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(120,75,0,.90),
+      rgba(30,15,0,.96)
+    );
+
+  color: white;
+
+  font-size: 17px;
+  font-weight: 1000;
+}
+
+.phase35-exp-bar {
+  height: 13px;
+
+  margin:
+    12px
+    0
+    6px;
 
   border-radius: 999px;
 
@@ -2682,7 +2728,7 @@ button {
   overflow: hidden;
 }
 
-.exp-fill {
+.phase35-exp-fill {
   width: 0%;
   height: 100%;
 
@@ -2698,29 +2744,38 @@ button {
     0 0 14px rgba(182,108,255,.85);
 }
 
-.stat-grid {
+.phase35-exp-text {
+  color: #d8ecff;
+
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.phase35-stat-grid {
   display: grid;
   grid-template-columns:
     repeat(2, 1fr);
 
   gap: 8px;
 
-  margin-bottom: 12px;
+  margin-top: 12px;
 }
 
-.stat-grid div {
+.phase35-stat-grid div {
   padding: 10px;
 
-  border-radius: 14px;
+  border-radius: 13px;
 
   background:
     rgba(255,255,255,.07);
+
+  color: #cceeff;
 
   font-size: 13px;
   font-weight: 900;
 }
 
-.stat-grid span {
+.phase35-stat-grid span {
   display: block;
 
   margin-top: 4px;
@@ -2730,11 +2785,215 @@ button {
   font-size: 20px;
 }
 
-.growth-card button {
-  width: min(340px, 78vw);
-  min-height: 54px;
+
+/* ---------- タブ ---------- */
+
+.phase35-tab-row {
+  width: min(460px, 94vw);
+
+  margin:
+    0
+    auto
+    10px;
+
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 6px;
+}
+
+.phase35-tab-row button {
+  margin: 0;
+  padding:
+    12px
+    6px;
+
+  border-radius: 12px;
+
+  border:
+    1px solid rgba(255,214,107,.36);
+
+  background:
+    rgba(4,14,32,.85);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 1000;
+}
+
+.phase35-tab-row button.active {
+  border-color:
+    rgba(182,108,255,.9);
+
+  box-shadow:
+    0 0 18px rgba(182,108,255,.42);
+}
+
+
+/* ---------- 素材・選択・探索カード ---------- */
+
+.phase35-material-card,
+.phase35-select-card,
+.phase35-explore-card {
+  width: min(460px, 94vw);
+
+  margin:
+    0
+    auto
+    10px;
+
+  padding: 14px;
+
+  border-radius: 20px;
+
+  border:
+    1px solid rgba(255,214,107,.42);
+
+  background:
+    rgba(4,14,32,.90);
+}
+
+.phase35-section-title {
+  margin-bottom: 10px;
+
+  color: #ffd66b;
+
+  text-align: left;
+
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.phase35-material-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 8px;
+}
+
+.phase35-material-grid div {
+  padding: 11px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255,255,255,.07);
+
+  color: #cceeff;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.phase35-material-grid span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #ffd66b;
+
+  font-size: 20px;
+}
+
+.phase35-shikigami-select {
+  display: grid;
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 8px;
+}
+
+.phase35-shikigami-select button {
+  min-height: 48px;
+
+  margin: 0;
+
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(182,108,255,.55);
+
+  background:
+    rgba(5,14,32,.90);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 1000;
+}
+
+
+/* ---------- 探索 ---------- */
+
+.phase35-explore-place {
+  display: grid;
+  grid-template-columns:
+    1.2fr
+    1fr;
+
+  gap: 10px;
+
+  align-items: center;
+}
+
+.phase35-place-art {
+  min-height: 110px;
+
+  display: grid;
+  place-items: center;
 
   border-radius: 16px;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(0,208,255,.22),
+      rgba(2,8,24,.95) 70%
+    );
+
+  border:
+    1px solid rgba(0,208,255,.42);
+
+  color: #ffd66b;
+
+  font-size: 22px;
+  font-weight: 1000;
+}
+
+.phase35-place-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  color: #d8ecff;
+
+  text-align: left;
+
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.phase35-place-info strong {
+  color: #ffd66b;
+
+  font-size: 18px;
+}
+
+.phase35-explore-place button {
+  grid-column:
+    1 / -1;
+
+  min-height: 52px;
+
+  margin:
+    8px
+    0
+    0;
+
+  border-radius: 14px;
 
   border:
     1px solid rgba(255,214,107,.8);
@@ -2742,152 +3001,133 @@ button {
   background:
     linear-gradient(
       135deg,
-      rgba(120,75,0,.9),
+      rgba(120,75,0,.90),
       rgba(30,15,0,.96)
     );
 
   color: white;
 
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 1000;
 }
 
+.phase35-explore-status {
+  margin-top: 12px;
 
-/* ---------- 式神選択 ---------- */
-
-.shikigami-select {
-  width: min(460px, 92vw);
-
-  margin:
-    0
-    auto
-    14px;
-
-  display: grid;
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 10px;
-}
-
-.shikigami-select button {
-  min-height: 54px;
+  padding: 12px;
 
   border-radius: 16px;
 
   border:
-    1px solid rgba(182,108,255,.6);
+    1px solid rgba(182,108,255,.45);
 
   background:
-    rgba(5,14,32,.90);
+    rgba(5,14,32,.88);
 
-  color: white;
+  color: #d8ecff;
 
-  font-size: 16px;
-  font-weight: 1000;
+  font-size: 15px;
+  font-weight: 900;
 }
 
+.phase35-explore-status span {
+  color: #ffd66b;
+}
 
-/* ---------- 探索パネル ---------- */
+.phase35-explore-status button {
+  width: 100%;
 
-.explore-panel {
-  width: min(460px, 92vw);
+  min-height: 48px;
 
   margin:
+    10px
     0
-    auto
-    16px;
+    0;
 
-  padding: 18px;
-
-  border-radius: 22px;
+  border-radius: 14px;
 
   border:
-    1px solid rgba(255,214,107,.55);
+    1px solid rgba(255,214,107,.7);
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(8,22,48,.96),
-      rgba(2,8,24,.98)
-    );
-
-  box-shadow:
-    0 0 22px rgba(0,208,255,.16),
-    inset 0 0 22px rgba(0,208,255,.08);
-}
-
-.explore-title {
-  color: #8fdfff;
-
-  font-size: 14px;
-  font-weight: 900;
-
-  letter-spacing: .18em;
-}
-
-.explore-place {
-  margin-top: 8px;
-
-  color: #ffd66b;
-
-  font-size:
-    clamp(24px, 6vw, 34px);
-
-  font-weight: 1000;
-
-  text-shadow:
-    0 0 10px rgba(255,214,107,.85);
-}
-
-.explore-timer {
-  margin-top: 10px;
+    rgba(70,35,0,.88);
 
   color: white;
 
-  font-size:
-    clamp(30px, 8vw, 48px);
-
   font-weight: 1000;
-
-  text-shadow:
-    0 0 12px rgba(0,208,255,.85);
 }
 
 
-/* ---------- 探索カード ---------- */
+/* ---------- 下固定メニュー ---------- */
 
-.section-title {
-  width: min(460px, 92vw);
+.phase35-bottom-nav {
+  position: fixed;
 
-  margin:
-    18px
-    auto
-    10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-  text-align: left;
+  z-index: 2800;
 
-  color: #ffd66b;
+  display: grid;
+  grid-template-columns:
+    repeat(6, 1fr);
 
-  font-size: 20px;
+  gap: 3px;
+
+  padding:
+    7px
+    6px
+    calc(7px + env(safe-area-inset-bottom));
+
+  background:
+    rgba(2,8,24,.96);
+
+  border-top:
+    1px solid rgba(255,214,107,.34);
+
+  box-shadow:
+    0 -8px 24px rgba(0,0,0,.45);
 }
 
-#exploreScreen .explore-map {
-  width: min(460px, 92vw);
+.phase35-bottom-nav button {
+  margin: 0;
+  padding:
+    7px
+    2px;
 
-  margin:
-    0
-    auto;
+  border-radius: 12px;
 
-  padding-bottom: 100px;
+  border:
+    1px solid rgba(182,108,255,.28);
+
+  background:
+    rgba(5,14,32,.86);
+
+  color: white;
+
+  font-size: 18px;
+  font-weight: 1000;
 }
 
-#exploreScreen .explore-card {
-  margin-bottom: 14px;
+.phase35-bottom-nav button span {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 10px;
+}
+
+.phase35-bottom-nav button.active {
+  box-shadow:
+    0 0 18px rgba(182,108,255,.5);
+
+  border-color:
+    rgba(182,108,255,.9);
 }
 
 
-/* ---------- メニュー開閉バグ修正 ---------- */
+/* ---------- メニュー開閉修正 ---------- */
 
 .menu-button {
   z-index: 3000 !important;
@@ -2907,30 +3147,48 @@ body.menu-open .menu-button {
 }
 
 
+/* ---------- 画像読み込み失敗時 ---------- */
+
+#activeShikigamiImage:not([src]) {
+  display: none;
+}
+
+
 /* ---------- スマホ調整 ---------- */
 
 @media (max-width: 640px) {
 
-  #exploreScreen {
+  #exploreScreen.phase35-screen {
     padding:
-      14px
-      12px
-      150px !important;
+      10px
+      10px
+      110px !important;
   }
 
-  .character-stage,
-  .growth-card,
-  .resource-bar,
-  .material-grid,
-  .shikigami-select,
-  #exploreScreen .explore-map,
-  .explore-panel {
-    width: min(430px, 88vw);
+  .phase35-hero,
+  .phase35-growth-card,
+  .phase35-material-card,
+  .phase35-select-card,
+  .phase35-explore-card,
+  .phase35-resource-bar,
+  .phase35-top {
+    width: min(430px, 90vw);
   }
 
-  .shikigami-character {
-    width: 190px;
-    height: 230px;
+  .phase35-hero {
+    min-height: 360px;
+  }
+
+  .phase35-character-wrap {
+    height: 80%;
+  }
+
+  .phase35-name-card {
+    width: 44%;
+  }
+
+  .phase35-power-card {
+    width: 35%;
   }
 
 }
