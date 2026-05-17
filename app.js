@@ -25,8 +25,10 @@ let exploreEndTime = null;
 let exploreInterval = null;
 
 let spiritPower = Number(localStorage.getItem("spiritPower") || 0);
+let activeShikigamiImage =
+  localStorage.getItem("activeShikigamiImage")
+  || "img/shikigami_fox_transparent.png";
 let activeShikigami = localStorage.getItem("activeShikigami") || "白狐ノ影";
-let activeShikigamiIcon = localStorage.getItem("activeShikigamiIcon") || "🦊";
 let shikigamiLevels = JSON.parse(
   localStorage.getItem("shikigamiLevels") ||
   '{"白狐ノ影":1,"鴉天狗":1,"青龍":1,"九尾ノ焔":1}'
@@ -790,7 +792,7 @@ function loadExplore() {
 // ===== 式神育成 =====
 function updateShikigamiUI() {
   const nameEl = document.getElementById("activeShikigamiName");
-  const iconEl = document.getElementById("activeShikigamiIcon");
+  const imageEl = document.getElementById("activeShikigamiImage");
   const levelEl = document.getElementById("activeShikigamiLevel");
   const spiritEl = document.getElementById("spiritPowerText");
   const battlePowerEl = document.getElementById("battlePowerText");
@@ -799,20 +801,25 @@ if (battlePowerEl) {
   battlePowerEl.textContent = level * 1200;
 }
 
-  if (!nameEl || !iconEl || !levelEl || !spiritEl) return;
+  if (!nameEl || !imageEl || !levelEl || !spiritEl) return;
 
   nameEl.textContent = activeShikigami;
-  iconEl.textContent = activeShikigamiIcon;
+  imageEl.src = activeShikigamiImage;
   levelEl.textContent = shikigamiLevels[activeShikigami] || 1;
   spiritEl.textContent = spiritPower;
 }
 
-function selectShikigami(name, icon) {
+function selectShikigami(name, image) {
   activeShikigami = name;
-  activeShikigamiIcon = icon;
+  activeShikigamiImage = image;
 
   localStorage.setItem("activeShikigami", name);
-  localStorage.setItem("activeShikigamiIcon", icon);
+  localStorage.setItem("activeShikigamiImage", image);
+
+  localStorage.setItem(
+    "activeShikigamiImage",
+    image
+  );
 
   updateShikigamiUI();
 }

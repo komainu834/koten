@@ -157,7 +157,14 @@
 
   <div class="character-stage">
     <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
-    <div class="shikigami-character" id="activeShikigamiIcon">🦊</div>
+    <div class="shikigami-character">
+
+  <img
+    id="activeShikigamiImage"
+    src="img/shikigami_fox_transparent.png"
+  >
+
+</div>
     <div class="shikigami-level">
       Lv.<span id="activeShikigamiLevel">1</span>
     </div>
@@ -177,10 +184,22 @@
   </div>
 
   <div class="shikigami-select">
-    <button onclick="selectShikigami('白狐ノ影','🦊')">🦊 白狐</button>
-    <button onclick="selectShikigami('鴉天狗','🐦‍⬛')">🐦‍⬛ 鴉天狗</button>
-    <button onclick="selectShikigami('青龍','🐉')">🐉 青龍</button>
-    <button onclick="selectShikigami('九尾ノ焔','🔥')">🔥 九尾</button>
+    <button onclick="selectShikigami(
+'白狐ノ影',
+'img/shikigami_fox_transparent.png'
+)">
+<button onclick="selectShikigami(
+'鴉天狗',
+'img/shikigami_tengu_transparent.png'
+)">
+<button onclick="selectShikigami(
+'青龍',
+'img/shikigami_dragon_transparent.png'
+)">
+<button onclick="selectShikigami(
+'九尾ノ焔',
+'img/shikigami_kitsune_fire_transparent.png'
+)">
   </div>
 
   <div id="explorePanel" class="explore-panel hidden">
