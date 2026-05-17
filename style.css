@@ -50,12 +50,20 @@ button {
 
   box-sizing: border-box;
 
-  background: linear-gradient(180deg, #1c2b4a, #0d162b);
-  color: white;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6,20,43,.98),
+      rgba(2,8,24,.99)
+    );
+
+  border-left: 1px solid rgba(255,214,107,.35);
 
   box-shadow:
-    -4px 0 20px rgba(0, 0, 0, 0.6),
-    inset 0 0 30px rgba(0, 150, 255, 0.15);
+    -8px 0 28px rgba(0,0,0,.65),
+    inset 0 0 28px rgba(0,208,255,.08);
+
+  color: white;
 
   transition: 0.3s;
 }
@@ -2122,4 +2130,38 @@ body.mode-jodoushi #choices button {
 body.menu-open .menu-button {
   opacity: 0;
   pointer-events: none;
+}
+
+/* ===== 全ボタン和風ネオン統一 ===== */
+
+button {
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
+
+  font-weight: 900;
+}
+
+#profileScreen button,
+#rankingScreen button,
+#resultScreen button,
+#testScreen button {
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8,22,48,.96),
+      rgba(2,8,24,.96)
+    );
+
+  color: #f8fbff;
+
+  border: 1px solid rgba(255,214,107,.65);
+
+  box-shadow:
+    0 6px 0 rgba(0,0,0,.5),
+    0 0 18px rgba(0,208,255,.18),
+    inset 0 0 18px rgba(0,208,255,.08);
 }
