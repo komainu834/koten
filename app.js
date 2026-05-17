@@ -795,7 +795,6 @@ function loadExplore() {
 // ===== 式神育成 =====
 function updateShikigamiUI() {
   const nameEl = document.getElementById("activeShikigamiName");
-  const imageEl = document.getElementById("activeShikigamiImage");
   const levelEl = document.getElementById("activeShikigamiLevel");
   const spiritEl = document.getElementById("spiritPowerText");
   const battlePowerEl = document.getElementById("battlePowerText");
