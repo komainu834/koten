@@ -142,60 +142,79 @@
   </section>
 
   <!-- 探索 -->
-  <section id="exploreScreen" class="screen scroll-screen">
-    <h2>探索</h2>
-    <p class="catch-copy">式神を育て、探索に送り出せ。</p>
+  <section id="exploreScreen" class="screen">
+  <div class="raise-top">
+    <button class="back-btn" onclick="goTop()">←</button>
+    <h2>式神育成</h2>
+    <button class="help-btn">?</button>
+  </div>
 
-    <div id="explorePanel" class="explore-panel hidden">
-      <div class="explore-title">探索中</div>
-      <div id="explorePlace" class="explore-place">月夜の竹林</div>
-      <div id="exploreCharacter" class="explore-character">白狐ノ影</div>
-      <div id="exploreTimer" class="explore-timer">00:00:00</div>
-      <button onclick="collectExploreReward()">回収する</button>
+  <div class="resource-bar">
+    <div>霊力 <span id="spiritPowerText">0</span></div>
+    <div>古銭 <span>0</span></div>
+    <div>晶石 <span>0</span></div>
+  </div>
+
+  <div class="character-stage">
+    <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
+    <div class="shikigami-character" id="activeShikigamiIcon">🦊</div>
+    <div class="shikigami-level">
+      Lv.<span id="activeShikigamiLevel">1</span>
+    </div>
+  </div>
+
+  <div class="growth-card">
+    <div class="growth-row">
+      <span>戦力</span>
+      <strong id="battlePowerText">1200</strong>
     </div>
 
-    <div class="shikigami-panel">
-      <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
-      <div class="shikigami-character" id="activeShikigamiIcon">🦊</div>
-      <div class="shikigami-status">
-        Lv.<span id="activeShikigamiLevel">1</span>
-        ／ 霊力 <span id="spiritPowerText">0</span>
-      </div>
-      <button onclick="trainShikigami()">強化する</button>
+    <div class="exp-bar">
+      <div class="exp-fill"></div>
     </div>
 
-    <div class="shikigami-select">
-      <button onclick="selectShikigami('白狐ノ影','🦊')">🦊 白狐ノ影</button>
-      <button onclick="selectShikigami('鴉天狗','🐦‍⬛')">🐦‍⬛ 鴉天狗</button>
-      <button onclick="selectShikigami('青龍','🐉')">🐉 青龍</button>
-      <button onclick="selectShikigami('九尾ノ焔','🔥')">🔥 九尾ノ焔</button>
+    <button onclick="trainShikigami()">強化する</button>
+  </div>
+
+  <div class="shikigami-select">
+    <button onclick="selectShikigami('白狐ノ影','🦊')">🦊 白狐</button>
+    <button onclick="selectShikigami('鴉天狗','🐦‍⬛')">🐦‍⬛ 鴉天狗</button>
+    <button onclick="selectShikigami('青龍','🐉')">🐉 青龍</button>
+    <button onclick="selectShikigami('九尾ノ焔','🔥')">🔥 九尾</button>
+  </div>
+
+  <div id="explorePanel" class="explore-panel hidden">
+    <div class="explore-title">探索中</div>
+    <div id="explorePlace" class="explore-place">月夜の竹林</div>
+    <div id="exploreTimer" class="explore-timer">00:00:00</div>
+    <button onclick="collectExploreReward()">回収する</button>
+  </div>
+
+  <h3 class="section-title">探索に出す</h3>
+
+  <div class="explore-map">
+    <div class="explore-card">
+      <div class="explore-card-title">🌙 月夜の竹林</div>
+      <p>探索時間：2時間</p>
+      <p>古典霊力を入手しやすい</p>
+      <button onclick="startExplore('月夜の竹林', 2)">探索開始</button>
     </div>
 
-    <div class="explore-map">
-      <div class="explore-card blue">
-        <div class="explore-card-title">🌙 月夜の竹林</div>
-        <p>探索時間：2時間</p>
-        <p>古典霊力を入手しやすい</p>
-        <button onclick="startExplore('月夜の竹林', 2)">探索開始</button>
-      </div>
-
-      <div class="explore-card purple">
-        <div class="explore-card-title">⛩ 幽玄の社</div>
-        <p>探索時間：4時間</p>
-        <p>レア素材を見つけやすい</p>
-        <button onclick="startExplore('幽玄の社', 4)">探索開始</button>
-      </div>
-
-      <div class="explore-card red">
-        <div class="explore-card-title">🔥 紅蓮峡谷</div>
-        <p>探索時間：8時間</p>
-        <p>助動詞霊力を多く入手</p>
-        <button onclick="startExplore('紅蓮峡谷', 8)">探索開始</button>
-      </div>
+    <div class="explore-card">
+      <div class="explore-card-title">⛩ 幽玄の社</div>
+      <p>探索時間：4時間</p>
+      <p>レア素材を見つけやすい</p>
+      <button onclick="startExplore('幽玄の社', 4)">探索開始</button>
     </div>
 
-    <button class="back-btn" onclick="goTop()">ホームへ戻る</button>
-  </section>
+    <div class="explore-card">
+      <div class="explore-card-title">🔥 紅蓮峡谷</div>
+      <p>探索時間：8時間</p>
+      <p>助動詞霊力を多く入手</p>
+      <button onclick="startExplore('紅蓮峡谷', 8)">探索開始</button>
+    </div>
+  </div>
+</section>
 
   <!-- ランキング -->
   <section id="rankingScreen" class="screen scroll-screen">

@@ -677,10 +677,9 @@ async function saveProfile() {
 function showExploreScreen() {
   closeMenu();
   clearInterval(timer);
-  document.body.classList.remove("no-scroll");
-  updateExploreUI();
-  updateShikigamiUI();
   showScreen(exploreScreen);
+  updateShikigamiUI();
+  updateExploreUI();
 }
 
 function startExplore(place, hours) {
@@ -794,6 +793,11 @@ function updateShikigamiUI() {
   const iconEl = document.getElementById("activeShikigamiIcon");
   const levelEl = document.getElementById("activeShikigamiLevel");
   const spiritEl = document.getElementById("spiritPowerText");
+  const battlePowerEl = document.getElementById("battlePowerText");
+if (battlePowerEl) {
+  const level = shikigamiLevels[activeShikigami] || 1;
+  battlePowerEl.textContent = level * 1200;
+}
 
   if (!nameEl || !iconEl || !levelEl || !spiritEl) return;
 

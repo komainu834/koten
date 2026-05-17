@@ -993,3 +993,203 @@ button:active {
     min-height: calc((100dvh - 44px - 60px - 34px - 25px - 78px - 34px) / 4);
   }
 }
+
+/* ==================================================
+   縦型スマホ育成ゲーム風：探索・式神画面
+================================================== */
+
+#exploreScreen {
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 18px 14px 110px !important;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(182,108,255,.26), transparent 32%),
+    radial-gradient(circle at 20% 72%, rgba(0,208,255,.16), transparent 30%),
+    linear-gradient(180deg, #020614 0%, #06142b 54%, #02040b 100%);
+  -webkit-overflow-scrolling: touch;
+}
+
+.raise-top {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto 10px;
+  width: min(460px, 92vw);
+}
+
+.raise-top h2 {
+  margin: 0;
+  font-size: clamp(30px, 8vw, 48px);
+  color: #fff8df;
+  text-shadow:
+    0 0 8px white,
+    0 0 24px rgba(255,214,107,.9),
+    0 0 42px rgba(182,108,255,.55);
+}
+
+.back-btn,
+.help-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,214,107,.65);
+  background: rgba(5,14,32,.88);
+  color: #ffd66b;
+  font-size: 24px;
+  font-weight: 1000;
+}
+
+.resource-bar {
+  width: min(460px, 92vw);
+  margin: 0 auto 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.resource-bar div {
+  padding: 10px 6px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,208,255,.38);
+  background: rgba(4,14,32,.86);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.resource-bar span {
+  display: block;
+  color: #ffd66b;
+  font-size: 18px;
+}
+
+.character-stage {
+  position: relative;
+  width: min(460px, 92vw);
+  margin: 0 auto 12px;
+  padding: 18px 16px 22px;
+  border-radius: 26px;
+  border: 1px solid rgba(255,214,107,.45);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(182,108,255,.32), transparent 38%),
+    linear-gradient(135deg, rgba(8,22,48,.96), rgba(2,8,24,.98));
+  box-shadow:
+    0 0 28px rgba(182,108,255,.24),
+    inset 0 0 28px rgba(0,208,255,.08);
+}
+
+.shikigami-name {
+  font-size: clamp(26px, 7vw, 38px);
+  font-weight: 1000;
+  color: #ffd66b;
+  text-shadow: 0 0 14px rgba(255,214,107,.85);
+}
+
+.shikigami-character {
+  width: 190px;
+  height: 190px;
+  margin: 12px auto;
+  display: grid;
+  place-items: center;
+  font-size: 104px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(0,208,255,.32), rgba(2,8,24,.98) 68%);
+  border: 1px solid rgba(0,208,255,.65);
+  box-shadow:
+    0 0 40px rgba(0,208,255,.32),
+    inset 0 0 28px rgba(255,214,107,.10);
+}
+
+.shikigami-level {
+  font-size: 22px;
+  font-weight: 1000;
+}
+
+.growth-card {
+  width: min(460px, 92vw);
+  margin: 0 auto 12px;
+  padding: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,214,107,.45);
+  background: rgba(4,14,32,.9);
+}
+
+.growth-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+.growth-row strong {
+  color: #ffd66b;
+  font-size: 30px;
+}
+
+.exp-bar {
+  height: 14px;
+  margin: 12px 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  overflow: hidden;
+}
+
+.exp-fill {
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, #00d0ff, #b66cff, #ffd66b);
+  box-shadow: 0 0 14px rgba(182,108,255,.85);
+}
+
+.growth-card button {
+  width: min(340px, 78vw);
+  min-height: 54px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,214,107,.8);
+  background:
+    linear-gradient(135deg, rgba(120,75,0,.9), rgba(30,15,0,.96));
+  color: white;
+  font-size: 22px;
+  font-weight: 1000;
+}
+
+.shikigami-select {
+  width: min(460px, 92vw);
+  margin: 0 auto 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.shikigami-select button {
+  min-height: 54px;
+  border-radius: 16px;
+  border: 1px solid rgba(182,108,255,.6);
+  background: rgba(5,14,32,.9);
+  color: white;
+  font-size: 16px;
+  font-weight: 1000;
+}
+
+.section-title {
+  width: min(460px, 92vw);
+  margin: 18px auto 10px;
+  text-align: left;
+  color: #ffd66b;
+  font-size: 20px;
+}
+
+#exploreScreen .explore-map {
+  width: min(460px, 92vw);
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+#exploreScreen .explore-card {
+  margin-bottom: 14px;
+}
