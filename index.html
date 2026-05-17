@@ -2,204 +2,412 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>古典タイムアタック</title>
+  <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase2a">
+  <link rel="stylesheet" href="style.css?v=phase3">
 </head>
-<body class="mode-vocab">
+<body>
+
+  <!-- メニュー -->
   <button id="menuButton" class="menu-button">☰</button>
+
   <div id="overlay" class="overlay"></div>
 
   <nav id="sideMenu" class="side-menu">
     <button id="closeMenu" class="close-button">×</button>
-    <button onclick="showVocabHome()">📘 古典語彙</button>
-    <button onclick="showGrammarScreen()">📖 古典文法</button>
+    <button onclick="showVocabHome()">古典語彙</button>
+    <button onclick="showGrammarScreen()">📘 古典文法</button>
     <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
     <button onclick="showRanking()">🏆 ランキング</button>
-    <button onclick="showExploreScreen()">🌙 式神育成</button>
+    <button onclick="showExploreScreen()">🌙 探索</button>
+
     <div class="profile-area">
       <button onclick="openProfile()" class="profile-btn">プロフィール</button>
     </div>
+
   </nav>
 
-  <section id="topScreen" class="screen active home-like">
-    <h1>古典<br>タイムアタック</h1>
-    <p class="subcopy">知識を武器に、最速を目指せ。</p>
-    <div class="menu-buttons">
-      <button onclick="showVocabHome()">📘 古典語彙</button>
-      <button onclick="showGrammarScreen()">📖 古典文法</button>
-      <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
-      <button onclick="showRanking()">🏆 ランキング</button>
-      <button onclick="showExploreScreen()">🌙 式神育成</button>
-    </div>
-  </section>
+  <section id="topScreen" class="screen active">
+  <h1>古典タイムアタック</h1>
+<div class="menu-buttons">
+  <button onclick="showVocabHome()">古典語彙</button>
+  <button onclick="showGrammarScreen()">📘 古典文法</button>
+  <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
+  <button onclick="showRanking()">🏆 ランキング</button>
+    <button onclick="showExploreScreen()">🌙 探索</button>
+  <button onclick="showExploreScreen()">
+  🌙 探索
+</button>
+</div>
+</section>
 
-  <section id="homeScreen" class="screen home-like">
-    <h1>古典語彙<br>タイムアタック</h1>
-    <p class="subcopy">ことばを極める</p>
-    <div class="menu-buttons">
-      <button onclick="startGame()">スタート</button>
-      <button onclick="goTop()">ホームへ戻る</button>
-    </div>
-  </section>
+  <!-- ホーム -->
+  <section id="homeScreen" class="screen">
+  <h1>古典語彙タイムアタック</h1>
 
-  <section id="testScreen" class="screen home-like">
-    <h1>古典文法<br>タイムアタック</h1>
-    <p class="subcopy">文の構造を見抜け</p>
-    <div class="menu-buttons">
-      <button onclick="startGrammarGame()">スタート</button>
-      <button onclick="goTop()">ホームへ戻る</button>
-    </div>
-  </section>
+  <div class="menu-buttons">
+    <button onclick="startGame()">スタート</button>
+    <button onclick="goTop()">ホームへ戻る</button>
+  </div>
+</section>
 
-  <section id="jodoushiScreen" class="screen home-like">
-    <h1>助動詞<br>タイムアタック</h1>
-    <p class="subcopy">接続を瞬時に見極めろ</p>
-    <div class="menu-buttons">
-      <button onclick="startJodoushiGame()">スタート</button>
-      <button onclick="goTop()">ホームへ戻る</button>
-    </div>
-  </section>
-
+  <!-- ゲーム -->
   <section id="gameScreen" class="screen">
-    <div class="hud-row">
-      <div class="hud-box">TIME<span id="time">60</span></div>
-      <div class="hud-box">SCORE<span id="score">0</span></div>
-    </div>
-    <div id="modeTitle" class="mode-title">📘 古典語彙</div>
+    <div>TIME：<span id="time">60</span></div>
+    <div>SCORE：<span id="score">0</span></div>
+
+    <div id="modeTitle" class="mode-title"></div>
 
     <div class="combo-gauge-wrap">
-      <div class="combo-gauge-bg">
-        <div class="combo-marker marker-0"><span>START</span></div>
-        <div id="comboGauge" class="combo-gauge-fill"></div>
-        <div class="combo-marker marker-10"><span>3秒追加</span></div>
-        <div class="combo-marker marker-20"><span>3秒追加</span></div>
-        <div class="combo-marker marker-30"><span>3秒追加</span></div>
-        <div class="combo-marker marker-40"><span>3秒追加</span></div>
-      </div>
-    </div>
+    <div class="combo-gauge-bg">
+    <div class="combo-marker marker-0"><span>START</span></div>
+
+  <div id="comboGauge" class="combo-gauge-fill"></div>
+
+  <div class="combo-marker marker-10"><span>3秒追加</span></div>
+  <div class="combo-marker marker-20"><span>3秒追加</span></div>
+  <div class="combo-marker marker-30"><span>3秒追加</span></div>
+  <div class="combo-marker marker-40"><span>3秒追加</span></div>
+</div>
+</div>
 
     <p id="question"></p>
     <div id="choices"></div>
 
-    <div id="judgeMark" class="judge-mark"></div>
-    <div id="comboText" class="combo-text"></div>
+    <div id="judgeMark"></div>
+    <div id="comboText"></div>
     <div id="scorePlus" class="score-plus"></div>
     <div id="goText" class="go-text">GO!!</div>
   </section>
 
-  <section id="resultScreen" class="screen result-like">
-    <h2>結果発表</h2>
-    <div class="result-card">
-      <p class="result-label">SCORE</p>
-      <p class="result-score"><span id="finalScore">0</span></p>
-      <p id="rewardText" class="reward-text"></p>
-    </div>
-    <div class="menu-buttons">
-      <button onclick="restartCurrentMode()">▶ もう一度</button>
-      <button onclick="goTop()">🏠 ホームへ戻る</button>
-      <button onclick="showExploreScreen()">🌙 式神育成へ</button>
-    </div>
-  </section>
+  <!-- 結果 -->
+  <section id="resultScreen" class="screen">
+  <h2>結果発表</h2>
 
-  <section id="exploreScreen" class="screen raise-screen">
-    <div class="raise-top">
-      <button class="circle-btn" onclick="goTop()">←</button>
-      <h2>式神育成</h2>
-      <button class="circle-btn" onclick="alert('問題を解くと霊力が増えます。霊力で式神を強化し、探索で素材を集めます。')">?</button>
+  <div class="result-card">
+    <p class="result-label">SCORE</p>
+    <p class="result-score"><span id="finalScore"></span></p>
+  </div>
+
+  <div class="menu-buttons">
+    <button class="btn-vocab" onclick="startGame()">▶ もう一度</button>
+    <button class="btn-ranking" onclick="goTop()">🏠 ホームへ戻る</button>
+  </div>
+</section>
+
+<section id="exploreScreen" class="screen">
+
+  <div class="raise-top">
+    <button class="back-btn" onclick="goTop()">←</button>
+    <h2>式神育成</h2>
+    <button class="help-btn" onclick="showPhase3Help()">?</button>
+  </div>
+
+  <div class="resource-bar">
+
+    <div>
+      霊力
+      <span id="spiritPowerText">0</span>
     </div>
 
-    <div class="resource-bar">
-      <div>霊力<span id="spiritPowerText">0</span></div>
-      <div>古銭<span id="coinText">0</span></div>
-      <div>晶石<span id="crystalText">0</span></div>
+    <div>
+      古銭
+      <span id="coinText">0</span>
     </div>
 
-    <div class="character-stage">
-      <div class="char-header">
-        <div>
-          <div class="shikigami-name" id="activeShikigamiName">白狐ノ影</div>
-          <div class="rarity" id="activeRarity">★★★★★</div>
-        </div>
-        <div class="battle-card">戦力<span id="battlePowerText">1200</span></div>
+    <div>
+      晶石
+      <span id="gemText">0</span>
+    </div>
+
+  </div>
+
+  <div class="material-grid">
+
+    <div class="material-item">
+      🔮 霊魂
+      <span id="soulText">0</span>
+    </div>
+
+    <div class="material-item">
+      💎 蒼晶石
+      <span id="blueCrystalText">0</span>
+    </div>
+
+    <div class="material-item">
+      ❤️ 紅晶石
+      <span id="redCrystalText">0</span>
+    </div>
+
+    <div class="material-item">
+      📜 巻物
+      <span id="scrollText">0</span>
+    </div>
+
+  </div>
+
+  <div class="character-stage">
+
+    <div
+      class="shikigami-name"
+      id="activeShikigamiName"
+    >
+      白狐ノ影
+    </div>
+
+    <div class="shikigami-role" id="activeShikigamiRole">
+      語彙特化
+    </div>
+
+    <div class="shikigami-character">
+
+      <img
+        id="activeShikigamiImage"
+        src="img/fox.png"
+        alt="式神"
+      >
+
+    </div>
+
+    <div class="shikigami-level">
+      Lv.<span id="activeShikigamiLevel">1</span>
+      ／
+      <span id="activeShikigamiElement">水</span>属性
+    </div>
+
+  </div>
+
+  <div class="growth-card">
+
+    <div class="growth-row">
+      <span>戦力</span>
+      <strong id="battlePowerText">1200</strong>
+    </div>
+
+    <div class="exp-label">
+      EXP
+      <span id="expText">0 / 100</span>
+    </div>
+
+    <div class="exp-bar">
+      <div class="exp-fill" id="expFill"></div>
+    </div>
+
+    <div class="stat-grid">
+
+      <div>
+        HP
+        <span id="hpText">1200</span>
       </div>
-      <div class="character-visual">
-        <img id="activeShikigamiImage" src="img/shikigami_fox_transparent.png" alt="式神">
+
+      <div>
+        攻撃
+        <span id="atkText">240</span>
       </div>
-      <div class="role-row">
-        <div>属性 <strong id="elementText">水</strong></div>
-        <div>役割 <strong id="roleText">語彙特化</strong></div>
+
+      <div>
+        防御
+        <span id="defText">180</span>
       </div>
+
+      <div>
+        素早さ
+        <span id="spdText">120</span>
+      </div>
+
     </div>
 
-    <div class="growth-card">
-      <div class="growth-row"><span>Lv.<b id="activeShikigamiLevel">1</b> / 40</span><strong id="expText">0 / 100</strong></div>
-      <div class="exp-bar"><div id="expFill" class="exp-fill"></div></div>
-      <div class="stats-grid">
-        <div>HP <strong id="hpText">1200</strong></div>
-        <div>攻撃 <strong id="atkText">240</strong></div>
-        <div>防御 <strong id="defText">180</strong></div>
-        <div>素早さ <strong id="spdText">90</strong></div>
+    <button onclick="trainShikigami()">
+      強化する
+    </button>
+
+  </div>
+
+  <div class="shikigami-select">
+
+    <button
+      onclick="selectShikigami(
+        '白狐ノ影',
+        'img/fox.png'
+      )"
+    >
+      🦊 白狐
+    </button>
+
+    <button
+      onclick="selectShikigami(
+        '鴉天狗',
+        'img/tengu.png'
+      )"
+    >
+      🐦‍⬛ 鴉天狗
+    </button>
+
+    <button
+      onclick="selectShikigami(
+        '青龍',
+        'img/dragon.png'
+      )"
+    >
+      🐉 青龍
+    </button>
+
+    <button
+      onclick="selectShikigami(
+        '九尾ノ焔',
+        'img/kitsune.png'
+      )"
+    >
+      🔥 九尾
+    </button>
+
+  </div>
+
+  <div id="explorePanel" class="explore-panel hidden">
+
+    <div class="explore-title">
+      探索中
+    </div>
+
+    <div
+      id="explorePlace"
+      class="explore-place"
+    >
+      月夜の竹林
+    </div>
+
+    <div
+      id="exploreTimer"
+      class="explore-timer"
+    >
+      00:00:00
+    </div>
+
+    <button onclick="collectExploreReward()">
+      回収する
+    </button>
+
+  </div>
+
+  <h3 class="section-title">
+    探索に出す
+  </h3>
+
+  <div class="explore-map">
+
+    <div class="explore-card">
+
+      <div class="explore-card-title">
+        🌙 月夜の竹林
       </div>
-      <button class="gold-btn" onclick="trainShikigami()">強化する <small id="trainCostText">霊力100</small></button>
+
+      <p>
+        探索時間：2時間
+      </p>
+
+      <p>
+        霊魂・蒼晶石を入手しやすい
+      </p>
+
+      <button onclick="startExplore('月夜の竹林', 2)">
+        探索開始
+      </button>
+
     </div>
 
-    <div class="shikigami-select">
-      <button onclick="selectShikigami('fox')">🦊 白狐</button>
-      <button onclick="selectShikigami('tengu')">🐦‍⬛ 鴉天狗</button>
-      <button onclick="selectShikigami('dragon')">🐉 青龍</button>
-      <button onclick="selectShikigami('kitsune_fire')">🔥 九尾</button>
-    </div>
+    <div class="explore-card">
 
-    <div id="explorePanel" class="explore-panel hidden">
-      <div class="explore-title">探索中</div>
-      <div id="explorePlace" class="explore-place">月夜の竹林</div>
-      <div id="exploreTimer" class="explore-timer">00:00:00</div>
-      <button onclick="collectExploreReward()">回収する</button>
-    </div>
-
-    <h3 class="section-title">探索に出す</h3>
-    <div class="explore-map">
-      <div class="explore-card water">
-        <div class="explore-card-title">🌙 月夜の竹林</div>
-        <p>探索時間：2時間</p><p>霊力を入手しやすい</p>
-        <button onclick="startExplore('月夜の竹林', 2, 'water')">探索開始</button>
+      <div class="explore-card-title">
+        ⛩ 幽玄の社
       </div>
-      <div class="explore-card wind">
-        <div class="explore-card-title">⛩ 幽玄の社</div>
-        <p>探索時間：4時間</p><p>晶石を見つけやすい</p>
-        <button onclick="startExplore('幽玄の社', 4, 'wind')">探索開始</button>
-      </div>
-      <div class="explore-card fire">
-        <div class="explore-card-title">🔥 紅蓮峡谷</div>
-        <p>探索時間：8時間</p><p>古銭と霊力を多く入手</p>
-        <button onclick="startExplore('紅蓮峡谷', 8, 'fire')">探索開始</button>
-      </div>
+
+      <p>
+        探索時間：4時間
+      </p>
+
+      <p>
+        巻物を見つけやすい
+      </p>
+
+      <button onclick="startExplore('幽玄の社', 4)">
+        探索開始
+      </button>
+
     </div>
-  </section>
 
-  <section id="rankingScreen" class="screen ranking-like">
-    <h2 id="rankingTitle">ランキング</h2>
-    <div class="ranking-mode-buttons">
-      <button onclick="showRankingByMode('vocab')">古典語彙</button>
-      <button onclick="showRankingByMode('grammar')">古典文法</button>
-      <button onclick="showRankingByMode('jodoushi')">助動詞</button>
+    <div class="explore-card">
+
+      <div class="explore-card-title">
+        🔥 紅蓮峡谷
+      </div>
+
+      <p>
+        探索時間：8時間
+      </p>
+
+      <p>
+        紅晶石を多く入手
+      </p>
+
+      <button onclick="startExplore('紅蓮峡谷', 8)">
+        探索開始
+      </button>
+
     </div>
-    <ol id="rankingList"></ol>
-    <button class="bottom-main-btn" onclick="goTop()">ホームへ戻る</button>
-  </section>
 
-  <section id="profileScreen" class="screen profile-like">
-    <h2>プロフィール</h2>
-    <p>ID（変更不可）</p>
-    <input id="profileId" readonly>
-    <p>ユーザーネーム（変更可）</p>
-    <input id="profileName">
-    <button onclick="saveProfile()">保存</button>
-    <button onclick="goTop()">戻る</button>
-  </section>
+  </div>
 
+</section>
+
+  <!-- ランキング -->
+  <section id="rankingScreen" class="screen">
+  <h2 id="rankingTitle">ランキング</h2>
+
+  <div class="ranking-mode-buttons">
+  <button onclick="showRankingByMode('vocab')">古典語彙</button>
+  <button onclick="showRankingByMode('grammar')">古典文法</button>
+  <button onclick="showRankingByMode('jodoushi')">助動詞</button>
+</div>
+
+  <ol id="rankingList"></ol>
+
+  <button onclick="goTop()">ホームへ戻る</button>
+</section>
+
+  <section id="testScreen" class="screen">
+  <h2>📘 古典文法</h2>
+
+  <div class="menu-buttons">
+    <button onclick="startGrammarGame()">スタート</button>
+    <button onclick="goTop()">ホームへ戻る</button>
+  </div>
+</section>
+
+  <section id="jodoushiScreen" class="screen">
+  <h2>⚔ 助動詞タイムアタック</h2>
+
+  <div class="menu-buttons">
+    <button onclick="startJodoushiGame()">スタート</button>
+    <button onclick="goTop()">ホームへ戻る</button>
+  </div>
+</section>
+
+  <section id="profileScreen" class="screen">
+  <h2>プロフィール</h2>
+
+  <p>ID（変更不可）</p>
+  <input id="profileId" readonly>
+
+  <p>ユーザーネーム（変更可）</p>
+  <input id="profileName">
+
+  <button onclick="saveProfile()">保存</button>
+  <button onclick="goHome()">戻る</button>
+</section>
+
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase2a"></script>
+  <script src="app.js?v=phase3"></script>
 </body>
 </html>
+  
