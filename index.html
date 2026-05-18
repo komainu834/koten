@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase7">
+  <link rel="stylesheet" href="style.css?v=phase8">
 </head>
 <body>
 
@@ -140,47 +140,262 @@
   </div>
 
   <div id="phase7ExplorePage" class="phase7-page hidden">
-    <h2 class="phase35-title">探索マップ</h2>
+
+    <h2 class="phase35-title">探索</h2>
+
+    <div class="phase8-player-rank-card">
+      <div>
+        プレイヤーランク
+        <strong id="playerRankText">1</strong>
+      </div>
+
+      <div class="phase8-rank-exp">
+        <span id="playerExpText">0 / 100</span>
+        <div class="phase8-rank-bar">
+          <div id="playerExpFill"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="explorePanel" class="phase35-explore-status hidden">
       <div>探索中の式神：<span id="exploreShikigamiName">白狐ノ影</span></div>
-      <div>場所：<span id="explorePlace">月夜の竹林</span></div>
+      <div>場所：<span id="explorePlace">月影の竹林</span></div>
       <div>残り時間：<span id="exploreTimer">00:00:00</span></div>
       <button onclick="collectExploreReward()">回収する</button>
     </div>
-    <div class="phase7-map-wrap">
-      <img class="phase7-map-image" src="img/explore_map_vertical.png" alt="探索マップ">
-      <button class="phase7-map-node node-forest" onclick="startExplore('月夜の竹林', 2)">月夜の竹林</button>
-      <button class="phase7-map-node node-river" onclick="startExplore('桜舞う川辺', 2)">桜舞う川辺</button>
-      <button class="phase7-map-node node-bamboo" onclick="startExplore('竹林の小径', 3)">竹林の小径</button>
-      <button class="phase7-map-node node-village" onclick="startExplore('静寂の里', 4)">静寂の里</button>
-      <button class="phase7-map-node node-ruins" onclick="startExplore('古の遺跡', 5)">古の遺跡</button>
+
+    <div class="phase8-map-shell">
+
+      <div class="phase8-map-bg"></div>
+
+      <button
+        class="phase8-node node-tsukikage unlocked selected"
+        id="node_tsukikage"
+        onclick="selectExploreArea('tsukikage')"
+      >
+        1
+      </button>
+
+      <button
+        class="phase8-node node-yashiro"
+        id="node_yashiro"
+        onclick="selectExploreArea('yashiro')"
+      >
+        2
+      </button>
+
+      <button
+        class="phase8-node node-ohmagahara"
+        id="node_ohmagahara"
+        onclick="selectExploreArea('ohmagahara')"
+      >
+        3
+      </button>
+
+      <button
+        class="phase8-node node-kosenjo"
+        id="node_kosenjo"
+        onclick="selectExploreArea('kosenjo')"
+      >
+        4
+      </button>
+
+      <button
+        class="phase8-node node-tenko"
+        id="node_tenko"
+        onclick="selectExploreArea('tenko')"
+      >
+        5
+      </button>
+
     </div>
+
+    <div class="phase8-area-card">
+
+      <div class="phase8-area-title-row">
+        <div>
+          <div id="areaNameText" class="phase8-area-name">月影の竹林</div>
+          <div id="areaDescText" class="phase8-area-desc">月光が差し込む静かな竹林。語彙素材を集めやすい。</div>
+        </div>
+
+        <img
+          id="areaElementIcon"
+          class="phase8-element-icon"
+          src="img/elements/water.png"
+          alt="属性"
+        >
+      </div>
+
+      <div class="phase8-area-info-grid">
+        <div>探索時間<span id="areaTimeText">20分</span></div>
+        <div>消費霊力<span id="areaCostText">10</span></div>
+        <div>推奨属性<span id="areaElementText">水</span></div>
+        <div>解放条件<span id="areaUnlockText">最初から解放</span></div>
+      </div>
+
+      <div class="phase8-drop-preview">
+        <div class="phase35-section-title">主な報酬</div>
+
+        <div id="areaDrops" class="phase8-drop-icons">
+          <img src="img/materials/soul_normal.png" alt="霊魂">
+          <img src="img/materials/crystal_blue.png" alt="蒼晶石">
+          <img src="img/elements/water.png" alt="水">
+        </div>
+      </div>
+
+      <button
+        id="areaStartButton"
+        class="phase8-start-button"
+        onclick="startSelectedExplore()"
+      >
+        探索開始
+      </button>
+
+    </div>
+
   </div>
 
+
   <div id="phase7ShikigamiPage" class="phase7-page hidden">
+
     <h2 class="phase35-title">式神</h2>
-    <div class="phase7-shikigami-detail">
-      <img id="detailShikigamiImage" src="img/fox.png" alt="式神詳細">
-      <div class="phase7-detail-text">
-        <strong id="detailShikigamiName">白狐ノ影</strong>
-        <span id="detailShikigamiRole">水属性 / 語彙特化</span>
-        <span>戦力：<b id="detailPowerText">1200</b></span>
-        <span>Lv.<b id="detailLevelText">1</b></span>
-        <span>覚醒：<b id="detailAwakenText">0</b></span>
+
+    <div id="phase7ShikigamiListView">
+
+      <div class="phase7-guide-text">
+        式神を選ぶと、詳細・強化画面を開きます。
       </div>
+
+      <div class="phase6-shikigami-list">
+
+        <button
+          class="phase6-shikigami-card"
+          onclick="openShikigamiDetail('白狐ノ影', 'img/fox.png')"
+        >
+          <img src="img/fox.png" alt="白狐">
+          <div>
+            <strong>白狐ノ影</strong>
+            <span>水属性 / 語彙特化</span>
+          </div>
+        </button>
+
+        <button
+          class="phase6-shikigami-card"
+          onclick="openShikigamiDetail('鴉天狗', 'img/tengu.png')"
+        >
+          <img src="img/tengu.png" alt="鴉天狗">
+          <div>
+            <strong>鴉天狗</strong>
+            <span>風属性 / 文法特化</span>
+          </div>
+        </button>
+
+        <button
+          class="phase6-shikigami-card"
+          onclick="openShikigamiDetail('青龍', 'img/dragon.png')"
+        >
+          <img src="img/dragon.png" alt="青龍">
+          <div>
+            <strong>青龍</strong>
+            <span>水属性 / 高得点特化</span>
+          </div>
+        </button>
+
+        <button
+          class="phase6-shikigami-card"
+          onclick="openShikigamiDetail('九尾ノ焔', 'img/kitsune.png')"
+        >
+          <img src="img/kitsune.png" alt="九尾">
+          <div>
+            <strong>九尾ノ焔</strong>
+            <span>火属性 / 助動詞特化</span>
+          </div>
+        </button>
+
+      </div>
+
     </div>
-    <div class="phase7-action-row">
-      <button onclick="showInventoryTab()">レベルアップ</button>
-      <button onclick="showInventoryTab()">強化</button>
-      <button onclick="showEquipmentComingSoon()">装備</button>
+
+    <div id="phase7ShikigamiDetailView" class="hidden">
+
+      <button
+        class="phase7-back-list"
+        onclick="backToShikigamiList()"
+      >
+        ← 式神一覧に戻る
+      </button>
+
+      <div class="phase7-shikigami-detail large">
+
+        <img
+          id="detailShikigamiImage"
+          src="img/fox.png"
+          alt="式神詳細"
+        >
+
+        <div class="phase7-detail-text">
+          <strong id="detailShikigamiName">白狐ノ影</strong>
+          <span id="detailShikigamiRole">水属性 / 語彙特化</span><img id="detailElementIcon" class="phase8-mini-element" src="img/elements/water.png" alt="属性">
+          <span>戦力：<b id="detailPowerText">1200</b></span>
+          <span>Lv.<b id="detailLevelText">1</b></span>
+          <span>覚醒：<b id="detailAwakenText">0</b></span>
+        </div>
+
+      </div>
+
+      <div class="phase7-detail-stat-card">
+
+        <div class="phase35-section-title">
+          ステータス
+        </div>
+
+        <div class="phase35-stat-grid">
+          <div>HP<span id="detailHpText">1200</span></div>
+          <div>攻撃<span id="detailAtkText">240</span></div>
+          <div>防御<span id="detailDefText">180</span></div>
+          <div>素早さ<span id="detailSpdText">120</span></div>
+        </div>
+
+      </div>
+
+      <div class="phase7-required-card">
+
+        <div class="phase35-section-title">
+          次のレベルアップに必要な素材
+        </div>
+
+        <div class="phase7-required-list">
+          <div>霊力 <span id="needSpiritText">0</span></div>
+          <div>霊魂 <span id="needSoulText">0</span></div>
+          <div>巻物 <span id="needScrollText">0</span></div>
+        </div>
+
+        <button onclick="trainShikigami()">
+          レベルアップ
+        </button>
+
+      </div>
+
+      <div class="phase7-action-row detail-actions">
+
+        <button onclick="trainShikigami()">
+          レベルアップ
+        </button>
+
+        <button onclick="trainShikigami()">
+          強化
+        </button>
+
+        <button onclick="showEquipmentComingSoon()">
+          装備
+        </button>
+
+      </div>
+
     </div>
-    <div class="phase6-shikigami-list">
-      <button class="phase6-shikigami-card" onclick="selectShikigami('白狐ノ影', 'img/fox.png'); showShikigamiTab();"><img src="img/fox.png"><div><strong>白狐ノ影</strong><span>水属性 / 語彙特化</span></div></button>
-      <button class="phase6-shikigami-card" onclick="selectShikigami('鴉天狗', 'img/tengu.png'); showShikigamiTab();"><img src="img/tengu.png"><div><strong>鴉天狗</strong><span>風属性 / 文法特化</span></div></button>
-      <button class="phase6-shikigami-card" onclick="selectShikigami('青龍', 'img/dragon.png'); showShikigamiTab();"><img src="img/dragon.png"><div><strong>青龍</strong><span>水属性 / 高得点特化</span></div></button>
-      <button class="phase6-shikigami-card" onclick="selectShikigami('九尾ノ焔', 'img/kitsune.png'); showShikigamiTab();"><img src="img/kitsune.png"><div><strong>九尾ノ焔</strong><span>火属性 / 助動詞特化</span></div></button>
-    </div>
+
   </div>
+
 
   <div id="phase7InventoryPage" class="phase7-page hidden">
     <h2 class="phase35-title">インベントリ</h2>
@@ -216,7 +431,7 @@
 
   <div id="phase7GachaPage" class="phase7-page hidden">
     <h2 class="phase35-title">ガチャ</h2>
-    <div class="phase6-coming-soon">🎴<strong>COMING SOON</strong><span>装備・式神召喚は今後追加予定です</span></div>
+    <div class="phase6-coming-soon">🎴<strong>COMING SOON</strong><span>追加式神・装備ガチャは今後追加予定です</span></div>
   </div>
 
   <div id="rewardOverlay" class="reward-overlay hidden">
@@ -288,7 +503,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase7"></script>
+  <script src="app.js?v=phase8"></script>
 </body>
 </html>
   

@@ -4089,3 +4089,342 @@ body.menu-open .menu-button {
   .phase7-shikigami-detail img { width: 120px; height: 160px; }
   .phase7-required-list { grid-template-columns: 1fr; }
 }
+
+
+
+/* ==================================================
+   Phase7.1：式神個別詳細画面
+================================================== */
+
+.phase7-guide-text {
+  width: min(460px, 94vw);
+
+  margin:
+    0
+    auto
+    12px;
+
+  padding: 12px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(255,255,255,.07);
+
+  color: #d8ecff;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.phase7-back-list {
+  display: block;
+
+  width: min(460px, 94vw);
+
+  min-height: 48px;
+
+  margin:
+    0
+    auto
+    12px;
+
+  border-radius: 16px;
+
+  border:
+    1px solid rgba(0,208,255,.65);
+
+  background:
+    rgba(4,14,32,.90);
+
+  color: #fff8df;
+
+  font-size: 17px;
+  font-weight: 1000;
+}
+
+.phase7-shikigami-detail.large {
+  grid-template-columns:
+    170px
+    1fr;
+
+  align-items: center;
+}
+
+.phase7-shikigami-detail.large img {
+  width: 170px;
+  height: 220px;
+}
+
+.phase7-detail-stat-card {
+  width: min(460px, 94vw);
+
+  margin:
+    0
+    auto
+    12px;
+
+  padding: 14px;
+
+  border-radius: 22px;
+
+  border:
+    1px solid rgba(0,208,255,.45);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,208,255,.12),
+      rgba(4,14,32,.94)
+    );
+}
+
+.detail-actions {
+  margin-bottom: 120px;
+}
+
+@media (max-width: 420px) {
+
+  .phase7-shikigami-detail.large {
+    grid-template-columns:
+      130px
+      1fr;
+  }
+
+  .phase7-shikigami-detail.large img {
+    width: 130px;
+    height: 180px;
+  }
+
+}
+
+
+
+
+/* ==================================================
+   Phase7.2〜8：背景マップ＋別UI探索画面
+================================================== */
+
+.phase8-player-rank-card {
+  width: min(460px, 94vw);
+  margin: 0 auto 10px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  align-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(255,214,107,.45);
+  background: rgba(4,14,32,.88);
+  color: #d8ecff;
+  font-weight: 900;
+}
+
+.phase8-player-rank-card strong {
+  display: block;
+  color: #ffd66b;
+  font-size: 30px;
+}
+
+.phase8-rank-exp span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.phase8-rank-bar {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.15);
+  overflow: hidden;
+}
+
+.phase8-rank-bar div {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00d0ff, #b66cff, #ffd66b);
+  box-shadow: 0 0 12px rgba(182,108,255,.8);
+}
+
+.phase8-map-shell {
+  position: relative;
+  width: min(460px, 94vw);
+  height: 58vh;
+  min-height: 420px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(255,214,107,.48);
+  background: #041021;
+  box-shadow:
+    0 0 28px rgba(0,208,255,.20),
+    inset 0 0 24px rgba(255,255,255,.08);
+}
+
+.phase8-map-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2,8,24,.06),
+      rgba(2,8,24,.62)
+    ),
+    url("img/explore_map_vertical.png");
+  background-size: cover;
+  background-position: center top;
+  filter: saturate(1.15) brightness(.82);
+}
+
+.phase8-node {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.75);
+  background: rgba(4,14,32,.80);
+  color: white;
+  font-weight: 1000;
+  font-size: 18px;
+  z-index: 2;
+  box-shadow: 0 0 16px rgba(255,255,255,.25);
+}
+
+.phase8-node.selected {
+  transform: scale(1.18);
+  border-color: #ffd66b;
+  box-shadow:
+    0 0 18px rgba(255,214,107,.95),
+    0 0 34px rgba(0,208,255,.55);
+}
+
+.phase8-node.locked {
+  opacity: .48;
+  filter: grayscale(.8);
+}
+
+.node-tsukikage { left: 55%; top: 14%; }
+.node-yashiro { left: 16%; top: 34%; }
+.node-ohmagahara { right: 18%; top: 49%; }
+.node-kosenjo { left: 18%; top: 68%; }
+.node-tenko { right: 20%; top: 83%; }
+
+.phase8-area-card {
+  width: min(460px, 94vw);
+  margin: 0 auto 120px;
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,214,107,.58);
+  background:
+    linear-gradient(135deg, rgba(0,208,255,.12), rgba(182,108,255,.13), rgba(255,214,107,.08)),
+    rgba(4,14,32,.94);
+  box-shadow:
+    0 0 26px rgba(0,208,255,.18),
+    inset 0 0 20px rgba(255,255,255,.07);
+}
+
+.phase8-area-title-row {
+  display: grid;
+  grid-template-columns: 1fr 72px;
+  gap: 10px;
+  align-items: center;
+}
+
+.phase8-area-name {
+  color: #ffd66b;
+  text-align: left;
+  font-size: 26px;
+  font-weight: 1000;
+  text-shadow: 0 0 12px rgba(255,214,107,.85);
+}
+
+.phase8-area-desc {
+  margin-top: 5px;
+  color: #d8ecff;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.phase8-element-icon,
+.phase8-mini-element {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(0,208,255,.4));
+}
+
+.phase8-mini-element {
+  width: 42px;
+  height: 42px;
+}
+
+.phase8-area-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.phase8-area-info-grid div {
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  color: #d8ecff;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.phase8-area-info-grid span {
+  display: block;
+  margin-top: 4px;
+  color: #ffd66b;
+  font-size: 17px;
+}
+
+.phase8-drop-icons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 8px 0 14px;
+}
+
+.phase8-drop-icons img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  padding: 4px;
+  filter: drop-shadow(0 0 10px rgba(255,214,107,.35));
+}
+
+.phase8-start-button {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,214,107,.8);
+  background: linear-gradient(135deg, rgba(120,75,0,.92), rgba(30,15,0,.98));
+  color: white;
+  font-size: 22px;
+  font-weight: 1000;
+  box-shadow: 0 0 20px rgba(255,214,107,.28);
+}
+
+.phase8-start-button:disabled {
+  opacity: .55;
+  filter: grayscale(.8);
+}
+
+@media (max-width: 420px) {
+  .phase8-map-shell {
+    height: 54vh;
+    min-height: 380px;
+  }
+
+  .phase8-area-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
