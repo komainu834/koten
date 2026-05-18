@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase8">
+  <link rel="stylesheet" href="style.css?v=phase8fixed">
 </head>
 <body>
 
@@ -140,119 +140,30 @@
   </div>
 
   <div id="phase7ExplorePage" class="phase7-page hidden">
-
     <h2 class="phase35-title">探索</h2>
-
     <div class="phase8-player-rank-card">
-      <div>
-        プレイヤーランク
-        <strong id="playerRankText">1</strong>
-      </div>
-
-      <div class="phase8-rank-exp">
-        <span id="playerExpText">0 / 100</span>
-        <div class="phase8-rank-bar">
-          <div id="playerExpFill"></div>
-        </div>
-      </div>
+      <div>プレイヤーランク<strong id="playerRankText">1</strong></div>
+      <div class="phase8-rank-exp"><span id="playerExpText">0 / 100</span><div class="phase8-rank-bar"><div id="playerExpFill"></div></div></div>
     </div>
-
     <div id="explorePanel" class="phase35-explore-status hidden">
       <div>探索中の式神：<span id="exploreShikigamiName">白狐ノ影</span></div>
       <div>場所：<span id="explorePlace">月影の竹林</span></div>
       <div>残り時間：<span id="exploreTimer">00:00:00</span></div>
       <button onclick="collectExploreReward()">回収する</button>
     </div>
-
-    <div class="phase8-map-shell">
-
-      <div class="phase8-map-bg"></div>
-
-      <button
-        class="phase8-node node-tsukikage unlocked selected"
-        id="node_tsukikage"
-        onclick="selectExploreArea('tsukikage')"
-      >
-        1
-      </button>
-
-      <button
-        class="phase8-node node-yashiro"
-        id="node_yashiro"
-        onclick="selectExploreArea('yashiro')"
-      >
-        2
-      </button>
-
-      <button
-        class="phase8-node node-ohmagahara"
-        id="node_ohmagahara"
-        onclick="selectExploreArea('ohmagahara')"
-      >
-        3
-      </button>
-
-      <button
-        class="phase8-node node-kosenjo"
-        id="node_kosenjo"
-        onclick="selectExploreArea('kosenjo')"
-      >
-        4
-      </button>
-
-      <button
-        class="phase8-node node-tenko"
-        id="node_tenko"
-        onclick="selectExploreArea('tenko')"
-      >
-        5
-      </button>
-
+    <div class="phase8-card-explore-list">
+      <button class="phase8-area-list-card water unlocked" id="areaCard_tsukikage" onclick="selectExploreArea('tsukikage')"><div class="phase8-area-card-head"><img src="img/elements/water.png"><div><strong>月影の竹林</strong><span>語彙素材を集めやすい初級探索地</span></div></div><div class="phase8-area-card-data"><span>探索 20分</span><span>霊力 10</span><span>最初から解放</span></div></button>
+      <button class="phase8-area-list-card wind" id="areaCard_yashiro" onclick="selectExploreArea('yashiro')"><div class="phase8-area-card-head"><img src="img/elements/wind.png"><div><strong>忘れられた社</strong><span>文法素材と巻物を集めやすい探索地</span></div></div><div class="phase8-area-card-data"><span>探索 60分</span><span>霊力 18</span><span>ランク3で解放</span></div></button>
+      <button class="phase8-area-list-card fire" id="areaCard_ohmagahara" onclick="selectExploreArea('ohmagahara')"><div class="phase8-area-card-head"><img src="img/elements/fire.png"><div><strong>逢魔ヶ原</strong><span>助動詞素材と炎魂を集めやすい探索地</span></div></div><div class="phase8-area-card-data"><span>探索 120分</span><span>霊力 30</span><span>ランク5で解放</span></div></button>
+      <button class="phase8-area-list-card dark" id="areaCard_kosenjo" onclick="selectExploreArea('kosenjo')"><div class="phase8-area-card-head"><img src="img/elements/dark.png"><div><strong>幽玄の古戦場</strong><span>高レア素材を狙える高難度探索地</span></div></div><div class="phase8-area-card-data"><span>探索 180分</span><span>霊力 45</span><span>ランク8で解放</span></div></button>
+      <button class="phase8-area-list-card light" id="areaCard_tenko" onclick="selectExploreArea('tenko')"><div class="phase8-area-card-head"><img src="img/elements/light.png"><div><strong>天狐の禁域</strong><span>覚醒素材を狙える最上位探索地</span></div></div><div class="phase8-area-card-data"><span>探索 360分</span><span>霊力 70</span><span>ランク12で解放</span></div></button>
     </div>
-
-    <div class="phase8-area-card">
-
-      <div class="phase8-area-title-row">
-        <div>
-          <div id="areaNameText" class="phase8-area-name">月影の竹林</div>
-          <div id="areaDescText" class="phase8-area-desc">月光が差し込む静かな竹林。語彙素材を集めやすい。</div>
-        </div>
-
-        <img
-          id="areaElementIcon"
-          class="phase8-element-icon"
-          src="img/elements/water.png"
-          alt="属性"
-        >
-      </div>
-
-      <div class="phase8-area-info-grid">
-        <div>探索時間<span id="areaTimeText">20分</span></div>
-        <div>消費霊力<span id="areaCostText">10</span></div>
-        <div>推奨属性<span id="areaElementText">水</span></div>
-        <div>解放条件<span id="areaUnlockText">最初から解放</span></div>
-      </div>
-
-      <div class="phase8-drop-preview">
-        <div class="phase35-section-title">主な報酬</div>
-
-        <div id="areaDrops" class="phase8-drop-icons">
-          <img src="img/materials/soul_normal.png" alt="霊魂">
-          <img src="img/materials/crystal_blue.png" alt="蒼晶石">
-          <img src="img/elements/water.png" alt="水">
-        </div>
-      </div>
-
-      <button
-        id="areaStartButton"
-        class="phase8-start-button"
-        onclick="startSelectedExplore()"
-      >
-        探索開始
-      </button>
-
+    <div class="phase8-selected-area-panel">
+      <div class="phase8-area-title-row"><div><div id="areaNameText" class="phase8-area-name">月影の竹林</div><div id="areaDescText" class="phase8-area-desc">月光が差し込む静かな竹林。語彙素材を集めやすい。</div></div><img id="areaElementIcon" class="phase8-element-icon" src="img/elements/water.png"></div>
+      <div class="phase8-area-info-grid"><div>探索時間<span id="areaTimeText">20分</span></div><div>消費霊力<span id="areaCostText">10</span></div><div>推奨属性<span id="areaElementText">水</span></div><div>解放条件<span id="areaUnlockText">最初から解放</span></div></div>
+      <div class="phase8-drop-preview"><div class="phase35-section-title">主な報酬</div><div id="areaDrops" class="phase8-drop-icons"><img src="img/materials/soul_normal.png"><img src="img/materials/crystal_blue.png"><img src="img/elements/water.png"></div></div>
+      <button id="areaStartButton" class="phase8-start-button" onclick="startSelectedExplore()">探索開始</button>
     </div>
-
   </div>
 
 
@@ -335,7 +246,7 @@
 
         <div class="phase7-detail-text">
           <strong id="detailShikigamiName">白狐ノ影</strong>
-          <span id="detailShikigamiRole">水属性 / 語彙特化</span><img id="detailElementIcon" class="phase8-mini-element" src="img/elements/water.png" alt="属性">
+          <span id="detailShikigamiRole">水属性 / 語彙特化</span>
           <span>戦力：<b id="detailPowerText">1200</b></span>
           <span>Lv.<b id="detailLevelText">1</b></span>
           <span>覚醒：<b id="detailAwakenText">0</b></span>
@@ -376,62 +287,27 @@
 
       </div>
 
-      <div class="phase7-action-row detail-actions">
-
-        <button onclick="trainShikigami()">
-          レベルアップ
-        </button>
-
-        <button onclick="trainShikigami()">
-          強化
-        </button>
-
-        <button onclick="showEquipmentComingSoon()">
-          装備
-        </button>
-
-      </div>
-
     </div>
 
   </div>
-
 
   <div id="phase7InventoryPage" class="phase7-page hidden">
     <h2 class="phase35-title">インベントリ</h2>
-    <div class="phase35-material-card">
-      <div class="phase35-section-title">所持素材</div>
-      <div class="phase35-material-grid phase4-material-grid">
-        <div><img src="img/materials/soul_normal.png">🔮 霊魂<span id="soulText">0</span></div>
-        <div><img src="img/materials/crystal_blue.png">💎 蒼晶石<span id="blueCrystalText">0</span></div>
-        <div><img src="img/materials/crystal_red.png">❤️ 紅晶石<span id="redCrystalText">0</span></div>
-        <div><img src="img/materials/scroll_vocab.png">📜 巻物<span id="scrollText">0</span></div>
-        <div><img src="img/materials/crystal_rainbow.png">✨ 虹晶石<span id="rainbowCrystalText">0</span></div>
-        <div><img src="img/materials/soul_fire.png">🔥 炎魂<span id="fireSoulText">0</span></div>
-      </div>
-    </div>
-    <div class="phase7-required-card">
-      <div class="phase35-section-title">次のレベルアップに必要な素材</div>
-      <div class="phase7-required-list">
-        <div>霊力 <span id="needSpiritText">0</span></div>
-        <div>霊魂 <span id="needSoulText">0</span></div>
-        <div>巻物 <span id="needScrollText">0</span></div>
-      </div>
-      <button onclick="trainShikigami()">レベルアップ</button>
-    </div>
-    <div class="phase5-awaken-card">
-      <div class="phase35-section-title">覚醒</div>
-      <div class="phase5-awaken-info">
-        <div class="phase5-awaken-rank">覚醒段階<strong id="awakenRankTextUpgrade">0</strong></div>
-        <div class="phase5-awaken-desc">虹晶石と巻物を使って、式神の上限と戦力を上げます。</div>
-      </div>
-      <button onclick="awakenShikigami()">覚醒する</button>
-    </div>
+    <div class="phase35-material-card"><div class="phase35-section-title">所持素材</div><div class="phase35-material-grid phase4-material-grid">
+      <div><img src="img/materials/soul_normal.png">🔮 霊魂<span id="soulText">0</span></div>
+      <div><img src="img/materials/crystal_blue.png">💎 蒼晶石<span id="blueCrystalText">0</span></div>
+      <div><img src="img/materials/crystal_red.png">❤️ 紅晶石<span id="redCrystalText">0</span></div>
+      <div><img src="img/materials/scroll_vocab.png">📜 巻物<span id="scrollText">0</span></div>
+      <div><img src="img/materials/crystal_rainbow.png">✨ 虹晶石<span id="rainbowCrystalText">0</span></div>
+      <div><img src="img/materials/soul_fire.png">🔥 炎魂<span id="fireSoulText">0</span></div>
+    </div></div>
+    <div class="phase8-inventory-note">素材は探索で入手できます。レベルアップと覚醒は「式神」画面の個別詳細から行います。</div>
   </div>
+
 
   <div id="phase7GachaPage" class="phase7-page hidden">
     <h2 class="phase35-title">ガチャ</h2>
-    <div class="phase6-coming-soon">🎴<strong>COMING SOON</strong><span>追加式神・装備ガチャは今後追加予定です</span></div>
+    <div class="phase6-coming-soon">🎴<strong>COMING SOON</strong><span>装備・式神召喚は今後追加予定です</span></div>
   </div>
 
   <div id="rewardOverlay" class="reward-overlay hidden">
@@ -503,7 +379,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase8"></script>
+  <script src="app.js?v=phase8fixed"></script>
 </body>
 </html>
   
