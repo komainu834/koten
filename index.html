@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase6">
+  <link rel="stylesheet" href="style.css?v=phase6fixed">
 </head>
 <body>
 
@@ -95,13 +95,7 @@
 <section id="exploreScreen" class="screen phase35-screen">
 
   <div class="phase35-top">
-
-    <button
-      class="phase35-round-btn"
-      onclick="goTop()"
-    >
-      ←
-    </button>
+    <button class="phase35-round-btn" onclick="goTop()">←</button>
 
     <div class="phase35-player">
       <div class="phase35-player-level">
@@ -113,345 +107,187 @@
       </div>
     </div>
 
-    <button
-      class="phase35-round-btn"
-      onclick="showPhase35Help()"
-    >
-      ?
-    </button>
-
+    <button class="phase35-round-btn" onclick="showPhase35Help()">?</button>
   </div>
 
   <div class="phase35-resource-bar">
-
-    <div>
-      🔥 霊力
-      <span id="spiritPowerText">0</span>
-    </div>
-
-    <div>
-      🪙 古銭
-      <span id="coinText">0</span>
-    </div>
-
-    <div>
-      💎 晶石
-      <span id="gemText">0</span>
-    </div>
-
+    <div>🔥 霊力<span id="spiritPowerText">0</span></div>
+    <div>🪙 古銭<span id="coinText">0</span></div>
+    <div>💎 晶石<span id="gemText">0</span></div>
   </div>
 
-  <h2 class="phase35-title">
-    式神育成
-  </h2>
+  <div id="phase6HomePage" class="phase6-page">
+    <h2 class="phase35-title">式神ホーム</h2>
 
-  <div class="phase35-hero">
-
-    <div class="phase35-name-card">
-
-      <div class="phase35-element" id="activeShikigamiElement">
-        水
+    <div class="phase35-hero">
+      <div class="phase35-name-card">
+        <div class="phase35-element" id="activeShikigamiElement">水</div>
+        <div class="phase35-name" id="activeShikigamiName">白狐ノ影</div>
+        <div class="phase35-stars">★★★★★</div>
+        <div class="phase35-role">役割：<span id="activeShikigamiRole">語彙特化</span></div>
       </div>
 
-      <div class="phase35-name" id="activeShikigamiName">
-        白狐ノ影
+      <div class="phase35-power-card">
+        <div>戦力</div>
+        <strong id="battlePowerText">1200</strong>
       </div>
 
-      <div class="phase35-stars">
-        ★★★★★
+      <div class="phase35-character-wrap">
+        <img id="activeShikigamiImage" src="img/fox.png" alt="式神">
       </div>
-
-      <div class="phase35-role">
-        役割：
-        <span id="activeShikigamiRole">
-          語彙特化
-        </span>
-      </div>
-
     </div>
 
-    <div class="phase35-power-card">
-      <div>戦力</div>
-      <strong id="battlePowerText">1200</strong>
+    <div class="phase35-growth-card">
+      <div class="phase35-level-row">
+        <span>Lv.<span id="activeShikigamiLevel">1</span> / 40</span>
+        <span>覚醒 <strong id="awakenRankText">0</strong></span>
+      </div>
+
+      <div class="phase35-exp-bar">
+        <div id="expFill" class="phase35-exp-fill"></div>
+      </div>
+
+      <div id="expText" class="phase35-exp-text">0 / 100</div>
+
+      <div class="phase35-stat-grid">
+        <div>HP<span id="hpText">1200</span></div>
+        <div>攻撃<span id="atkText">240</span></div>
+        <div>防御<span id="defText">180</span></div>
+        <div>素早さ<span id="spdText">120</span></div>
+      </div>
     </div>
-
-    <div class="phase35-character-wrap">
-
-      <img
-        id="activeShikigamiImage"
-        src="img/fox.png"
-        alt="式神"
-      >
-
-    </div>
-
   </div>
 
-  <div class="phase35-growth-card">
-
-    <div class="phase35-level-row">
-      <span>
-        Lv.<span id="activeShikigamiLevel">1</span>
-        / 40
-      </span>
-
-      <button onclick="trainShikigami()">
-        レベルアップ
-      </button>
-    </div>
-
-    <div class="phase35-exp-bar">
-      <div id="expFill" class="phase35-exp-fill"></div>
-    </div>
-
-    <div id="expText" class="phase35-exp-text">
-      0 / 100
-    </div>
-
-    <div class="phase35-stat-grid">
-
-      <div>
-        HP
-        <span id="hpText">1200</span>
-      </div>
-
-      <div>
-        攻撃
-        <span id="atkText">240</span>
-      </div>
-
-      <div>
-        防御
-        <span id="defText">180</span>
-      </div>
-
-      <div>
-        素早さ
-        <span id="spdText">120</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="phase35-tab-row">
-    <button class="active">強化</button>
-    <button onclick="alert('装備は今後追加予定です')">装備</button>
-    <button onclick="alert('スキルは今後追加予定です')">スキル</button>
-    <button onclick="alert('覚醒は今後追加予定です')">覚醒</button>
-  </div>
-
-  <div class="phase35-material-card">
-
-    <div class="phase35-section-title">
-      強化素材
-    </div>
-
-    
-    <div class="phase35-material-grid phase4-material-grid">
-
-      <div>
-        <img src="img/materials/soul_normal.png" alt="霊魂">
-        🔮 霊魂
-        <span id="soulText">0</span>
-      </div>
-
-      <div>
-        <img src="img/materials/crystal_blue.png" alt="蒼晶石">
-        💎 蒼晶石
-        <span id="blueCrystalText">0</span>
-      </div>
-
-      <div>
-        <img src="img/materials/crystal_red.png" alt="紅晶石">
-        ❤️ 紅晶石
-        <span id="redCrystalText">0</span>
-      </div>
-
-      <div>
-        <img src="img/materials/scroll_vocab.png" alt="巻物">
-        📜 巻物
-        <span id="scrollText">0</span>
-      </div>
-
-      <div>
-        <img src="img/materials/crystal_rainbow.png" alt="虹晶石">
-        ✨ 虹晶石
-        <span id="rainbowCrystalText">0</span>
-      </div>
-
-      <div>
-        <img src="img/materials/soul_fire.png" alt="炎魂">
-        🔥 炎魂
-        <span id="fireSoulText">0</span>
-      </div>
-
-    </div>
-
-
-  </div>
-
-  
-  <div class="phase5-awaken-card">
-
-    <div class="phase35-section-title">
-      覚醒
-    </div>
-
-    <div class="phase5-awaken-info">
-      <div class="phase5-awaken-rank">
-        覚醒段階
-        <strong id="awakenRankText">0</strong>
-      </div>
-
-      <div class="phase5-awaken-desc">
-        虹晶石と巻物を使って、式神の上限と戦力を上げます。
-      </div>
-    </div>
-
-    <button onclick="awakenShikigami()">
-      覚醒する
-    </button>
-
-  </div>
-
-
-  <div class="phase35-select-card">
-
-    <div class="phase35-section-title">
-      式神を選ぶ
-    </div>
-
-    <div class="phase35-shikigami-select">
-
-      <button onclick="selectShikigami('白狐ノ影', 'img/fox.png')">
-        🦊 白狐
-      </button>
-
-      <button onclick="selectShikigami('鴉天狗', 'img/tengu.png')">
-        🐦‍⬛ 鴉天狗
-      </button>
-
-      <button onclick="selectShikigami('青龍', 'img/dragon.png')">
-        🐉 青龍
-      </button>
-
-      <button onclick="selectShikigami('九尾ノ焔', 'img/kitsune.png')">
-        🔥 九尾
-      </button>
-
-    </div>
-
-  </div>
-
-  <div id="exploreTabPage" class="phase6-tab-page">
-<div id="phase5ExploreArea" class="phase35-explore-card phase5-explore-card">
-
-    <div class="phase35-section-title">
-      探索に出す
-    </div>
-
-    <div class="phase35-explore-place">
-      <div class="phase35-place-art">
-        月夜の竹林
-      </div>
-
-      <div class="phase35-place-info">
-        <strong>月夜の竹林</strong>
-        <span>探索時間：2時間</span>
-        <span>おすすめ属性：水</span>
-      </div>
-
-      <button onclick="startExplore('月夜の竹林', 2)">
-        探索に出す
-      </button>
-    </div>
+  <div id="phase6ExplorePage" class="phase6-page hidden">
+    <h2 class="phase35-title">探索</h2>
 
     <div id="explorePanel" class="phase35-explore-status hidden">
-
-      <div>
-        探索中の式神：
-        <span id="exploreShikigamiName">白狐ノ影</span>
-      </div>
-
-      <div>
-        場所：
-        <span id="explorePlace">月夜の竹林</span>
-      </div>
-
-      <div>
-        残り時間：
-        <span id="exploreTimer">00:00:00</span>
-      </div>
-
-      <button onclick="collectExploreReward()">
-        回収する
-      </button>
-
+      <div>探索中の式神：<span id="exploreShikigamiName">白狐ノ影</span></div>
+      <div>場所：<span id="explorePlace">月夜の竹林</span></div>
+      <div>残り時間：<span id="exploreTimer">00:00:00</span></div>
+      <button onclick="collectExploreReward()">回収する</button>
     </div>
 
+    <div class="phase6-place-list">
+      <div class="phase6-place-card water">
+        <div class="phase6-place-title">🌙 月夜の竹林</div>
+        <div class="phase6-place-detail">
+          <p>探索時間：2時間</p>
+          <p>おすすめ属性：水</p>
+          <p>入手しやすい素材：蒼晶石・水魂・霊魂</p>
+        </div>
+        <button onclick="startExplore('月夜の竹林', 2)">探索に出す</button>
+      </div>
+
+      <div class="phase6-place-card wind">
+        <div class="phase6-place-title">⛩ 幽玄の社</div>
+        <div class="phase6-place-detail">
+          <p>探索時間：4時間</p>
+          <p>おすすめ属性：風</p>
+          <p>入手しやすい素材：巻物・文法秘巻・晶石</p>
+        </div>
+        <button onclick="startExplore('幽玄の社', 4)">探索に出す</button>
+      </div>
+
+      <div class="phase6-place-card fire">
+        <div class="phase6-place-title">🔥 紅蓮峡谷</div>
+        <div class="phase6-place-detail">
+          <p>探索時間：8時間</p>
+          <p>おすすめ属性：火</p>
+          <p>入手しやすい素材：紅晶石・炎魂・助動詞秘伝書</p>
+        </div>
+        <button onclick="startExplore('紅蓮峡谷', 8)">探索に出す</button>
+      </div>
+    </div>
   </div>
 
-  
+  <div id="phase6ShikigamiPage" class="phase6-page hidden">
+    <h2 class="phase35-title">式神一覧</h2>
+
+    <div class="phase6-shikigami-list">
+      <button class="phase6-shikigami-card" onclick="selectShikigami('白狐ノ影', 'img/fox.png'); showHomeTab();">
+        <img src="img/fox.png" alt="白狐">
+        <div><strong>白狐ノ影</strong><span>水属性 / 語彙特化</span></div>
+      </button>
+
+      <button class="phase6-shikigami-card" onclick="selectShikigami('鴉天狗', 'img/tengu.png'); showHomeTab();">
+        <img src="img/tengu.png" alt="鴉天狗">
+        <div><strong>鴉天狗</strong><span>風属性 / 文法特化</span></div>
+      </button>
+
+      <button class="phase6-shikigami-card" onclick="selectShikigami('青龍', 'img/dragon.png'); showHomeTab();">
+        <img src="img/dragon.png" alt="青龍">
+        <div><strong>青龍</strong><span>水属性 / 高得点特化</span></div>
+      </button>
+
+      <button class="phase6-shikigami-card" onclick="selectShikigami('九尾ノ焔', 'img/kitsune.png'); showHomeTab();">
+        <img src="img/kitsune.png" alt="九尾">
+        <div><strong>九尾ノ焔</strong><span>火属性 / 助動詞特化</span></div>
+      </button>
+    </div>
+  </div>
+
+  <div id="phase6UpgradePage" class="phase6-page hidden">
+    <h2 class="phase35-title">強化</h2>
+
+    <div class="phase35-material-card">
+      <div class="phase35-section-title">所持素材</div>
+
+      <div class="phase35-material-grid phase4-material-grid">
+        <div><img src="img/materials/soul_normal.png" alt="霊魂">🔮 霊魂<span id="soulText">0</span></div>
+        <div><img src="img/materials/crystal_blue.png" alt="蒼晶石">💎 蒼晶石<span id="blueCrystalText">0</span></div>
+        <div><img src="img/materials/crystal_red.png" alt="紅晶石">❤️ 紅晶石<span id="redCrystalText">0</span></div>
+        <div><img src="img/materials/scroll_vocab.png" alt="巻物">📜 巻物<span id="scrollText">0</span></div>
+        <div><img src="img/materials/crystal_rainbow.png" alt="虹晶石">✨ 虹晶石<span id="rainbowCrystalText">0</span></div>
+        <div><img src="img/materials/soul_fire.png" alt="炎魂">🔥 炎魂<span id="fireSoulText">0</span></div>
+      </div>
+    </div>
+
+    <div class="phase6-upgrade-card">
+      <div class="phase35-section-title">レベルアップ</div>
+      <p>霊力と霊魂を使って、現在選択中の式神を強化します。</p>
+      <button onclick="trainShikigami()">レベルアップ</button>
+    </div>
+
+    <div class="phase5-awaken-card">
+      <div class="phase35-section-title">覚醒</div>
+
+      <div class="phase5-awaken-info">
+        <div class="phase5-awaken-rank">覚醒段階<strong id="awakenRankTextUpgrade">0</strong></div>
+        <div class="phase5-awaken-desc">虹晶石と巻物を使って、式神の上限と戦力を上げます。</div>
+      </div>
+
+      <button onclick="awakenShikigami()">覚醒する</button>
+    </div>
+  </div>
+
+  <div id="phase6ShopPage" class="phase6-page hidden">
+    <h2 class="phase35-title">ショップ</h2>
+
+    <div class="phase6-coming-soon">
+      🏪
+      <strong>COMING SOON</strong>
+      <span>ショップ機能は今後追加予定です</span>
+    </div>
+  </div>
+
   <div id="rewardOverlay" class="reward-overlay hidden">
-
     <div class="reward-modal">
-
-      <div class="reward-title">
-        探索成功！
-      </div>
-
-      <div id="rewardRank" class="reward-rank">
-        A
-      </div>
-
-      <div id="rewardList" class="reward-list">
-      </div>
-
-      <div id="rewardMessage" class="reward-message">
-      </div>
-
-      <button onclick="closeRewardOverlay()">
-        OK
-      </button>
-
+      <div class="reward-title">探索成功！</div>
+      <div id="rewardRank" class="reward-rank">A</div>
+      <div id="rewardList" class="reward-list"></div>
+      <div id="rewardMessage" class="reward-message"></div>
+      <button onclick="closeRewardOverlay()">OK</button>
     </div>
-
   </div>
-
 
   <div class="phase35-bottom-nav">
-
-    <button onclick="goTop()">
-      ⛩
-      <span>ホーム</span>
-    </button>
-
-    <button onclick="showExploreTab()" class="active" id="tabExploreBtn">
-      🌙
-      <span>探索</span>
-    </button>
-
-    <button onclick="showShikigamiTab()" id="tabShikigamiBtn">
-      🦊
-      <span>式神</span>
-    </button>
-
-    <button onclick="showUpgradeTab()" id="tabUpgradeBtn">
-      ✨
-      <span>強化</span>
-    </button>
-
-    <button onclick="alert('ショップは今後追加予定です')">
-      🏪
-      <span>ショップ</span>
-    </button>
-
-    <button onclick="openSideMenuFromBottom()">
-      ☰
-      <span>メニュー</span>
-    </button>
-
+    <button onclick="showHomeTab()" class="active" id="tabHomeBtn">⛩<span>ホーム</span></button>
+    <button onclick="showExploreTab()" id="tabExploreBtn">🌙<span>探索</span></button>
+    <button onclick="showShikigamiTab()" id="tabShikigamiBtn">🦊<span>式神</span></button>
+    <button onclick="showUpgradeTab()" id="tabUpgradeBtn">✨<span>強化</span></button>
+    <button onclick="showShopTab()" id="tabShopBtn">🏪<span>ショップ</span></button>
+    <button onclick="openSideMenuFromBottom()">☰<span>メニュー</span></button>
   </div>
 
 </section>
@@ -504,7 +340,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase6"></script>
+  <script src="app.js?v=phase6fixed"></script>
 </body>
 </html>
   

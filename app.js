@@ -2071,117 +2071,111 @@ function scrollToExploreArea() {
 
 
 
-/* =========================
-   Phase6 タブUI
-========================= */
+/* ==================================================
+   Phase6修正版：下メニューの役割整理
+================================================== */
 
-function hideAllExploreTabs(){
-
-  const ids = [
-    "exploreTabPage",
-    "shikigamiTabPage",
-    "upgradeTabPage"
+function hideAllPhase6Pages() {
+  const pageIds = [
+    "phase6HomePage",
+    "phase6ExplorePage",
+    "phase6ShikigamiPage",
+    "phase6UpgradePage",
+    "phase6ShopPage"
   ];
 
-  ids.forEach(function(id){
-
-    const el =
-      document.getElementById(id);
-
-    if(el){
-      el.classList.add("hidden");
-    }
-
+  pageIds.forEach(function (id) {
+    const page = document.getElementById(id);
+    if (page) page.classList.add("hidden");
   });
 
-  [
+  const buttonIds = [
+    "tabHomeBtn",
     "tabExploreBtn",
     "tabShikigamiBtn",
-    "tabUpgradeBtn"
-  ].forEach(function(id){
+    "tabUpgradeBtn",
+    "tabShopBtn"
+  ];
 
-    const btn =
-      document.getElementById(id);
-
-    if(btn){
-      btn.classList.remove("active");
-    }
-
+  buttonIds.forEach(function (id) {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.remove("active");
   });
-
 }
 
-function showExploreTab(){
+function showHomeTab() {
+  hideAllPhase6Pages();
 
-  hideAllExploreTabs();
+  const page = document.getElementById("phase6HomePage");
+  const btn = document.getElementById("tabHomeBtn");
 
-  const page =
-    document.getElementById("exploreTabPage");
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
 
-  const btn =
-    document.getElementById("tabExploreBtn");
-
-  if(page){
-    page.classList.remove("hidden");
-  }
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
+  updateShikigamiUI();
 }
 
-function showShikigamiTab(){
+function showExploreTab() {
+  hideAllPhase6Pages();
 
-  hideAllExploreTabs();
+  const page = document.getElementById("phase6ExplorePage");
+  const btn = document.getElementById("tabExploreBtn");
 
-  const page =
-    document.getElementById("shikigamiTabPage");
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
 
-  const btn =
-    document.getElementById("tabShikigamiBtn");
-
-  if(page){
-    page.classList.remove("hidden");
-  }
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
+  updateExploreUI();
 }
 
-function showUpgradeTab(){
+function showShikigamiTab() {
+  hideAllPhase6Pages();
 
-  hideAllExploreTabs();
+  const page = document.getElementById("phase6ShikigamiPage");
+  const btn = document.getElementById("tabShikigamiBtn");
 
-  const page =
-    document.getElementById("upgradeTabPage");
-
-  const btn =
-    document.getElementById("tabUpgradeBtn");
-
-  if(page){
-    page.classList.remove("hidden");
-  }
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
 }
 
-/* 探索画面開いた時は探索タブ */
-const oldShowExploreScreenPhase6 =
-  showExploreScreen;
+function showUpgradeTab() {
+  hideAllPhase6Pages();
 
-showExploreScreen = function(){
+  const page = document.getElementById("phase6UpgradePage");
+  const btn = document.getElementById("tabUpgradeBtn");
 
-  oldShowExploreScreenPhase6();
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
 
-  setTimeout(function(){
-    showExploreTab();
+  updateShikigamiUI();
+}
+
+function showShopTab() {
+  hideAllPhase6Pages();
+
+  const page = document.getElementById("phase6ShopPage");
+  const btn = document.getElementById("tabShopBtn");
+
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
+}
+
+const oldShowExploreScreenPhase6Fixed = showExploreScreen;
+
+showExploreScreen = function () {
+  oldShowExploreScreenPhase6Fixed();
+
+  setTimeout(function () {
+    showHomeTab();
   }, 0);
+};
 
+const oldUpdateShikigamiUIPhase6Fixed = updateShikigamiUI;
+
+updateShikigamiUI = function () {
+  oldUpdateShikigamiUIPhase6Fixed();
+
+  const awaken = shikigamiAwaken[activeShikigami] || 0;
+
+  setText("awakenRankTextUpgrade", awaken);
 };
 

@@ -3778,83 +3778,162 @@ body.menu-open .menu-button {
 
 
 
-/* =========================
-   Phase6 タブUI
-========================= */
+/* ==================================================
+   Phase6修正版：下メニュー別画面UI
+================================================== */
 
-.phase6-tab-page{
-  width:100%;
+.phase6-page {
+  width: 100%;
 }
 
-.phase6-placeholder{
+.phase6-place-list,
+.phase6-shikigami-list {
+  width: min(460px, 94vw);
+  margin: 0 auto 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  width:min(460px,94vw);
-
-  min-height:320px;
-
-  margin:0 auto 18px;
-
-  border-radius:28px;
-
-  display:grid;
-  place-items:center;
-
-  text-align:center;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0,208,255,.15),
-      rgba(182,108,255,.15)
-    ),
-    rgba(4,14,32,.92);
-
-  border:
-    1px solid rgba(0,208,255,.45);
-
-  color:white;
-
-  font-size:38px;
-  font-weight:1000;
-
+.phase6-place-card {
+  padding: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(4,14,32,.90);
   box-shadow:
-    0 0 28px rgba(0,208,255,.18),
-    0 0 40px rgba(182,108,255,.18);
+    0 0 24px rgba(0,208,255,.15),
+    inset 0 0 18px rgba(255,255,255,.06);
 }
 
-.phase6-placeholder span{
-
-  display:block;
-
-  margin-top:10px;
-
-  color:#d8ecff;
-
-  font-size:16px;
+.phase6-place-card.water {
+  border-color: rgba(0,208,255,.72);
+  background: linear-gradient(135deg, rgba(0,208,255,.18), rgba(4,14,32,.94));
 }
 
-.phase6-placeholder.rainbow{
+.phase6-place-card.wind {
+  border-color: rgba(90,255,180,.72);
+  background: linear-gradient(135deg, rgba(90,255,180,.15), rgba(4,14,32,.94));
+}
 
+.phase6-place-card.fire {
+  border-color: rgba(255,90,90,.72);
+  background: linear-gradient(135deg, rgba(255,90,90,.18), rgba(4,14,32,.94));
+}
+
+.phase6-place-title {
+  color: #ffd66b;
+  font-size: 26px;
+  font-weight: 1000;
+  text-shadow: 0 0 12px rgba(255,214,107,.75);
+}
+
+.phase6-place-detail {
+  margin: 10px 0;
+  color: #d8ecff;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.phase6-place-card button,
+.phase6-upgrade-card button {
+  width: 100%;
+  min-height: 52px;
+  margin: 8px 0 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255,214,107,.75);
+  background: linear-gradient(135deg, rgba(120,75,0,.88), rgba(30,15,0,.96));
+  color: white;
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+.phase6-shikigami-card {
+  width: 100%;
+  min-height: 108px;
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 0;
+  border-radius: 22px;
+  border: 1px solid rgba(182,108,255,.45);
+  background: linear-gradient(135deg, rgba(182,108,255,.14), rgba(4,14,32,.94));
+  color: white;
+  text-align: left;
+}
+
+.phase6-shikigami-card img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0,208,255,.35));
+}
+
+.phase6-shikigami-card strong {
+  display: block;
+  color: #ffd66b;
+  font-size: 22px;
+}
+
+.phase6-shikigami-card span {
+  display: block;
+  margin-top: 5px;
+  color: #d8ecff;
+  font-size: 14px;
+}
+
+.phase6-upgrade-card {
+  width: min(460px, 94vw);
+  margin: 0 auto 10px;
+  padding: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,214,107,.45);
+  background: linear-gradient(135deg, rgba(255,214,107,.13), rgba(4,14,32,.94));
+}
+
+.phase6-upgrade-card p {
+  color: #d8ecff;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.6;
+}
+
+.phase6-coming-soon {
+  width: min(460px, 94vw);
+  min-height: 360px;
+  margin: 0 auto 120px;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  border: 1px solid rgba(255,214,107,.55);
   background:
-    linear-gradient(
-      135deg,
-      rgba(255,90,160,.18),
-      rgba(90,220,255,.18),
-      rgba(255,220,90,.18)
-    ),
+    linear-gradient(135deg, rgba(255,90,160,.18), rgba(90,220,255,.18), rgba(255,220,90,.16)),
     rgba(4,14,32,.92);
-
-  border:
-    1px solid rgba(255,255,255,.6);
+  color: white;
+  font-size: 64px;
+  font-weight: 1000;
 }
 
-.phase35-bottom-nav button.active{
+.phase6-coming-soon strong {
+  display: block;
+  color: #ffd66b;
+  font-size: 34px;
+  text-shadow: 0 0 14px rgba(255,214,107,.85);
+}
 
-  box-shadow:
-    0 0 18px rgba(255,255,255,.24),
-    0 0 30px rgba(182,108,255,.28);
+.phase6-coming-soon span {
+  display: block;
+  color: #d8ecff;
+  font-size: 15px;
+}
 
-  transform:
-    translateY(-2px);
+.phase35-bottom-nav button.active {
+  border-color: rgba(255,214,107,.9) !important;
+  background:
+    linear-gradient(135deg, rgba(255,214,107,.18), rgba(182,108,255,.22), rgba(0,208,255,.18)) !important;
 }
 
