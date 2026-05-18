@@ -2179,3 +2179,155 @@ updateShikigamiUI = function () {
   setText("awakenRankTextUpgrade", awaken);
 };
 
+
+
+/* ==================================================
+   Phase7：探索マップ・インベントリ・式神詳細
+================================================== */
+
+function hideAllPhase7Pages() {
+  ["phase7HomePage","phase7ExplorePage","phase7ShikigamiPage","phase7InventoryPage","phase7GachaPage"].forEach(function(id){
+    const page = document.getElementById(id);
+    if (page) page.classList.add("hidden");
+  });
+
+  ["tabHomeBtn","tabExploreBtn","tabShikigamiBtn","tabInventoryBtn","tabGachaBtn"].forEach(function(id){
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.remove("active");
+  });
+}
+
+function showPhase7Page(pageId, buttonId) {
+  const page = document.getElementById(pageId);
+  const btn = document.getElementById(buttonId);
+  if (page) page.classList.remove("hidden");
+  if (btn) btn.classList.add("active");
+}
+
+function showHomeTab() {
+  hideAllPhase7Pages();
+  showPhase7Page("phase7HomePage", "tabHomeBtn");
+  updateShikigamiUI();
+}
+
+function showExploreTab() {
+  hideAllPhase7Pages();
+  showPhase7Page("phase7ExplorePage", "tabExploreBtn");
+  updateExploreUI();
+}
+
+function showShikigamiTab() {
+  hideAllPhase7Pages();
+  showPhase7Page("phase7ShikigamiPage", "tabShikigamiBtn");
+  updateShikigamiUI();
+  updateShikigamiDetail();
+}
+
+function showInventoryTab() {
+  hideAllPhase7Pages();
+  showPhase7Page("phase7InventoryPage", "tabInventoryBtn");
+  updateShikigamiUI();
+  updateRequiredMaterialUI();
+}
+
+function showGachaTab() {
+  hideAllPhase7Pages();
+  showPhase7Page("phase7GachaPage", "tabGachaBtn");
+}
+
+const oldShowExploreScreenPhase7 = showExploreScreen;
+showExploreScreen = function () {
+  oldShowExploreScreenPhase7();
+  setTimeout(function () { showHomeTab(); }, 0);
+};
+
+function updateShikigamiDetail() {
+  const master = SHIKIGAMI_MASTER[activeShikigami];
+  const data = shikigamiData[activeShikigami];
+  const awaken = shikigamiAwaken[activeShikigami] || 0;
+  if (!master || !data) return;
+
+  setText("detailShikigamiName", activeShikigami);
+  setText("detailShikigamiRole", master.element + "属性 / " + master.role);
+  setText("detailPowerText", calcBattlePower(activeShikigami));
+  setText("detailLevelText", data.level);
+  setText("detailAwakenText", awaken);
+
+  const img = document.getElementById("detailShikigamiImage");
+  if (img) img.src = master.image;
+}
+
+function getLevelUpCost() {
+  const data = shikigamiData[activeShikigami];
+  if (!data) return { spirit: 0, soul: 0, scroll: 0 };
+
+  const level = data.level;
+  return {
+    spirit: level * 90,
+    soul: Math.max(1, Math.floor(level * 0.8)),
+    scroll: Math.floor(level / 5)
+  };
+}
+
+function updateRequiredMaterialUI() {
+  const cost = getLevelUpCost();
+  setText("needSpiritText", cost.spirit);
+  setText("needSoulText", cost.soul);
+  setText("needScrollText", cost.scroll);
+}
+
+trainShikigami = function () {
+  const data = shikigamiData[activeShikigami];
+  if (!data) return;
+
+  const cost = getLevelUpCost();
+
+  if (spiritPower < cost.spirit) {
+    alert("霊力が足りません。必要霊力：" + cost.spirit);
+    return;
+  }
+
+  if (inventory.soul < cost.soul) {
+    alert("霊魂が足りません。必要霊魂：" + cost.soul);
+    return;
+  }
+
+  if (inventory.scroll < cost.scroll) {
+    alert("巻物が足りません。必要巻物：" + cost.scroll);
+    return;
+  }
+
+  spiritPower -= cost.spirit;
+  inventory.soul -= cost.soul;
+  inventory.scroll -= cost.scroll;
+
+  data.exp += 50 + data.level * 5;
+
+  while (data.exp >= getRequiredExp(data.level)) {
+    data.exp -= getRequiredExp(data.level);
+    data.level += 1;
+  }
+
+  savePhase35Data();
+  updateShikigamiUI();
+  updateRequiredMaterialUI();
+  updateShikigamiDetail();
+};
+
+giveGameReward = function (score, mode) {
+  const base = Math.floor(score / 10);
+  let spiritBonus = base;
+  let coinBonus = Math.floor(base / 2);
+
+  if (mode === "grammar") spiritBonus = Math.floor(base * 1.1);
+  if (mode === "jodoushi") spiritBonus = Math.floor(base * 1.2);
+
+  spiritPower += spiritBonus;
+  coins += coinBonus;
+
+  savePhase35Data();
+};
+
+function showEquipmentComingSoon() {
+  alert("装備は今後追加予定です。大量の素材から作成、またはガチャから入手できる仕組みにします。");
+}
