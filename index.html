@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>古典語彙タイムアタック</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=phase12_safe_game_home">
+  <link rel="stylesheet" href="style.css?v=simple3_clean">
 </head>
 <body>
 
@@ -15,11 +15,10 @@
 
   <nav id="sideMenu" class="side-menu">
     <button id="closeMenu" class="close-button">×</button>
-    <button onclick="showVocabHome()">古典語彙タイムアタック</button>
-    <button onclick="showGrammarScreen()">📜 文法タイムアタック</button>
-    <button onclick="showJodoushiScreen()">⚔ 助動詞タイムアタック</button>
+    <button onclick="showVocabHome()">古典語彙</button>
+    <button onclick="showGrammarScreen()">📜 文法</button>
+    <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
     <button onclick="showRanking()">🏆 ランキング</button>
-    <button onclick="showExploreScreen()">🌙 妖界ホーム</button>
 
     <div class="profile-area">
       <button onclick="openProfile()" class="profile-btn">記録者プロフィール</button>
@@ -29,20 +28,17 @@
 
   <section id="topScreen" class="screen active">
   <h1>古典語彙タイムアタック</h1>
-  <p class="world-lead">60秒で古典語彙に挑戦。結果が妖界探索・式神育成・図鑑記録につながる。</p>
 <div class="menu-buttons">
-  <button onclick="showVocabHome()">古典語彙タイムアタック</button>
-  <button onclick="showGrammarScreen()">📜 文法タイムアタック</button>
-  <button onclick="showJodoushiScreen()">⚔ 助動詞タイムアタック</button>
+  <button onclick="showVocabHome()">古典語彙</button>
+  <button onclick="showGrammarScreen()">📜 文法</button>
+  <button onclick="showJodoushiScreen()">⚔ 助動詞</button>
   <button onclick="showRanking()">🏆 ランキング</button>
-  <button onclick="showExploreScreen()">🌙 妖界ホーム</button>
 </div>
 </section>
 
   <!-- ホーム -->
   <section id="homeScreen" class="screen">
   <h1>古典語彙タイムアタック</h1>
-  <p class="world-lead">タイムアタックは今まで通り。正解・コンボ・スコアが、妖界ホーム側の成長や探索に反映される。</p>
 
   <div class="menu-buttons">
     <button onclick="startGame()">タイムアタック開始</button>
@@ -94,339 +90,7 @@
   </div>
 </section>
 
-<section id="exploreScreen" class="screen phase35-screen">
-
-  <div class="phase35-top">
-    <button class="phase35-round-btn" onclick="goTop()">←</button>
-    <div class="phase35-player">
-      <div class="phase35-player-level">Lv.<span id="activeShikigamiLevelTop">1</span></div>
-      <div class="phase35-player-name"><span id="activeShikigamiNameTop">白狐ノ影</span></div>
-    </div>
-    <button class="phase35-round-btn" onclick="showPhase35Help()">?</button>
-  </div>
-
-  <div class="phase35-resource-bar">
-    <div>🔥 霊力<span id="spiritPowerText">0</span></div>
-    <div>🪙 古銭<span id="coinText">0</span></div>
-    <div>💎 晶石<span id="gemText">0</span></div>
-  </div>
-
-  <div id="phase7HomePage" class="phase7-page">
-
-    <!-- ================================================== -->
-    <!-- Phase12：妖界ホーム安全版                         -->
-    <!-- タイムアタック本体は触らず、妖界ホームだけを追加。 -->
-    <!-- 後で画像を差し替える場合は img/... だけ差し替え。  -->
-    <!-- ================================================== -->
-
-    <div class="phase12-home-shell">
-
-      <div class="phase12-left-column">
-
-        <div class="phase12-panel">
-          <p class="phase12-label">今日の導線</p>
-          <h3>古典語彙タイムアタック</h3>
-          <p>60秒の挑戦で、霊力・古銭・晶石を獲得。</p>
-          <button onclick="showVocabHome()">挑戦する</button>
-        </div>
-
-        <div class="phase12-panel">
-          <p class="phase12-label">式神</p>
-          <h3 id="activeShikigamiName">白狐ノ影</h3>
-          <p>Lv.<span id="activeShikigamiLevel">1</span> / 40</p>
-          <div class="phase35-exp-bar">
-            <div id="expFill" class="phase35-exp-fill"></div>
-          </div>
-          <small id="expText">0 / 100</small>
-          <button onclick="showShikigamiTab()">式神を見る</button>
-        </div>
-
-        <div class="phase12-panel compact">
-          <p class="phase12-label">ゲーム内での意味</p>
-          <p>語彙の正解数・コンボ・スコアが、妖界側の成長資源に変換されます。</p>
-        </div>
-
-      </div>
-
-      <div class="phase12-center-stage">
-
-        <p class="phase12-kicker">古典語彙 × 妖怪探索RPG</p>
-
-        <h2>妖界記録ホーム</h2>
-
-        <div class="phase12-stage-bg">
-          <div class="phase12-moon"></div>
-          <div class="phase12-torii">鳥居</div>
-          <img
-            id="activeShikigamiImage"
-            src="img/fox.png"
-            alt="式神"
-          >
-        </div>
-
-
-      </div>
-
-      <div class="phase12-right-column">
-
-        <div class="phase12-panel quest">
-          <p class="phase12-label">クエスト</p>
-          <h3>10問解く</h3>
-          <p>タイムアタックで古典語彙を10問解く。</p>
-          <button onclick="showVocabHome()">開始</button>
-        </div>
-
-        <div class="phase12-panel">
-          <p class="phase12-label">探索状況</p>
-          <h3>月影の竹林</h3>
-          <p>霊力を使って素材を集める。</p>
-          <button onclick="showExploreTab()">確認</button>
-        </div>
-
-        <div class="phase12-panel compact">
-          <p class="phase12-label">記録</p>
-          <p>ランキング・図鑑・召喚など未完成部分は Coming Soon 画面で分離。</p>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="phase12-hidden-status">
-      <span id="activeShikigamiLevelTop">1</span>
-      <span id="activeShikigamiNameTop">白狐ノ影</span>
-      <span id="activeShikigamiElement">水</span>
-      <span id="battlePowerText">1200</span>
-      <span id="awakenRankText">0</span>
-      <span id="hpText">1200</span>
-      <span id="atkText">240</span>
-      <span id="defText">180</span>
-      <span id="spdText">120</span>
-    </div>
-
-  </div>
-
-  <div id="phase7ExplorePage" class="phase7-page hidden">
-    <h2 class="phase35-title">探索</h2>
-    <div class="phase8-player-rank-card">
-      <div>記録者階位<strong id="playerRankText">1</strong></div>
-      <div class="phase8-rank-exp"><span id="playerExpText">0 / 100</span><div class="phase8-rank-bar"><div id="playerExpFill"></div></div></div>
-    </div>
-    <div id="explorePanel" class="phase35-explore-status hidden">
-      <div>探索中の式神：<span id="exploreShikigamiName">白狐ノ影</span></div>
-      <div>場所：<span id="explorePlace">月影の竹林</span></div>
-      <div>残り時間：<span id="exploreTimer">00:00:00</span></div>
-      <button onclick="collectExploreReward()">回収する</button>
-    </div>
-    <div class="phase8-card-explore-list">
-      <button class="phase8-area-list-card water unlocked" id="areaCard_tsukikage" onclick="selectExploreArea('tsukikage')"><div class="phase8-area-card-head"><img src="img/elements/water.png"><div><strong>月影の竹林</strong><span>古典語彙タイムアタックで得た霊力が反応する初級探索地</span></div></div><div class="phase8-area-card-data"><span>探索 20分</span><span>霊力 10</span><span>最初から解放</span></div></button>
-      <button class="phase8-area-list-card wind" id="areaCard_yashiro" onclick="selectExploreArea('yashiro')"><div class="phase8-area-card-head"><img src="img/elements/wind.png"><div><strong>忘れられた社</strong><span>妖文法の巻物を集めやすい探索地</span></div></div><div class="phase8-area-card-data"><span>探索 60分</span><span>霊力 18</span><span>ランク3で解放</span></div></button>
-      <button class="phase8-area-list-card fire" id="areaCard_ohmagahara" onclick="selectExploreArea('ohmagahara')"><div class="phase8-area-card-head"><img src="img/elements/fire.png"><div><strong>逢魔ヶ原</strong><span>呪句助動詞の炎魂を集めやすい探索地</span></div></div><div class="phase8-area-card-data"><span>探索 120分</span><span>霊力 30</span><span>ランク5で解放</span></div></button>
-      <button class="phase8-area-list-card dark" id="areaCard_kosenjo" onclick="selectExploreArea('kosenjo')"><div class="phase8-area-card-head"><img src="img/elements/dark.png"><div><strong>幽玄の古戦場</strong><span>高位の記録素材を狙える高難度探索地</span></div></div><div class="phase8-area-card-data"><span>探索 180分</span><span>霊力 45</span><span>ランク8で解放</span></div></button>
-      <button class="phase8-area-list-card light" id="areaCard_tenko" onclick="selectExploreArea('tenko')"><div class="phase8-area-card-head"><img src="img/elements/light.png"><div><strong>天狐の禁域</strong><span>式神覚醒素材を狙える最上位探索地</span></div></div><div class="phase8-area-card-data"><span>探索 360分</span><span>霊力 70</span><span>ランク12で解放</span></div></button>
-    </div>
-    <div class="phase8-selected-area-panel">
-      <div class="phase8-area-title-row"><div><div id="areaNameText" class="phase8-area-name">月影の竹林</div><div id="areaDescText" class="phase8-area-desc">月光が差し込む静かな竹林。語彙素材を集めやすい。</div></div><img id="areaElementIcon" class="phase8-element-icon" src="img/elements/water.png"></div>
-      <div class="phase8-area-info-grid"><div>探索時間<span id="areaTimeText">20分</span></div><div>消費霊力<span id="areaCostText">10</span></div><div>推奨属性<span id="areaElementText">水</span></div><div>解放条件<span id="areaUnlockText">最初から解放</span></div></div>
-      <div class="phase8-drop-preview"><div class="phase35-section-title">主な報酬</div><div id="areaDrops" class="phase8-drop-icons"><img src="img/materials/soul_normal.png"><img src="img/materials/crystal_blue.png"><img src="img/elements/water.png"></div></div>
-      <button id="areaStartButton" class="phase8-start-button" onclick="startSelectedExplore()">探索開始</button>
-    </div>
-  </div>
-
-
-  <div id="phase7ShikigamiPage" class="phase7-page hidden">
-
-    <h2 class="phase35-title">式神</h2>
-
-    <div id="phase7ShikigamiListView">
-
-      <div class="phase7-guide-text">
-        式神を選ぶと、詳細・強化画面を開きます。
-      </div>
-
-      <div class="phase6-shikigami-list">
-
-        <button
-          class="phase6-shikigami-card"
-          onclick="openShikigamiDetail('白狐ノ影', 'img/fox.png')"
-        >
-          <img src="img/fox.png" alt="白狐">
-          <div>
-            <strong>白狐ノ影</strong>
-            <span>水属性 / 語彙特化</span>
-          </div>
-        </button>
-
-        <button
-          class="phase6-shikigami-card"
-          onclick="openShikigamiDetail('鴉天狗', 'img/tengu.png')"
-        >
-          <img src="img/tengu.png" alt="鴉天狗">
-          <div>
-            <strong>鴉天狗</strong>
-            <span>風属性 / 文法特化</span>
-          </div>
-        </button>
-
-        <button
-          class="phase6-shikigami-card"
-          onclick="openShikigamiDetail('青龍', 'img/dragon.png')"
-        >
-          <img src="img/dragon.png" alt="青龍">
-          <div>
-            <strong>青龍</strong>
-            <span>水属性 / 高得点特化</span>
-          </div>
-        </button>
-
-        <button
-          class="phase6-shikigami-card"
-          onclick="openShikigamiDetail('九尾ノ焔', 'img/kitsune.png')"
-        >
-          <img src="img/kitsune.png" alt="九尾">
-          <div>
-            <strong>九尾ノ焔</strong>
-            <span>火属性 / 助動詞特化</span>
-          </div>
-        </button>
-
-      </div>
-
-    </div>
-
-    <div id="phase7ShikigamiDetailView" class="hidden">
-
-      <button
-        class="phase7-back-list"
-        onclick="backToShikigamiList()"
-      >
-        ← 式神一覧に戻る
-      </button>
-
-      <div class="phase7-shikigami-detail large">
-
-        <img
-          id="detailShikigamiImage"
-          src="img/fox.png"
-          alt="式神詳細"
-        >
-
-        <div class="phase7-detail-text">
-          <strong id="detailShikigamiName">白狐ノ影</strong>
-          <span id="detailShikigamiRole">水属性 / 語彙特化</span>
-          <span>戦力：<b id="detailPowerText">1200</b></span>
-          <span>Lv.<b id="detailLevelText">1</b></span>
-          <span>覚醒：<b id="detailAwakenText">0</b></span>
-        </div>
-
-        <button
-          class="phase7-select-button"
-          onclick="chooseDetailShikigami()"
-        >
-          この式神を選択する
-        </button>
-
-      </div>
-
-      <div class="phase7-detail-stat-card">
-
-        <div class="phase35-section-title">
-          ステータス
-        </div>
-
-        <div class="phase35-stat-grid">
-          <div>HP<span id="detailHpText">1200</span></div>
-          <div>攻撃<span id="detailAtkText">240</span></div>
-          <div>防御<span id="detailDefText">180</span></div>
-          <div>素早さ<span id="detailSpdText">120</span></div>
-        </div>
-
-      </div>
-
-      <div class="phase7-required-card">
-
-        <div class="phase35-section-title">
-          次のレベルアップに必要な素材
-        </div>
-
-        <div class="phase7-required-list">
-          <div>霊力 <span id="needSpiritText">0</span></div>
-          <div>霊魂 <span id="needSoulText">0</span></div>
-          <div>巻物 <span id="needScrollText">0</span></div>
-        </div>
-
-        <button onclick="trainShikigami()">
-          レベルアップ
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="phase7InventoryPage" class="phase7-page hidden">
-
-    <div class="phase12-coming-screen">
-      <div class="phase12-coming-icon">📖</div>
-      <h2>図鑑</h2>
-      <strong>COMING SOON</strong>
-      <p>妖怪・語彙・素材・探索地を記録する画面です。</p>
-      <p>今はタイムアタック本体を壊さないため、別画面として準備だけしています。</p>
-      <button onclick="showHomeTab()">ホームへ戻る</button>
-    </div>
-
-  </div>
-
-  <div id="phase7GachaPage" class="phase7-page hidden">
-
-    <div class="phase12-coming-screen">
-      <div class="phase12-coming-icon">🎴</div>
-      <h2>召喚</h2>
-      <strong>COMING SOON</strong>
-      <p>式神や装備を迎える画面です。</p>
-      <p>演出・確率・報酬設計は後で追加します。</p>
-      <button onclick="showHomeTab()">ホームへ戻る</button>
-    </div>
-
-  </div>
-
-  <div id="phase7MenuPage" class="phase7-page hidden">
-
-    <div class="phase12-coming-screen">
-      <div class="phase12-coming-icon">☰</div>
-      <h2>メニュー</h2>
-      <strong>COMING SOON</strong>
-      <p>設定・ヘルプ・記録者プロフィール・音量などをまとめる予定です。</p>
-      <button onclick="openSideMenuFromBottom()">現在のメニューを開く</button>
-      <button onclick="showHomeTab()">ホームへ戻る</button>
-    </div>
-
-  </div>
-
-  <div id="rewardOverlay" class="reward-overlay hidden">
-    <div class="reward-modal">
-      <div class="reward-title">探索成功！</div>
-      <div id="rewardRank" class="reward-rank">A</div>
-      <div id="rewardList" class="reward-list"></div>
-      <div id="rewardMessage" class="reward-message"></div>
-      <button onclick="closeRewardOverlay()">OK</button>
-    </div>
-  </div>
-
-  <div class="phase35-bottom-nav">
-    <button onclick="showHomeTab()" class="active" id="tabHomeBtn">⛩<span>ホーム</span></button>
-    <button onclick="showShikigamiTab()" id="tabShikigamiBtn">🦊<span>式神</span></button>
-    <button onclick="showExploreTab()" id="tabExploreBtn">🌙<span>探索</span></button>
-    <button onclick="showInventoryTab()" id="tabInventoryBtn">📖<span>図鑑</span></button>
-    <button onclick="showGachaTab()" id="tabGachaBtn">🎴<span>召喚</span></button>
-    <button onclick="showMenuTab()" id="tabMenuBtn">☰<span>メニュー</span></button>
-  </div>
-
-</section>
-
-  <!-- ランキング -->
-  <section id="rankingScreen" class="screen">
+<section id="rankingScreen" class="screen">
   <h2 id="rankingTitle">ランキング</h2>
 
   <div class="ranking-mode-buttons">
@@ -473,7 +137,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=phase12_safe_game_home"></script>
+  <script src="app.js?v=simple3_clean"></script>
 </body>
 </html>
   
